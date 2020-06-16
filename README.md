@@ -20,9 +20,11 @@ Inside the Domain Abstractions folder are a few abstractions for us to use in th
 
 1. If you don't already have Visual Studio, install Visual Studio from https://visualstudio.microsoft.com for C# development on a Windows PC.
 
-2. If you don't already have git installed, install Git from https://git-scm.com/download/win. It is best to use Git to clone the repository because then you can contribute your changes back to the repository. However, if you can't make Git work through a firewall, you can download a zip file from this repository.
+2. If you don't already have Git installed, install Git from https://git-scm.com/download/win. It is worth making the effort to use Git to clone the repository because then you can get the latest version easily. We may be adding new material up until the workshop starts. It will also allow you to contribute your changes back to the repository for others to use. 
 
-3. Create a folder on your PC. Open a Git Bash terminal in the folder and clone the repository with the command
+    If you can't make Git work, you can download a zip file from this repository.
+
+3. Create a folder on your PC. Open a Git Bash terminal in the folder and clone the repository with the command:
 ```
 $ git clone https://github.com/john-spray/AUTWorkshop2020.git
 ```
@@ -30,5 +32,5 @@ Alternatively, unzip the downloaded zip file into the folder.
 
 4. Double click the file ALASandbox.sln, which will open in Visual Studio.
 
-5. Press F5 to run the Hello world program.
+5. Press F5 to run the default application which is Hello world.
 
