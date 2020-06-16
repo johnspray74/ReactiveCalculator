@@ -34,3 +34,6 @@ Alternatively, unzip the downloaded zip file into the folder.
 
 5. Press F5 to run the default application which is Hello world.
 
+6. Install Xmind from https://www.xmind.net/xmind2020/
+    We will use Xmind to quickly create ALA diagrams during the workshop.
+
