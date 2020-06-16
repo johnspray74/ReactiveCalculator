@@ -38,12 +38,12 @@ Inside the Library folder is the WireTo extension method that the applications u
     ![Open_GitBash](/images/Open_GitBash.PNG)
     
 5. Inside the Git Bash terminal clone the repository with the command:
+    ```
+    $ git clone https://github.com/john-spray/AUTWorkshop2020.git
+    ```
     ![Git_Clone](/images/Git_Clone.PNG)
-```
-$ git clone https://github.com/john-spray/AUTWorkshop2020.git
-```
 
-Alternatively, unzip the downloaded zip file into the folder.
+    Alternatively, unzip the downloaded zip file into the folder.
 
 6. Double click the file ALASandbox.sln, which will open in Visual Studio.
     1. If you get a pop up asking "How do you want to open this file?" select either "Microsoft Visual Studio Version Selector" Or "Visual Studio 2019"
