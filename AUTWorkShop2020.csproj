@@ -89,7 +89,6 @@
     <Compile Include="DomainAbstractions\Text.cs" />
     <Compile Include="DomainAbstractions\TextBox.cs" />
     <Compile Include="DomainAbstractions\Vertical.cs" />
-    <Compile Include="DomainAbstractions\WireTo.cs" />
     <Compile Include="Libraries\Wiring.cs" />
     <Compile Include="ProgrammingParadigms\DataFlowConnector.cs" />
     <Compile Include="ProgrammingParadigms\EventConnector.cs" />
