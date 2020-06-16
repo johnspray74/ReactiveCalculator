@@ -26,10 +26,12 @@ Inside the Library folder is the WireTo extension method that the applications u
     If you can't make Git work, you can download a zip file from this repository.
 
 3. Create a folder on your PC. Open a Git Bash terminal in the folder and clone the repository with the command:
+
 ```
 $ git clone https://github.com/john-spray/AUTWorkshop2020.git
 ```
-Alternatively, unzip the downloaded zip file into the folder.
+
+    Alternatively, unzip the downloaded zip file into the folder.
 
 4. Double click the file ALASandbox.sln, which will open in Visual Studio.
 
