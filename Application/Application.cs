@@ -30,7 +30,7 @@ namespace Application
         private Application()
         {
             // BEGIN AUTO-GENERATED INSTANTIATIONS FOR WiringDiagram.xmind
-            FileReaderWriter id_ff00492ce4024f618f7632899e5f2568 = new FileReaderWriter("F:\\Projects\\Test\\test.txt" ) { InstanceName = "Default", WatchFile = true };
+            FileReaderWriter id_ff00492ce4024f618f7632899e5f2568 = new FileReaderWriter("d:\\temp\\test.txt" ) { InstanceName = "Default", WatchFile = true };
             TextBox id_1a43d927cb44461e9c9419008b26dcbe = new TextBox() { InstanceName = "Default", Height = 300 };
             TextBox id_2aeaeca5cbd147dc80410e3b98f6c9a3 = new TextBox() { InstanceName = "Default", Height = 300 };
             Vertical id_60081e709ce64a2da8baae542eff69e0 = new Vertical() { InstanceName = "Default" };

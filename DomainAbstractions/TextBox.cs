@@ -72,7 +72,13 @@ namespace DomainAbstractions
         string IDataFlow<string>.Data
         {
             get => textBox.Text;
-            set => textBox.Text = value;
+            set
+            {
+                textBox.Dispatcher.Invoke(() =>
+                {
+                    textBox.Text = value;
+                });
+            }
         }
 
         // IDataFlowB<string> implementation
