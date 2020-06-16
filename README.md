@@ -32,7 +32,7 @@ Inside the Library folder is the WireTo extension method that the applications u
 
     If you can't make Git work, you can download a zip file from this repository.
 
-3. Create a folder on your PC to clone the project.
+3. Using Windows Explorer, go to a folder on your PC to clone the project.
 
 4. Inside the folder right click and select "Git Bash" from the context menu
     ![Open_GitBash](/images/Open_GitBash.PNG)
