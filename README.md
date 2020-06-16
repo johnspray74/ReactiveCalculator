@@ -9,11 +9,11 @@ It contains the ALA layer folders:
 * Application
 * Domain Abstractions
 * Programming Paradigms
-* Library.
 
 Inside the Application folder is the Hello world program, which we will modify to make other applications for various exercises.
-
 Inside the Domain Abstractions folder are a few abstractions for us to use in the exercises.
+Inside the ProgrammingParadigms folder are some interfaces that the abstractions use to allow them to be wired together in different ways.
+Inside the Library folder is the WireTo extension method that the applications use to do the wiring. 
 
 Inside the ProgrammingParadigms folder are some interfaces that the abstractions use to allow them to be wired together in different ways.
 
@@ -42,6 +42,7 @@ Inside the Library folder is the WireTo extension method that the applications u
 ```
 $ git clone https://github.com/john-spray/AUTWorkshop2020.git
 ```
+
 Alternatively, unzip the downloaded zip file into the folder.
 
 6. Double click the file ALASandbox.sln, which will open in Visual Studio.
@@ -53,4 +54,3 @@ Alternatively, unzip the downloaded zip file into the folder.
 8. Install Xmind from https://www.xmind.net/xmind2020/
 
     We will use Xmind to quickly create ALA diagrams during the workshop.
-    
