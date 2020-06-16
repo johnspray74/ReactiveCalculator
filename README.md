@@ -26,6 +26,7 @@ Inside the Domain Abstractions folder are a few abstractions for us to use in th
 ```
 $ git clone https://github.com/john-spray/AUTWorkshop2020.git
 ```
+
     Alternatively, unzip the downloaded zip file into the folder.
 
 4. Double click the file ALASandbox.sln, which will open in Visual Studio.
