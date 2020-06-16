@@ -20,7 +20,7 @@ Inside the Domain Abstractions folder are a few abstractions for us to use in th
 
 1. If you don't already have Visual Studio, install Visual Studio Community 2019 from https://visualstudio.microsoft.com/vs for C# development on a Windows PC.
     1. Once the installer loads select the ".NET desktop development" from the options and then click Install
-    ![Install_VisualStudio](/images/Install_VisualStudio.png)
+    ![Install_VisualStudio](/images/Install_VisualStudio.PNG)
 
 2. If you don't already have Git installed, install Git from https://git-scm.com/download/win. It is worth making the effort to use Git to clone the repository because then you can get the latest version easily. We may be adding new material up until the workshop starts. It will also allow you to contribute your changes back to the repository for others to use.
     1. In the Select Components window, leave all default options checked and check any other additional components you want installed.
@@ -31,9 +31,9 @@ Inside the Domain Abstractions folder are a few abstractions for us to use in th
 
 3. Create a folder on your PC to clone the project.
 3. Inside the folder right click and select "Git Bash" from the context menu
-    ![Open_GitBash](/images/Open_GitBash.png)
+    ![Open_GitBash](/images/Open_GitBash.PNG)
 3. Inside the Git Bash terminal clone the repository with the command:
-    ![Git_Clone](/images/Git_Clone.png)
+    ![Git_Clone](/images/Git_Clone.PNG)
 ```
 $ git clone https://github.com/john-spray/AUTWorkshop2020.git
 ```
@@ -41,7 +41,7 @@ Alternatively, unzip the downloaded zip file into the folder.
 
 4. Double click the file ALASandbox.sln, which will open in Visual Studio.
     1. If you get a pop up asking "How do you want to open this file?" select either "Microsoft Visual Studio Version Selector" Or "Visual Studio 2019"
-    ![Version_Selector](/images/Version_Selector.png)
+    ![Version_Selector](/images/Version_Selector.PNG)
 
 5. Press F5 to run the default application which is Hello world.
 
