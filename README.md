@@ -11,9 +11,10 @@ It contains the ALA layer folders:
 * Programming Paradigms
 * Library.
 
-Inside the Application folder is the Hello world program, which we will modify for various exercises.
-
+Inside the Application folder is the Hello world program, which we will modify fto make other applications for various exercises.
 Inside the Domain Abstractions folder are a few abstractions for us to use in the exercises.
+Inside the ProgrammingParadigms folder are some interfaces that the abstractions use to allow them to be wired together in different ways.
+Inside the Library folder is the WireTo extension method that the applications use to do the wiring. 
 
 
 ## Getting started
@@ -35,5 +36,6 @@ Alternatively, unzip the downloaded zip file into the folder.
 5. Press F5 to run the default application which is Hello world.
 
 6. Install Xmind from https://www.xmind.net/xmind2020/
+
     We will use Xmind to quickly create ALA diagrams during the workshop.
 
