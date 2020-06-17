@@ -54,3 +54,10 @@ Inside the Library folder is the WireTo extension method that the applications u
 8. Install Xmind from https://www.xmind.net/xmind2020/
 
     We will use Xmind to quickly create ALA diagrams during the workshop.
+    
+9. Click on 'release' on this page of Github or click on this link:
+
+    https://github.com/john-spray/AUTWorkshop2020/releases
+
+    Under 'XMindParser Download' click on "Source code (zip)" to download it. Save it anywhere on your computer. 
+    In a Windows Explorer window, unzip it so that the tool's executable is ready to use during the workshop.
