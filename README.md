@@ -59,5 +59,5 @@ Inside the Library folder is the WireTo extension method that the applications u
 
     https://github.com/john-spray/AUTWorkshop2020/releases
 
-    Under 'XMindParser Download' click on "Source code (zip)" to download it. Save it anywhere on your computer. 
+    Click "Download the XMindParser here" to download it. Save it anywhere on your computer. 
     In a Windows Explorer window, unzip it so that the tool's executable is ready to use during the workshop.
