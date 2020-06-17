@@ -55,7 +55,7 @@ Inside the Library folder is the WireTo extension method that the applications u
 
     We will use Xmind to quickly create ALA diagrams during the workshop.
     
-9. Click on 'release' on this page of Github or click on this link:
+9. Click on 'release' on the main AUTWorkshop2020 page of Github or click on this link:
 
     https://github.com/john-spray/AUTWorkshop2020/releases
 
