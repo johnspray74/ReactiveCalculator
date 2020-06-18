@@ -12,7 +12,7 @@ namespace Application
 {
     public class Application
     {
-        private MainWindow mainWindow = new MainWindow("ALASandbox");
+        private MainWindow mainWindow = new MainWindow("AUT Workshop 2020");
 
         private Application Initialize()
         {
@@ -36,11 +36,10 @@ namespace Application
             // END AUTO-GENERATED WIRING FOR Calculator.xmind
 
             // BEGIN manual instantiations
-
             // END manual instantiations
 
             // BEGIN manual wiring
-            mainWindow.WireTo(new Text("Hello world.") { FontSize=200 });
+            mainWindow.WireTo(new Text("Hello world.") { FontSize = 200 });
             // END manual wiring
         }
     }
