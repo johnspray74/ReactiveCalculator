@@ -83,8 +83,11 @@
     <Compile Include="DomainAbstractions\FileReaderWriter.cs" />
     <Compile Include="DomainAbstractions\Horizontal.cs" />
     <Compile Include="DomainAbstractions\IfElse.cs" />
+    <Compile Include="DomainAbstractions\Formula.cs" />
     <Compile Include="DomainAbstractions\MainWindow.cs" />
     <Compile Include="DomainAbstractions\Operation.cs" />
+    <Compile Include="DomainAbstractions\StringConcat.cs" />
+    <Compile Include="DomainAbstractions\StringFormat.cs" />
     <Compile Include="DomainAbstractions\Tab.cs" />
     <Compile Include="DomainAbstractions\TabContainer.cs" />
     <Compile Include="DomainAbstractions\Text.cs" />
@@ -111,9 +114,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="Application\Diagrams\Base.xmind" />
-    <None Include="Application\Diagrams\Templates.xmind" />
-    <None Include="Application\Diagrams\WiringDiagram.xmind" />
+    <None Include="Application\ReferenceDiagrams\GrammarExample.xmind" />
+    <None Include="Application\ReferenceDiagrams\Templates.xmind" />
+    <None Include="Application\TextFlowExcercise.xmind" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
