@@ -1,5 +1,6 @@
 ﻿using ProgrammingParadigms;
 using System.Collections.Generic;
+using System.Windows.Data;
 
 namespace DomainAbstractions
 {
@@ -10,17 +11,18 @@ namespace DomainAbstractions
     /// Has a port which is a list of IDataFlows that are converted to strings and inserted at the insertion points 
     /// according to their index numbers, so the ordering of the connections shown in the diagram are important.
     /// </summary>
-    public class StringFormat
+    public class StringFormat<T> : IDataFlow<T>
     {
         // properties
         public string InstanceName = "Default";
 
         // outputs
         private IDataFlow<string> dataFlowOutput;
-        private List<IDataFlowB<string>> dataFlowBsList = new List<IDataFlowB<string>>();
+        private List<IDataFlowB<T>> dataFlowBsList = new List<IDataFlowB<T>>();
 
         // private fields
         private string format;
+
 
         /// <summary>
         /// Formats a string based on a literal string and some input parameters.
@@ -39,10 +41,23 @@ namespace DomainAbstractions
             }
         }
 
+        private object _Para0;
+
+        T IDataFlow<T>.Data 
+        { 
+            get => (T)_Para0;
+            set
+            {
+                _Para0 = value;
+                DataChanged();
+            }
+        }
+
         private void DataChanged()
         {
-            object[] paras = new object[dataFlowBsList.Count];
-            for (var i = 0; i < paras.Length; i++)
+            object[] paras = new object[dataFlowBsList.Count+1];
+            paras[0] = _Para0; 
+            for (var i = 1; i < paras.Length; i++)
             {
                 paras[i] = dataFlowBsList[i].Data;
             }

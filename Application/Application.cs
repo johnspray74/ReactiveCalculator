@@ -36,6 +36,9 @@ namespace Application
             // END AUTO-GENERATED WIRING FOR Calculator.xmind
 
             // BEGIN manual instantiations
+            var dataFlowConnector1 = new DataFlowConnector<double>();
+            var dataFlowConnector2 = new DataFlowConnector<double>();
+            var text1 = new Text("-----");
             // END manual instantiations
 
             // BEGIN manual wiring
