@@ -61,3 +61,17 @@ Inside the Library folder is the WireTo extension method that the applications u
 
     Click "Download the XMindParser here" to download it. Save it anywhere on your computer. 
     In a Windows Explorer window, unzip it so that the tool's executable is ready to use during the workshop.
+	
+10. The workshop project uses a package that doesn't come installed with Visual Studio. We need to install it using the Nuget Package manager.
+
+    1. In Visual Studio, click Tools, Nuget Packet Manager, Manage Nuget Packages for Solution
+	
+	![Nuget_Package_Manager](/images/ScriptingNuget01.png)
+	
+	2. Click Browse and enter CodeAnalysis into the search box. Select "Microsoft.CodeAnalysis.CSharp.Scripting" and Click Install.
+	
+	![CodeAnalysis](/images/ScriptingNuget02.png)
+	
+	3. Allow it to install dependencies and Accept the licenses.
+	
+	![CodeAnalysis_installed](/images/ScriptingNuget03.png)
