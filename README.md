@@ -68,7 +68,7 @@ Inside the Library folder is the WireTo extension method that the applications u
 	
 	![Nuget_Package_Manager](/images/ScriptingNuget01.png)
 	
-	2. Click Browse and enter CodeAnalysis into the search box. Select "Microsoft.CodeAnalysis.CSharp.Scripting" and Click Install.
+	2. Click Browse and enter CodeAnalysis into the search box. Select "Microsoft.CodeAnalysis.CSharp.Scripting". Tick AUTWorkShop and Click Install.
 	
 	![CodeAnalysis](/images/ScriptingNuget02.png)
 	
