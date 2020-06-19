@@ -29,9 +29,9 @@ namespace DomainAbstractions
         public Func<double, double, double, double, double, double, double> Lambda;
 
         // Ports
-        // The IDatFlow<string> implemented interface is where the formula can be passed in at runtime (optional)
+        // The IDatFlow<string> implemented interface is the formulaText where the formula can be passed in at runtime (optional)
         private List<IDataFlowB<double>> operands;
-        private IDataFlow<double> Result;
+        private IDataFlow<double> result;
 
         /// <summary>
         /// <para>Applies an formula (described by a lambda) on inputs of type T and returns an output of type T.</para>
@@ -42,7 +42,6 @@ namespace DomainAbstractions
 
 
         // Private fields
-        private double result = default;
         private string formulaText;
 
 
@@ -79,11 +78,11 @@ namespace DomainAbstractions
             {
                 if (Lambda != null)
                 {
-                    Result.Data = Lambda(operand0, operand1, operand2, operand3, operand4, operand5);
+                    result.Data = Lambda(operand0, operand1, operand2, operand3, operand4, operand5);
                 }
                 else
                 {
-                    Result.Data = double.NaN;
+                    result.Data = double.NaN;
                 }
             }
         }

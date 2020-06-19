@@ -16,9 +16,10 @@ namespace DomainAbstractions
         // properties
         public string InstanceName = "Default";
 
-        // outputs
-        private IDataFlow<string> dataFlowOutput;
-        private List<IDataFlowB<T>> dataFlowBsList = new List<IDataFlowB<T>>();
+        // ports
+        // The IDataFlow implemented interface is input0
+        private List<IDataFlowB<T>> inputs = new List<IDataFlowB<T>>();
+        private IDataFlow<string> output;
 
         // private fields
         private string format;
@@ -35,7 +36,7 @@ namespace DomainAbstractions
 
         private void PostWiringInitialize()
         {
-            foreach (var f in dataFlowBsList)
+            foreach (var f in inputs)
             {
                 f.DataChanged += DataChanged;
             }
@@ -55,13 +56,13 @@ namespace DomainAbstractions
 
         private void DataChanged()
         {
-            object[] paras = new object[dataFlowBsList.Count+1];
+            object[] paras = new object[inputs.Count+1];
             paras[0] = _Para0; 
-            for (var i = 1; i < paras.Length; i++)
+            for (var i = 0; i < inputs.Count; i++)
             {
-                paras[i] = dataFlowBsList[i].Data;
+                paras[i+1] = inputs[i].Data;
             }
-            dataFlowOutput.Data = string.Format(format, paras);
+            output.Data = string.Format(format, paras);
         }        
     }
 }
