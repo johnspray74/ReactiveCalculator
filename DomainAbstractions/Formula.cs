@@ -42,39 +42,52 @@ namespace DomainAbstractions
 
 
         // Private fields
-        private string formulaText;
-
+        private string _formulaText;
+        // These operand fields have two uses:
+        // 1 is to always have 6 values to pass to the Lambda even if some inputs are unwired
+        // 2 we use them to see if inputs have actually changed
+        double operand0 = double.NaN;
+        double operand1 = double.NaN;
+        double operand2 = double.NaN;
+        double operand3 = double.NaN;
+        double operand4 = double.NaN;
+        double operand5 = double.NaN;
+        int loopCounter = 0;
+        bool infiniteLoopStop;
 
         private void PostWiringInitialize()
         {
             foreach (var operand in operands)
             {
-                operand.DataChanged += DataChanged;
+                operand.DataChanged += OperandChanged;
             }
         }
 
+        private void OperandChanged()
+        {
+            // if no inputs are changed then dont change the output -- this allows a Formula to be wired in a loop in a DataFlow
+            bool change = false;
+            if (operands.Count >= 1) { if (operand0 != operands[0].Data) change = true; operand0 = operands[0].Data; }
+            if (operands.Count >= 2) { if (operand1 != operands[1].Data) change = true; operand0 = operands[1].Data; }
+            if (operands.Count >= 3) { if (operand2 != operands[2].Data) change = true; operand0 = operands[2].Data; }
+            if (operands.Count >= 4) { if (operand3 != operands[3].Data) change = true; operand0 = operands[3].Data; }
+            if (operands.Count >= 5) { if (operand4 != operands[4].Data) change = true; operand0 = operands[4].Data; }
+            if (operands.Count >= 6) { if (operand5 != operands[5].Data) change = true; operand0 = operands[5].Data; }
+            // if (Result != null)
+            if (change)
+            {
+                loopCounter++;
+                if (loopCounter == 10) infiniteLoopStop = true;
+                if (!infiniteLoopStop) DataChanged();
+                loopCounter--;
+                if (loopCounter == 0) infiniteLoopStop = false;
+            }
+        }
+
+
+
         private void DataChanged()
         {
-            /*
-            var operandList = new List<double>();
-            foreach (var operand in operands)
-            {
-                operandList.Add(operand.Data);
-            }
-            */
-            double operand0 = double.NaN;
-            double operand1 = double.NaN;
-            double operand2 = double.NaN;
-            double operand3 = double.NaN;
-            double operand4 = double.NaN;
-            double operand5 = double.NaN;
-            if (operands.Count >= 1) operand0 = operands[0].Data;
-            if (operands.Count >= 2) operand1 = operands[1].Data;
-            if (operands.Count >= 3) operand2 = operands[2].Data;
-            if (operands.Count >= 4) operand3 = operands[3].Data;
-            if (operands.Count >= 5) operand4 = operands[4].Data;
-            if (operands.Count >= 6) operand5 = operands[5].Data;
-            // if (Result != null)
             {
                 if (Lambda != null)
                 {
@@ -91,7 +104,7 @@ namespace DomainAbstractions
         {
             try
             {
-                Lambda = await CSharpScript.EvaluateAsync<Func<double, double, double, double, double, double, double>>(formulaText);
+                Lambda = await CSharpScript.EvaluateAsync<Func<double, double, double, double, double, double, double>>(_formulaText);
             }
             catch (CompilationErrorException e)
             {
@@ -103,10 +116,10 @@ namespace DomainAbstractions
 
         string IDataFlow<string>.Data
         {
-            get => formulaText;
+            get => _formulaText;
             set
             {
-                formulaText = value;
+                _formulaText = value;
                 Compile();
                 DataChanged();
             }
