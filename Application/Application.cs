@@ -1,9 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows;
-using System.Windows.Media;
-using System.Windows.Shapes;
 using Libraries;
 using ProgrammingParadigms;
 using DomainAbstractions;
@@ -29,11 +24,11 @@ namespace Application
 
         private Application()
         {
-            // BEGIN AUTO-GENERATED INSTANTIATIONS FOR Calculator6.xmind
-            // END AUTO-GENERATED INSTANTIATIONS FOR Calculator6.xmind
+            // BEGIN AUTO-GENERATED INSTANTIATIONS FOR Calculator1.xmind
+            // END AUTO-GENERATED INSTANTIATIONS FOR Calculator1.xmind
 
-            // BEGIN AUTO-GENERATED WIRING FOR Calculator6.xmind
-            // END AUTO-GENERATED WIRING FOR Calculator6.xmind
+            // BEGIN AUTO-GENERATED WIRING FOR Calculator1.xmind
+            // END AUTO-GENERATED WIRING FOR Calculator1.xmind
 
             // BEGIN manual instantiations
             // END manual instantiations
