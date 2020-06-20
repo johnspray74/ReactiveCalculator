@@ -39,8 +39,8 @@ namespace Application
             DataFlowConnector<string> id_6e3f7a805e2c4e3b901024f90be0cbbb = new DataFlowConnector<string>() { InstanceName = "Default" };
             DataFlowConnector<string> id_df02c9bd22e54c0ca23cf5ab01893bea = new DataFlowConnector<string>() { InstanceName = "Default" };
             DataFlowConnector<string> id_f18e4fe0e68b4fc6ba9e060799048fe6 = new DataFlowConnector<string>() { InstanceName = "Default" };
-            Formula Formula1 = new Formula() { InstanceName = "Formula1", Lambda = (P0,P1,P2,P3,P4,P5)=>P0 };
-            Formula Formula2 = new Formula() { InstanceName = "Formula2", Lambda = (P0,P1,P2,P3,P4,P5)=>P1 };
+            Formula Formula1 = new Formula() { InstanceName = "Formula1" };
+            Formula Formula2 = new Formula() { InstanceName = "Formula2" };
             Formula Formula3 = new Formula() { InstanceName = "Formula3" };
             Formula Formula4 = new Formula() { InstanceName = "Formula4" };
             Horizontal id_24914ab245484fe1b70af8020ca2e831 = new Horizontal() { InstanceName = "Default" };
@@ -98,7 +98,7 @@ namespace Application
             id_3cdf1b1c29524751b3b4e9e0ab35e49f.WireTo(Result1, "children"); // (Horizontal (id_3cdf1b1c29524751b3b4e9e0ab35e49f).children) -- [List<IUI>] --> (Text (Result1).child)
             id_3cdf1b1c29524751b3b4e9e0ab35e49f.WireTo(Units1, "children"); // (Horizontal (id_3cdf1b1c29524751b3b4e9e0ab35e49f).children) -- [List<IUI>] --> (TextBox (Units1).child)
             Label1.WireTo(id_6e3f7a805e2c4e3b901024f90be0cbbb, "textOutput"); // (TextBox (Label1).textOutput) -- [IDataFlow<string>] --> (DataFlowConnector<string> (id_6e3f7a805e2c4e3b901024f90be0cbbb).input)
-            id_d00e2f96bebf45d3a23bc3b1b0776f22.WireTo(id_6e3f7a805e2c4e3b901024f90be0cbbb, "inputs"); // (StringConcat (id_d00e2f96bebf45d3a23bc3b1b0776f22).inputs) -- [IDataFlowB<string>] --> (DataFlowConnector<string> (id_6e3f7a805e2c4e3b901024f90be0cbbb).outputs)
+            id_d00e2f96bebf45d3a23bc3b1b0776f22.WireTo(id_6e3f7a805e2c4e3b901024f90be0cbbb, "inputs"); // (StringConcat (id_d00e2f96bebf45d3a23bc3b1b0776f22).inputs) -- [IDataFlowB<string>] --> (DataFlowConnector<string> (id_6e3f7a805e2c4e3b901024f90be0cbbb).outputsB)
             FormulaText1.WireTo(sf1, "textOutput"); // (TextBox (FormulaText1).textOutput) -- [IDataFlow<string>] --> (StringFormat<string> (sf1).input0)
             sf1.WireTo(Formula1, "output"); // (StringFormat<string> (sf1).output) -- [IDataFlow<string>] --> (Formula (Formula1).formula)
             Formula1.WireTo(dfc1, "result"); // (Formula (Formula1).result) -- [IDataFlow<double>] --> (DataFlowConnector<double> (dfc1).input)
@@ -113,7 +113,7 @@ namespace Application
             id_62cb709a6e8f4af8812307ef103fb600.WireTo(Result2, "children"); // (Horizontal (id_62cb709a6e8f4af8812307ef103fb600).children) -- [List<IUI>] --> (Text (Result2).child)
             id_62cb709a6e8f4af8812307ef103fb600.WireTo(Units2, "children"); // (Horizontal (id_62cb709a6e8f4af8812307ef103fb600).children) -- [List<IUI>] --> (TextBox (Units2).child)
             Label2.WireTo(id_6692306d5a004363a0f9b3f32d9a684f, "textOutput"); // (TextBox (Label2).textOutput) -- [IDataFlow<string>] --> (DataFlowConnector<string> (id_6692306d5a004363a0f9b3f32d9a684f).input)
-            id_d00e2f96bebf45d3a23bc3b1b0776f22.WireTo(id_6692306d5a004363a0f9b3f32d9a684f, "inputs"); // (StringConcat (id_d00e2f96bebf45d3a23bc3b1b0776f22).inputs) -- [IDataFlowB<string>] --> (DataFlowConnector<string> (id_6692306d5a004363a0f9b3f32d9a684f).outputs)
+            id_d00e2f96bebf45d3a23bc3b1b0776f22.WireTo(id_6692306d5a004363a0f9b3f32d9a684f, "inputs"); // (StringConcat (id_d00e2f96bebf45d3a23bc3b1b0776f22).inputs) -- [IDataFlowB<string>] --> (DataFlowConnector<string> (id_6692306d5a004363a0f9b3f32d9a684f).outputsB)
             FormulaText2.WireTo(sf2, "textOutput"); // (TextBox (FormulaText2).textOutput) -- [IDataFlow<string>] --> (StringFormat<string> (sf2).input0)
             sf2.WireTo(Formula2, "output"); // (StringFormat<string> (sf2).output) -- [IDataFlow<string>] --> (Formula (Formula2).formula)
             Formula2.WireTo(dfc2, "result"); // (Formula (Formula2).result) -- [IDataFlow<double>] --> (DataFlowConnector<double> (dfc2).input)
@@ -128,7 +128,7 @@ namespace Application
             id_86ce618fc8f44a2ca2484f6136f215dd.WireTo(Result3, "children"); // (Horizontal (id_86ce618fc8f44a2ca2484f6136f215dd).children) -- [List<IUI>] --> (Text (Result3).child)
             id_86ce618fc8f44a2ca2484f6136f215dd.WireTo(Units3, "children"); // (Horizontal (id_86ce618fc8f44a2ca2484f6136f215dd).children) -- [List<IUI>] --> (TextBox (Units3).child)
             Label3.WireTo(id_df02c9bd22e54c0ca23cf5ab01893bea, "textOutput"); // (TextBox (Label3).textOutput) -- [IDataFlow<string>] --> (DataFlowConnector<string> (id_df02c9bd22e54c0ca23cf5ab01893bea).input)
-            id_d00e2f96bebf45d3a23bc3b1b0776f22.WireTo(id_df02c9bd22e54c0ca23cf5ab01893bea, "inputs"); // (StringConcat (id_d00e2f96bebf45d3a23bc3b1b0776f22).inputs) -- [IDataFlowB<string>] --> (DataFlowConnector<string> (id_df02c9bd22e54c0ca23cf5ab01893bea).outputs)
+            id_d00e2f96bebf45d3a23bc3b1b0776f22.WireTo(id_df02c9bd22e54c0ca23cf5ab01893bea, "inputs"); // (StringConcat (id_d00e2f96bebf45d3a23bc3b1b0776f22).inputs) -- [IDataFlowB<string>] --> (DataFlowConnector<string> (id_df02c9bd22e54c0ca23cf5ab01893bea).outputsB)
             FormulaText3.WireTo(sf3, "textOutput"); // (TextBox (FormulaText3).textOutput) -- [IDataFlow<string>] --> (StringFormat<string> (sf3).input0)
             sf3.WireTo(Formula3, "output"); // (StringFormat<string> (sf3).output) -- [IDataFlow<string>] --> (Formula (Formula3).formula)
             Formula3.WireTo(dfc3, "result"); // (Formula (Formula3).result) -- [IDataFlow<double>] --> (DataFlowConnector<double> (dfc3).input)
@@ -143,7 +143,7 @@ namespace Application
             id_ab03c41f8dca400bb0e82d4a28c34f0b.WireTo(Result4, "children"); // (Horizontal (id_ab03c41f8dca400bb0e82d4a28c34f0b).children) -- [List<IUI>] --> (Text (Result4).child)
             id_ab03c41f8dca400bb0e82d4a28c34f0b.WireTo(Units4, "children"); // (Horizontal (id_ab03c41f8dca400bb0e82d4a28c34f0b).children) -- [List<IUI>] --> (TextBox (Units4).child)
             Label4.WireTo(id_f18e4fe0e68b4fc6ba9e060799048fe6, "textOutput"); // (TextBox (Label4).textOutput) -- [IDataFlow<string>] --> (DataFlowConnector<string> (id_f18e4fe0e68b4fc6ba9e060799048fe6).input)
-            id_d00e2f96bebf45d3a23bc3b1b0776f22.WireTo(id_f18e4fe0e68b4fc6ba9e060799048fe6, "inputs"); // (StringConcat (id_d00e2f96bebf45d3a23bc3b1b0776f22).inputs) -- [IDataFlowB<string>] --> (DataFlowConnector<string> (id_f18e4fe0e68b4fc6ba9e060799048fe6).outputs)
+            id_d00e2f96bebf45d3a23bc3b1b0776f22.WireTo(id_f18e4fe0e68b4fc6ba9e060799048fe6, "inputs"); // (StringConcat (id_d00e2f96bebf45d3a23bc3b1b0776f22).inputs) -- [IDataFlowB<string>] --> (DataFlowConnector<string> (id_f18e4fe0e68b4fc6ba9e060799048fe6).outputsB)
             FormulaText4.WireTo(sf4, "textOutput"); // (TextBox (FormulaText4).textOutput) -- [IDataFlow<string>] --> (StringFormat<string> (sf4).input0)
             sf4.WireTo(Formula4, "output"); // (StringFormat<string> (sf4).output) -- [IDataFlow<string>] --> (Formula (Formula4).formula)
             Formula4.WireTo(dfc4, "result"); // (Formula (Formula4).result) -- [IDataFlow<double>] --> (DataFlowConnector<double> (dfc4).input)
@@ -158,7 +158,6 @@ namespace Application
             sf2.WireTo(id_5a8fd3747a7f49ad9b89740300b25273, "inputs"); // (StringFormat<string> (sf2).inputs) -- [IDataFlowB<string>] --> (DataFlowConnector<string> (id_5a8fd3747a7f49ad9b89740300b25273).outputsB)
             sf3.WireTo(id_5a8fd3747a7f49ad9b89740300b25273, "inputs"); // (StringFormat<string> (sf3).inputs) -- [IDataFlowB<string>] --> (DataFlowConnector<string> (id_5a8fd3747a7f49ad9b89740300b25273).outputsB)
             sf4.WireTo(id_5a8fd3747a7f49ad9b89740300b25273, "inputs"); // (StringFormat<string> (sf4).inputs) -- [IDataFlowB<string>] --> (DataFlowConnector<string> (id_5a8fd3747a7f49ad9b89740300b25273).outputsB)
-            id_5a8fd3747a7f49ad9b89740300b25273.WireTo(id_fc0b8f38b3c14f799f605cd54214b503, "outputs"); // (DataFlowConnector<string> (id_5a8fd3747a7f49ad9b89740300b25273).outputs) -- [IDataFlow<string>] --> (Text (id_fc0b8f38b3c14f799f605cd54214b503).inputText)
             // END AUTO-GENERATED WIRING FOR Calculator.xmind
 
             // BEGIN manual instantiations

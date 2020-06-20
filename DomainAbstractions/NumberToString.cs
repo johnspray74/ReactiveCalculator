@@ -14,6 +14,7 @@ namespace DomainAbstractions
     {
         // Properties
         public string InstanceName = "Default";
+        public string NanDisplay = "";
 
         // Ports
         private IDataFlow<string> output;
@@ -37,7 +38,7 @@ namespace DomainAbstractions
             {
                 if (double.IsNaN(value))
                 {
-                    output.Data = "-----";
+                    output.Data = NanDisplay;
                 }
                 else
                 {

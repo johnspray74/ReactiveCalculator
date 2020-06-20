@@ -130,7 +130,7 @@ namespace DomainAbstractions
             // nasty code follows to get correct - there must be a better way to do this
             string rv = input;
             int pos = 0;
-            for (int i = 0; i< 6; i++) 
+            for (int i = 0; i< n; i++) 
             {
                 int nextpos;
                 nextpos = rv.IndexOf(',', pos);
@@ -144,7 +144,7 @@ namespace DomainAbstractions
                     rv = rv.Insert(nextpos, "_P" + i.ToString());
                     nextpos += 3;
                 }
-                if (i<5 && rv[nextpos]==')') rv = rv.Insert(nextpos, ",");
+                if (i<n-1 && rv[nextpos]==')') rv = rv.Insert(nextpos, ",");
                 pos = nextpos+1;
             }
             return rv;
@@ -173,8 +173,7 @@ namespace DomainAbstractions
             get => _formulaText;
             set
             {
-                _formulaText = value;
-                _formulaText = AddDummyParameters(_formulaText, 6);
+                _formulaText = AddDummyParameters(value, 6);
                 Compile();
                 DataChanged();
             }
