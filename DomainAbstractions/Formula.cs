@@ -2,6 +2,7 @@
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Libraries;
@@ -61,8 +62,7 @@ namespace DomainAbstractions
             {
                 operand.DataChanged += OperandChanged;
             }
-            TestAddDummyParameters();
-
+            // TestAddDummyParameters();
         }
 
         private void OperandChanged()
@@ -129,23 +129,30 @@ namespace DomainAbstractions
 
             // nasty code follows to get correct - there must be a better way to do this
             string rv = input;
-            int pos = 0;
-            for (int i = 0; i< n; i++) 
+            try
             {
-                int nextpos;
-                nextpos = rv.IndexOf(',', pos);
-                if (nextpos == -1) 
+                int pos = 0;
+                for (int i = 0; i < n; i++)
                 {
-                    nextpos = rv.IndexOf(')', pos);
+                    int nextpos;
+                    nextpos = rv.IndexOf(',', pos);
+                    if (nextpos == -1)
+                    {
+                        nextpos = rv.IndexOf(')', pos);
+                    }
+                    // is there an alpha paramter name
+                    if (!rv.Substring(pos, nextpos - pos).Any(c => char.IsLetter(c)))
+                    {
+                        rv = rv.Insert(nextpos, "_P" + i.ToString());
+                        nextpos += 3;
+                    }
+                    if (i < n - 1 && rv[nextpos] == ')') rv = rv.Insert(nextpos, ",");
+                    pos = nextpos + 1;
                 }
-                // is there an alpha paramter name
-                if (!rv.Substring(pos, nextpos - pos).Any(c => char.IsLetter(c)))
-                {
-                    rv = rv.Insert(nextpos, "_P" + i.ToString());
-                    nextpos += 3;
-                }
-                if (i<n-1 && rv[nextpos]==')') rv = rv.Insert(nextpos, ",");
-                pos = nextpos+1;
+            }
+            catch (Exception e)
+            {
+                rv = "";
             }
             return rv;
         }

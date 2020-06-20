@@ -156,7 +156,6 @@
     </EmbeddedResource>
     <None Include="Application\ReferenceDiagrams\GrammarExample.xmind" />
     <None Include="Application\ReferenceDiagrams\Templates.xmind" />
-    <None Include="Application\TextFlowExcercise.xmind" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
