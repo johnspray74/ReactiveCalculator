@@ -10,7 +10,7 @@ It contains the ALA layer folders:
 * Domain Abstractions
 * Programming Paradigms
 
-Inside the Application folder is the Hello world program, which we will modify to make other applications for various exercises.
+Inside the Application folder is the Hello world program, which we will modify to during various exercises, all toward a cool application.
 Inside the Domain Abstractions folder are a few abstractions for us to use in the exercises.
 Inside the ProgrammingParadigms folder are some interfaces that the abstractions use to allow them to be wired together in different ways.
 Inside the Library folder is the WireTo extension method that the applications use to do the wiring. 
