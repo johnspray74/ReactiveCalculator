@@ -44,7 +44,7 @@ namespace ProgrammingParadigms
         // Private fields
 
         // Ports
-        private List<IDataFlow<T>> fanoutList = new List<IDataFlow<T>>();
+        private List<IDataFlow<T>> outputs = new List<IDataFlow<T>>();
 
         /// <summary>
         /// Fans out a data flow to multiple data flows, or connect IDataFlow and IDataFlowB
@@ -58,7 +58,7 @@ namespace ProgrammingParadigms
             set
             {
                 Data = value;
-                foreach (var f in fanoutList) f.Data = value;
+                foreach (var f in outputs) f.Data = value;
                 DataChanged?.Invoke();
             }
         }

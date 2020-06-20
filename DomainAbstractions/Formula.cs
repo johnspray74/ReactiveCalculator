@@ -61,18 +61,20 @@ namespace DomainAbstractions
             {
                 operand.DataChanged += OperandChanged;
             }
+            TestAddDummyParameters();
+
         }
 
         private void OperandChanged()
         {
             // if no inputs are changed then dont change the output -- this allows a Formula to be wired in a loop in a DataFlow
             bool change = false;
-            if (operands.Count >= 1) { if (operand0 != operands[0].Data) change = true; operand0 = operands[0].Data; }
-            if (operands.Count >= 2) { if (operand1 != operands[1].Data) change = true; operand0 = operands[1].Data; }
-            if (operands.Count >= 3) { if (operand2 != operands[2].Data) change = true; operand0 = operands[2].Data; }
-            if (operands.Count >= 4) { if (operand3 != operands[3].Data) change = true; operand0 = operands[3].Data; }
-            if (operands.Count >= 5) { if (operand4 != operands[4].Data) change = true; operand0 = operands[4].Data; }
-            if (operands.Count >= 6) { if (operand5 != operands[5].Data) change = true; operand0 = operands[5].Data; }
+            if (operands.Count >= 1) { if (operand0 != operands[0].Data && !(double.IsNaN(operand0) && double.IsNaN(operands[0].Data))) { change = true; operand0 = operands[0].Data; } }
+            if (operands.Count >= 2) { if (operand1 != operands[1].Data && !(double.IsNaN(operand1) && double.IsNaN(operands[1].Data))) { change = true; operand1 = operands[1].Data; } }
+            if (operands.Count >= 3) { if (operand2 != operands[2].Data && !(double.IsNaN(operand2) && double.IsNaN(operands[2].Data))) { change = true; operand2 = operands[2].Data; } }
+            if (operands.Count >= 4) { if (operand3 != operands[3].Data && !(double.IsNaN(operand3) && double.IsNaN(operands[3].Data))) { change = true; operand3 = operands[3].Data; } }
+            if (operands.Count >= 5) { if (operand4 != operands[4].Data && !(double.IsNaN(operand4) && double.IsNaN(operands[4].Data))) { change = true; operand4 = operands[4].Data; } }
+            if (operands.Count >= 6) { if (operand5 != operands[5].Data && !(double.IsNaN(operand5) && double.IsNaN(operands[5].Data))) { change = true; operand5 = operands[5].Data; } }
             // if (Result != null)
             if (change)
             {
@@ -114,12 +116,65 @@ namespace DomainAbstractions
 
 
 
+        private string AddDummyParameters(string input, int n)
+        {
+            // we tolerate less than six parameters - add dummy parameters to make up to six for the lambda
+            // examples
+            // (a,b,c) -> (a,b,c,_P3,_P4,_P5)
+            // (a,,,) ->  (a,_P1,_P2,_P3,_P4,_P5)
+            // () -> (_P0,_P1,_P2,_P3,_P4,_P5)
+            // (,,,,,) ->  (_P0,_P1,_P2,_P3,_P4,_P5)
+            // (a,b,c,d,e) ->  (a,b,c,d,e,_P5) 
+            // (a,b,c,d,e,) ->  (a,b,c,d,e,_P5) 
+
+            // nasty code follows to get correct - there must be a better way to do this
+            string rv = input;
+            int pos = 0;
+            for (int i = 0; i< 6; i++) 
+            {
+                int nextpos;
+                nextpos = rv.IndexOf(',', pos);
+                if (nextpos == -1) 
+                {
+                    nextpos = rv.IndexOf(')', pos);
+                }
+                // is there an alpha paramter name
+                if (!rv.Substring(pos, nextpos - pos).Any(c => char.IsLetter(c)))
+                {
+                    rv = rv.Insert(nextpos, "_P" + i.ToString());
+                    nextpos += 3;
+                }
+                if (i<5 && rv[nextpos]==')') rv = rv.Insert(nextpos, ",");
+                pos = nextpos+1;
+            }
+            return rv;
+        }
+
+
+        private void assertStringEq(string a, string b)
+        {
+            if (a != b) throw new Exception($"Failed: {a} should equal {b}");
+        }
+
+        private void TestAddDummyParameters()
+        {
+            assertStringEq(AddDummyParameters("(a,b,c)",6), "(a,b,c,_P3,_P4,_P5)");
+            assertStringEq(AddDummyParameters("(a,b,c,,,)",6), "(a,b,c,_P3,_P4,_P5)");
+            assertStringEq(AddDummyParameters("(a , , , )",6), "(a , _P1, _P2, _P3,_P4,_P5)");
+            assertStringEq(AddDummyParameters("()",6), "(_P0,_P1,_P2,_P3,_P4,_P5)");
+            assertStringEq(AddDummyParameters("(,,,,,)",6), "(_P0,_P1,_P2,_P3,_P4,_P5)");
+            assertStringEq(AddDummyParameters("(a,b,c,d,e)",6), "(a,b,c,d,e,_P5)");
+            assertStringEq(AddDummyParameters("(a,b,c,d,e,)=>a+b",6), "(a,b,c,d,e,_P5)=>a+b");
+        }
+
+
         string IDataFlow<string>.Data
         {
             get => _formulaText;
             set
             {
                 _formulaText = value;
+                _formulaText = AddDummyParameters(_formulaText, 6);
                 Compile();
                 DataChanged();
             }
