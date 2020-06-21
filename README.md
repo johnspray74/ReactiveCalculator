@@ -75,3 +75,13 @@ Inside the Library folder is the WireTo extension method that the applications u
 	3. Allow it to install dependencies and Accept the licenses.
 	
 	![CodeAnalysis_installed](/images/ScriptingNuget03.png)
+
+11. You will need to pull the latest changes in the repository on the morning of the workshop. 
+
+    Inside the folder right click and select "Git Bash" from the context menu
+    ![Open_GitBash](/images/Open_GitBash.PNG)
+    
+    Inside the Git Bash terminal pull the latest changes with this command:
+    ```
+    $ git clone pull
+    ```
