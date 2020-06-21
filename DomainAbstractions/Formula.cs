@@ -1,14 +1,11 @@
 ﻿using System;
-using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
-using Libraries;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
 using ProgrammingParadigms;
+using static System.Math;
+
 
 namespace DomainAbstractions
 {
@@ -90,7 +87,6 @@ namespace DomainAbstractions
 
         private void DataChanged()
         {
-            {
                 if (Lambda != null)
                 {
                     result.Data = Lambda(operand0, operand1, operand2, operand3, operand4, operand5);
@@ -99,14 +95,17 @@ namespace DomainAbstractions
                 {
                     result.Data = double.NaN;
                 }
-            }
         }
 
         private async void Compile()
         {
+            // double x = Sin(1.0);
+
+            var options = ScriptOptions.Default;
+            options = options.AddImports("System.Math");
             try
             {
-                Lambda = await CSharpScript.EvaluateAsync<Func<double, double, double, double, double, double, double>>(_formulaText);
+                Lambda = await CSharpScript.EvaluateAsync<Func<double, double, double, double, double, double, double>>(_formulaText, options);
             }
             catch (CompilationErrorException e)
             {
