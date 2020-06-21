@@ -78,7 +78,7 @@ Inside the Library folder is the WireTo extension method that the applications u
 
 11. You will need to pull the latest changes in the repository on the morning of the workshop. 
 
-    Inside the project folder (where .git is) right click and select "Git Bash" from the context menu.
+    Inside the project folder right click and select "Git Bash" from the context menu.
     
     Inside the Git Bash terminal pull the latest changes with this command:
     ```
