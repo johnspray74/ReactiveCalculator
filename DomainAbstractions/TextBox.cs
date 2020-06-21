@@ -22,8 +22,9 @@ namespace DomainAbstractions
         // properties
         public string InstanceName = "Default";
         public HorizontalAlignment horizontalAlignment { set => textBox.HorizontalAlignment = value; }
-        public Thickness Margin { set => textBox.Margin = value; }
+        public double Margin { set => textBox.Margin = new Thickness(value,value,value,value); }
         public double Height { set => textBox.Height = value; }
+        public double Width { set => textBox.MinWidth = value; }
         public double FontSize { set => textBox.FontSize = value; }
         public string Text
         {
@@ -53,6 +54,7 @@ namespace DomainAbstractions
             textBox.HorizontalScrollBarVisibility = System.Windows.Controls.ScrollBarVisibility.Auto;
             textBox.VerticalScrollBarVisibility = System.Windows.Controls.ScrollBarVisibility.Auto;
             textBox.IsReadOnly = readOnly;
+            textBox.Margin = new Thickness(5,5,5,5);
         }
 
         private void TextBox_TextChanged()
