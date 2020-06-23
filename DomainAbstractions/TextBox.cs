@@ -23,8 +23,8 @@ namespace DomainAbstractions
         public string InstanceName = "Default";
         public HorizontalAlignment horizontalAlignment { set => textBox.HorizontalAlignment = value; }
         public double Margin { set => textBox.Margin = new Thickness(value,value,value,value); }
-        public double Height { set => textBox.Height = value; }
-        public double Width { set => textBox.MinWidth = value; }
+        // public double Height { set => textBox.Height = value; }
+        // public double MinWidth { set => textBox.MinWidth = value; }
         public double FontSize { set => textBox.FontSize = value; }
         public string Text
         {

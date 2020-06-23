@@ -25,12 +25,14 @@ namespace DomainAbstractions
         public Thickness Margin { set => gridPanel.Margin = value; }
         public Brush Background;
         public Visibility Visibility { set => gridPanel.Visibility = value;}
+        public int[] MinWidths { set => _MinWidths = value; }
 
         // ports ---------------------------------------------------------------------
         private List<IUI> children = new List<IUI>();
 
         // private fields ---------------------------------------------------------------------
         private System.Windows.Controls.Grid gridPanel = new System.Windows.Controls.Grid();
+        private int[] _MinWidths;
 
         /// <summary>
         /// A layout IUI which arranges it's sub-elements horizontally and can be controlled with a Ratio property.
@@ -52,9 +54,15 @@ namespace DomainAbstractions
             for (var i = 0; i < children.Count; i++)
             {
                 var r = (Ratios != null && i < Ratios.Length) ? Ratios[i] : 100;
+                var minWidth = 10.0;
+                if (_MinWidths!=null && i<_MinWidths.Length)
+                {
+                    minWidth = _MinWidths[i];
+                }
                 gridPanel.ColumnDefinitions.Add(new ColumnDefinition() {
-                    Width = new GridLength(r, GridUnitType.Star)
-                });
+                    Width = new GridLength(r, GridUnitType.Star),
+                    MinWidth = minWidth
+                }); ;
 
                 var e = children[i].GetWPFElement();
                 gridPanel.Children.Add(e);

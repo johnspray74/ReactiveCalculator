@@ -134,7 +134,8 @@ namespace DomainAbstractions
                 for (int i = 0; i < n; i++)
                 {
                     int nextpos;
-                    nextpos = rv.IndexOf(',', pos);
+                    int stoppos = rv.IndexOf(')', 0);
+                    nextpos = rv.IndexOf(',', pos, stoppos-pos);
                     if (nextpos == -1)
                     {
                         nextpos = rv.IndexOf(')', pos);
