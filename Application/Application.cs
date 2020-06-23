@@ -76,11 +76,11 @@ namespace Application
             Text Result4 = new Text() { InstanceName = "Result4", FontSize=50 };
             Text Result5 = new Text() { InstanceName = "Result5", FontSize=50 };
             Text Result6 = new Text() { InstanceName = "Result6", FontSize=50 };
-            TextBox Description1 = new TextBox() { InstanceName = "Description1", FontSize=50, Width = 500 };
-            TextBox Description2 = new TextBox() { InstanceName = "Description2", FontSize=50, Width = 500 };
-            TextBox Description3 = new TextBox() { InstanceName = "Description3", FontSize=50, Width = 500 };
-            TextBox Description4 = new TextBox() { InstanceName = "Description4", FontSize=50, Width = 500 };
-            TextBox Description5 = new TextBox() { InstanceName = "Description5", FontSize=50, Width = 500 };
+            TextBox Description1 = new TextBox() { InstanceName = "Description1", FontSize=50 };
+            TextBox Description2 = new TextBox() { InstanceName = "Description2", FontSize=50 };
+            TextBox Description3 = new TextBox() { InstanceName = "Description3", FontSize=50 };
+            TextBox Description4 = new TextBox() { InstanceName = "Description4", FontSize=50 };
+            TextBox Description5 = new TextBox() { InstanceName = "Description5", FontSize=50 };
             TextBox Description6 = new TextBox() { InstanceName = "Description6", FontSize=50 };
             TextBox FormulaText1 = new TextBox() { InstanceName = "FormulaText1", FontSize=50 };
             TextBox FormulaText2 = new TextBox() { InstanceName = "FormulaText2", FontSize=50 };
@@ -130,10 +130,10 @@ namespace Application
             Formula1.WireTo(dfc1, "result"); // (Formula (Formula1).result) -- [IDataFlow<double>] --> (DataFlowConnector<double> (dfc1).input)
             Formula1.WireTo(dfc1, "operands"); // (Formula (Formula1).operands) -- [IDataFlowB<double>] --> (DataFlowConnector<double> (dfc1).outputsB)
             Formula2.WireTo(dfc1, "operands"); // (Formula (Formula2).operands) -- [IDataFlowB<double>] --> (DataFlowConnector<double> (dfc1).outputsB)
-            Formula3.WireTo(dfc1, "operands"); // (Formula (Formula3).operands) -- [IDataFlowB<double>] --> (DataFlowConnector<double> (dfc1).outputsB)
             Formula4.WireTo(dfc1, "operands"); // (Formula (Formula4).operands) -- [IDataFlowB<double>] --> (DataFlowConnector<double> (dfc1).outputsB)
             Formula5.WireTo(dfc1, "operands"); // (Formula (Formula5).operands) -- [IDataFlowB<double>] --> (DataFlowConnector<double> (dfc1).outputsB)
             Formula6.WireTo(dfc1, "operands"); // (Formula (Formula6).operands) -- [IDataFlowB<double>] --> (DataFlowConnector<double> (dfc1).outputsB)
+            Formula3.WireTo(dfc1, "operands"); // (Formula (Formula3).operands) -- [IDataFlowB<double>] --> (DataFlowConnector<double> (dfc1).outputsB)
             dfc1.WireTo(id_a1c68c7d54d74033b59a294accc0320b, "outputs"); // (DataFlowConnector<double> (dfc1).outputs) -- [IDataFlow<T>] --> (NumberToString (id_a1c68c7d54d74033b59a294accc0320b).input)
             id_a1c68c7d54d74033b59a294accc0320b.WireTo(Result1, "output"); // (NumberToString (id_a1c68c7d54d74033b59a294accc0320b).output) -- [IDataFlow<string>] --> (Text (Result1).textInput)
             id_62cb709a6e8f4af8812307ef103fb600.WireTo(Label2, "children"); // (Horizontal (id_62cb709a6e8f4af8812307ef103fb600).children) -- [List<IUI>] --> (TextBox (Label2).child)
