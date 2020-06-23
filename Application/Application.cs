@@ -44,13 +44,13 @@ namespace Application
             Formula Formula4 = new Formula() { InstanceName = "Formula4" };
             Formula Formula5 = new Formula() { InstanceName = "Formula5" };
             Formula Formula6 = new Formula() { InstanceName = "Formula6" };
-            Horizontal id_24914ab245484fe1b70af8020ca2e831 = new Horizontal() { InstanceName = "Default", Ratios = new int[] { 1, 2, 2, 1, 3 }, MinWidths = new int[] { 50, 200, 520 } };
-            Horizontal id_3cdf1b1c29524751b3b4e9e0ab35e49f = new Horizontal() { InstanceName = "Default", Ratios = new int[] { 1, 2, 2, 1, 3 }, MinWidths = new int[] { 50, 200, 520 } };
-            Horizontal id_62cb709a6e8f4af8812307ef103fb600 = new Horizontal() { InstanceName = "Default", Ratios = new int[] { 1, 2, 2, 1, 3 }, MinWidths = new int[] { 50, 200, 520 } };
-            Horizontal id_86ce618fc8f44a2ca2484f6136f215dd = new Horizontal() { InstanceName = "Default", Ratios = new int[] { 1, 2, 2, 1, 3 }, MinWidths = new int[] { 50, 200, 520 } };
-            Horizontal id_ab03c41f8dca400bb0e82d4a28c34f0b = new Horizontal() { InstanceName = "Default", Ratios = new int[] { 1, 2, 2, 1, 3 }, MinWidths = new int[] { 50, 200, 520 } };
-            Horizontal id_db098085b69a4606ad521ce181c7792b = new Horizontal() { InstanceName = "Default", Ratios = new int[] { 1, 2, 2, 1, 3 }, MinWidths = new int[] { 50, 200, 520 } };
-            Horizontal id_f87c619494c14ad1bd6f67715c741cac = new Horizontal() { InstanceName = "Default", Ratios = new int[] { 1, 2, 2, 1, 3 }, MinWidths = new int[] { 50, 200, 520 } };
+            Horizontal id_24914ab245484fe1b70af8020ca2e831 = new Horizontal() { InstanceName = "Default", Ratios = new int[] { 1,2,2,1,3 }, MinWidths = new int[] { 50,200,520 } };
+            Horizontal id_3cdf1b1c29524751b3b4e9e0ab35e49f = new Horizontal() { InstanceName = "Default", Ratios = new int[] { 1,2,2,1,3 }, MinWidths = new int[] { 50,200,520 } };
+            Horizontal id_62cb709a6e8f4af8812307ef103fb600 = new Horizontal() { InstanceName = "Default", Ratios = new int[] { 1,2,2,1,3 }, MinWidths = new int[] { 50,200,520 } };
+            Horizontal id_86ce618fc8f44a2ca2484f6136f215dd = new Horizontal() { InstanceName = "Default", Ratios = new int[] { 1,2,2,1,3 }, MinWidths = new int[] { 50,200,520 } };
+            Horizontal id_ab03c41f8dca400bb0e82d4a28c34f0b = new Horizontal() { InstanceName = "Default", Ratios = new int[] { 1,2,2,1,3 }, MinWidths = new int[] { 50,200,520 } };
+            Horizontal id_db098085b69a4606ad521ce181c7792b = new Horizontal() { InstanceName = "Default", Ratios = new int[] { 1,2,2,1,3 }, MinWidths = new int[] { 50,200,520 } };
+            Horizontal id_f87c619494c14ad1bd6f67715c741cac = new Horizontal() { InstanceName = "Default", Ratios = new int[] { 1,2,2,1,3 }, MinWidths = new int[] { 50,200,520 } };
             NumberToString id_28e75bb388914ef192e8c6046e3e6ab0 = new NumberToString() { InstanceName = "Default" };
             NumberToString id_2c52c6f6a829412e9ff552742beec11b = new NumberToString() { InstanceName = "Default" };
             NumberToString id_4a3aabde62304c5fa5d34d610d7e3239 = new NumberToString() { InstanceName = "Default" };
@@ -76,11 +76,11 @@ namespace Application
             Text Result4 = new Text() { InstanceName = "Result4", FontSize=50 };
             Text Result5 = new Text() { InstanceName = "Result5", FontSize=50 };
             Text Result6 = new Text() { InstanceName = "Result6", FontSize=50 };
-            TextBox Description1 = new TextBox() { InstanceName = "Description1", FontSize=50 };
-            TextBox Description2 = new TextBox() { InstanceName = "Description2", FontSize=50 };
-            TextBox Description3 = new TextBox() { InstanceName = "Description3", FontSize=50 };
-            TextBox Description4 = new TextBox() { InstanceName = "Description4", FontSize=50 };
-            TextBox Description5 = new TextBox() { InstanceName = "Description5", FontSize=50 };
+            TextBox Description1 = new TextBox() { InstanceName = "Description1", FontSize=50, Width = 500 };
+            TextBox Description2 = new TextBox() { InstanceName = "Description2", FontSize=50, Width = 500 };
+            TextBox Description3 = new TextBox() { InstanceName = "Description3", FontSize=50, Width = 500 };
+            TextBox Description4 = new TextBox() { InstanceName = "Description4", FontSize=50, Width = 500 };
+            TextBox Description5 = new TextBox() { InstanceName = "Description5", FontSize=50, Width = 500 };
             TextBox Description6 = new TextBox() { InstanceName = "Description6", FontSize=50 };
             TextBox FormulaText1 = new TextBox() { InstanceName = "FormulaText1", FontSize=50 };
             TextBox FormulaText2 = new TextBox() { InstanceName = "FormulaText2", FontSize=50 };
@@ -132,7 +132,6 @@ namespace Application
             Formula2.WireTo(dfc1, "operands"); // (Formula (Formula2).operands) -- [IDataFlowB<double>] --> (DataFlowConnector<double> (dfc1).outputsB)
             Formula3.WireTo(dfc1, "operands"); // (Formula (Formula3).operands) -- [IDataFlowB<double>] --> (DataFlowConnector<double> (dfc1).outputsB)
             Formula4.WireTo(dfc1, "operands"); // (Formula (Formula4).operands) -- [IDataFlowB<double>] --> (DataFlowConnector<double> (dfc1).outputsB)
-            Formula3.WireTo(dfc1, "operands"); // (Formula (Formula3).operands) -- [IDataFlowB<double>] --> (DataFlowConnector<double> (dfc1).outputsB)
             Formula5.WireTo(dfc1, "operands"); // (Formula (Formula5).operands) -- [IDataFlowB<double>] --> (DataFlowConnector<double> (dfc1).outputsB)
             Formula6.WireTo(dfc1, "operands"); // (Formula (Formula6).operands) -- [IDataFlowB<double>] --> (DataFlowConnector<double> (dfc1).outputsB)
             dfc1.WireTo(id_a1c68c7d54d74033b59a294accc0320b, "outputs"); // (DataFlowConnector<double> (dfc1).outputs) -- [IDataFlow<T>] --> (NumberToString (id_a1c68c7d54d74033b59a294accc0320b).input)
