@@ -1,23 +1,30 @@
-# AUT Workshop 2020 
+# ReactiveCalculator 
 
-This is a repository for a workshop on ALA (https://abstractionlayeredarchitecture.com)
+This project was originally a workshop for ALA (Abstraction Layered Architecture) reference here: (https://abstractionlayeredarchitecture.com)
 
-The code is a Hello world program in ALA and C# for Visual Studio on Windows.
+The exercise was to write a calculator using ALA (in C# for Visual Studio on Windows).
 
-It contains the ALA layer folders:
+# The calculator
+
+I have had a long standing interest in calculators, and over the years owned many HP RPN calcultors. I eventually became depondent with them when they had large dot matrix displays. I felt they never used the display real estate well. The calculator we develop here is the calculator that these calculators should have been, and what all computer or phone calculators should be.
+
+
+
+
+# Folders and files
+
+The project contains the four folders that correspond to the four normal layers of ALA:
 
 * Application
 * Domain Abstractions
 * Programming Paradigms
+* Library
 
-Inside the Application folder is the Hello world program, which we will modify to during various exercises, all toward a cool application.
-Inside the Domain Abstractions folder are a few abstractions for us to use in the exercises.
-Inside the ProgrammingParadigms folder are some interfaces that the abstractions use to allow them to be wired together in different ways.
+Inside the Application folder is a Hello world application, which is the starting point for writing the calculators, and two versions of the calculator.
+Inside the Domain Abstractions folder are a few pre-written reuseable abstractions for the applications to use.
+Inside the ProgrammingParadigms folder are some interfaces that the abstractions use to allow them to be wired together in different ways and execute at run-time.
 Inside the Library folder is the WireTo extension method that the applications use to do the wiring. 
 
-Inside the ProgrammingParadigms folder are some interfaces that the abstractions use to allow them to be wired together in different ways.
-
-Inside the Library folder is the WireTo extension method that the applications use to do the wiring. 
 
 ## Getting started
 
@@ -39,7 +46,7 @@ Inside the Library folder is the WireTo extension method that the applications u
     
 5. Inside the Git Bash terminal clone the repository with the command:
     ```
-    $ git clone https://github.com/john-spray/AUTWorkshop2020.git
+    $ git clone https://github.com/john-spray/ReactiveCalculator.git
     ```
     ![Git_Clone](/images/Git_Clone.PNG)
 
@@ -57,7 +64,7 @@ Inside the Library folder is the WireTo extension method that the applications u
     
 9. Click on 'release' on the main AUTWorkshop2020 page of Github or click on this link:
 
-    https://github.com/john-spray/AUTWorkshop2020/releases
+    https://github.com/john-spray/ReactiveCalculator/releases
 
     Click "Download the XMindParser here" to download it. Save it anywhere on your computer. 
     In a Windows Explorer window, unzip it so that the tool's executable is ready to use during the workshop.
@@ -68,7 +75,7 @@ Inside the Library folder is the WireTo extension method that the applications u
 	
 	![Nuget_Package_Manager](/images/ScriptingNuget01.png)
 	
-	2. Click Browse and enter CodeAnalysis into the search box. Select "Microsoft.CodeAnalysis.CSharp.Scripting". Tick AUTWorkShop and Click Install.
+	2. Click Browse and enter CodeAnalysis into the search box. Select "Microsoft.CodeAnalysis.CSharp.Scripting". Tick ReactiveCalculator and Click Install.
 	
 	![CodeAnalysis](/images/ScriptingNuget02.png)
 	
