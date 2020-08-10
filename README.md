@@ -6,8 +6,11 @@ The exercise was to write a calculator using ALA (in C# for Visual Studio on Win
 
 # The calculator
 
-I have had a long standing interest in calculators, and over the years owned many HP RPN calcultors. I eventually became depondent with them when they had large dot matrix displays. I felt they never used the display real estate well. The calculator we develop here is the calculator that these calculators should have been, and what all computer or phone calculators should be.
+I have had a long standing interest in calculators, and over the years owned many HP RPN calcultors. 
 
+I eventually became despondent with them when they had large dot matrix displays. I felt they never used the display real estate well. They didn't show you the formula that you had used to get the answer so you could check what you had done. They didn't allow you to edit the formula in situ. They didn't allow you to have multiple formulas at the same time, and to name each formula result, and put in the units and a description. They didn't let you string multiple formulas together, referring to the names of other formula results. They didn't re-evaluate through all the dependencies if you changed an input value or formula. 
+
+The calculator we develop here is the calculator that these calculators should have been, and what all computer or phone calculators should be at a minimum.
 
 
 
