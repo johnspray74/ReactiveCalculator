@@ -118,6 +118,7 @@
     <Compile Include="DomainAbstractions\Button.cs" />
     <Compile Include="DomainAbstractions\ConvertToEvent.cs" />
     <Compile Include="DomainAbstractions\Data.cs" />
+    <Compile Include="DomainAbstractions\DataFlowBNull.cs" />
     <Compile Include="DomainAbstractions\FileReaderWriter.cs" />
     <Compile Include="DomainAbstractions\Horizontal.cs" />
     <Compile Include="DomainAbstractions\IfElse.cs" />
@@ -150,6 +151,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="StoryAbstractions\CalculatorRow.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
