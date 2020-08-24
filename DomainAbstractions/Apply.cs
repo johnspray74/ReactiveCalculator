@@ -17,9 +17,10 @@ namespace DomainAbstractions
     public class Apply<T1, T2> : IDataFlow<T1>
     {
         // Properties
-        public string InstanceName = "Default";
+        public string InstanceName { get; set; } = "Default";
+
         public delegate T2 LambdaDelegate(T1 x);
-        public LambdaDelegate Lambda;
+        public LambdaDelegate Lambda { private get; set; }
 
         // Private fields
         private T1 lastInput = default;

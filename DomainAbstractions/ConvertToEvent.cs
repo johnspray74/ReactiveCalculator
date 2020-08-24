@@ -13,13 +13,15 @@ namespace DomainAbstractions
     public class ConvertToEvent<T> : IDataFlow<T>
     {
         // Properties
-        public string InstanceName = "Default";
+        public string InstanceName { get; set; } = "Default";
 
-        // Private fields
-        private T data = default;
 
         // Ports
         private IEvent eventOutput;
+
+
+        // Private fields
+        private T data = default;
 
         /// <summary>
         /// Converts any kind of IDataFlow to an IEvent.

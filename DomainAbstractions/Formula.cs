@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
@@ -11,8 +12,8 @@ namespace DomainAbstractions
 {
     /// <summary>
     /// <para>Applies a formula (described by a lambda) on inputs of type double and returns an output of type double.</para>
-    /// <para>The formula can be configured by the application at design-time by setting the Formula property e.g. Formula="(P1,P2)&eq;&gt;P1+P2".</para>
-    /// <para>Or, the formula can be received at run-time on the third port described below (in the same string format).</para>
+    /// <para>The formula can be configured by the application at design-time by setting the Lambda property e.g. Lambda=(P1,P2)&eq;&gt;P1+P2.</para>
+    /// <para>Or, the formula can be received at run-time on the first port described below (in the same string format).</para>
     /// <para>Ports:</para>
     /// <para>1. IDataFlow&lt;string&gt; Formula: (Implemented Port) A string containing the formula that can change at run-time.</para>
     /// <para>2. List&lt;IDataFlowB&lt;double&gt;&gt; operands: The input operands for the operation.</para>
@@ -21,10 +22,11 @@ namespace DomainAbstractions
     public class Formula : IDataFlow<string>
     {
         // Properties
-        public string InstanceName = "Default";
+        public string InstanceName { get; set; } = "Default";
         // public delegate double LambdaDelegate(List<double> operands);
         // public LambdaDelegate Lambda; // optional
-        public Func<double, double, double, double, double, double, double> Lambda;
+
+        public Func<double, double, double, double, double, double, double> Lambda { private get; set; }
 
         // Ports
         // The IDatFlow<string> implemented interface is the formulaText where the formula can be passed in at runtime (optional)

@@ -20,29 +20,31 @@ namespace DomainAbstractions
     public class TextBox : IUI, IDataFlow<string>, IDataFlowB<string>, IEvent
     {
         // properties
-        public string InstanceName = "Default";
+        public string InstanceName { get; set; } = "Default";
         public HorizontalAlignment horizontalAlignment { set => textBox.HorizontalAlignment = value; }
         public double Margin { set => textBox.Margin = new Thickness(value,value,value,value); }
         // public double Height { set => textBox.Height = value; }
         // public double MinWidth { set => textBox.MinWidth = value; }
         public double FontSize { set => textBox.FontSize = value; }
-        public string Text
-        {
-            set
-            {
-                textBox.Text = value;
-                text = value;
-            }
-        }
+        public string Text { set { textBox.Text = value; text = value; } }
 
-        // TextBox overlaps with Systems.Windows.Controls.TextBox if we have "using System.Windows.Controls;"
-        private System.Windows.Controls.TextBox textBox = new System.Windows.Controls.TextBox();
+
+
+
+        // ports
+        private IDataFlow<string> textOutput;
+
+
+
+
 
         // Fields
         private string text;
+        // TextBox overlaps with Systems.Windows.Controls.TextBox if we have "using System.Windows.Controls;"
+        private System.Windows.Controls.TextBox textBox = new System.Windows.Controls.TextBox();
 
-        // Outputs
-        private IDataFlow<string> textOutput;
+
+
 
         /// <summary>
         /// <para>Contains a WPF TextBox and both implements and provides ports for setting/getting the text inside.</para>

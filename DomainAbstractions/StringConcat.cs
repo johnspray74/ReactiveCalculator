@@ -19,8 +19,8 @@ namespace DomainAbstractions
     public class StringConcat
     {
         // Properties ---------------------------------------------------------------
-        public string InstanceName = "Default";
-        public string Separator = "";
+        public string InstanceName { get; set; } = "Default";
+        public string Separator { private get; set; } = "";
 
         // Ports ---------------------------------------------------------------
         private List<IDataFlowB<string>> inputs;

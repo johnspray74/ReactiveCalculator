@@ -20,12 +20,10 @@ namespace DomainAbstractions
     public class Data<T> : IEvent,  IDataFlow<T>, IDataFlowB<T>
     {
         // Properties
-        public string InstanceName = "Default";
-        public bool Perishable = false;
-        public int PerishCount = 1; // Data cannot be pushed or pulled after it has been sent this amount of times
-
-        // Public fields
-        public T storedData = default(T);
+        public string InstanceName { get; set; } = "Default";
+        public bool Perishable { get; set; } = false;
+        public int PerishCount { get; set; } = 1; // Data cannot be pushed or pulled after it has been sent this amount of times
+        public T storedData { get; set; } = default(T);
 
         // Private fields
         private int numTimesSent = 0;

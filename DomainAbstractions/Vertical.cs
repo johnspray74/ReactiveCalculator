@@ -14,17 +14,19 @@ namespace DomainAbstractions
     public class Vertical : IUI, IDataFlow<bool>
     {
         // properties
-        public string InstanceName = "Default";
+        public string InstanceName { get; set; } = "Default";
 
         /// <summary>
         /// Layout of it's sub elements, 0 for auto sizing, 2 for averagely sharing
         /// </summary>
-        public int[] Layouts { get; set; }  = new int[0];
+        public int[] Layouts { private get; set; }  = new int[0];
         public Thickness Margin { set => gridPanel.Margin = value; }
         public Visibility Visibility { set => gridPanel.Visibility = value;}
-        public HorizontalAlignment? HorizAlignment;
 
-        // outputs
+
+        public HorizontalAlignment? HorizAlignment { private get; set; }
+
+        // ports
         private List<IUI> children = new List<IUI>();
 
         // private fields

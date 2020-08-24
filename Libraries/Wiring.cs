@@ -9,11 +9,13 @@ namespace Libraries
     public static class Wiring
     {
 
-        private delegate void InitializeDelegate();
+        private delegate void PostWiringInitializeDelegate();
         public delegate void OutputDelegate(string output);
 
         private static string firstPortName;
-        private static event InitializeDelegate Initialize;
+        private static event PostWiringInitializeDelegate PostWiringInitializeEvent;
+        private static List<PostWiringInitializeDelegate> PostWiringInitializeDelegateList = new List<PostWiringInitializeDelegate>();
+        private static int PostWiringPriority = 0;
         public static event OutputDelegate Output;
 
         /// <summary>
@@ -70,10 +72,10 @@ namespace Libraries
             // A.list.Add( (<type of interface>)B );
 
             // Get the two instance name first for the Debug Output WriteLines
-            var AinstanceName = A.GetType().GetProperties().FirstOrDefault(f => f.Name == "instanceName")?.GetValue(A);
-            if (AinstanceName == null) AinstanceName = A.GetType().GetFields().FirstOrDefault(f => f.Name == "instanceName")?.GetValue(A);
-            var BinstanceName = B.GetType().GetProperties().FirstOrDefault(f => f.Name == "instanceName")?.GetValue(B);
-            if (BinstanceName == null) BinstanceName = B.GetType().GetFields().FirstOrDefault(f => f.Name == "instanceName")?.GetValue(B);
+            var AinstanceName = A.GetType().GetProperties().FirstOrDefault(f => f.Name == "InstanceName")?.GetValue(A);
+            if (AinstanceName == null) AinstanceName = A.GetType().GetFields().FirstOrDefault(f => f.Name == "InstanceName")?.GetValue(A);
+            var BinstanceName = B.GetType().GetProperties().FirstOrDefault(f => f.Name == "InstanceName")?.GetValue(B);
+            if (BinstanceName == null) BinstanceName = B.GetType().GetFields().FirstOrDefault(f => f.Name == "InstanceName")?.GetValue(B);
 
 
             var BType = B.GetType();
@@ -165,15 +167,20 @@ namespace Libraries
                     var AfieldInfo = AfieldInfos.FirstOrDefault();
                     if (AfieldInfo?.GetValue(A) != null) throw new Exception($"Port already wired {A.GetType().Name}[{AinstanceName}].{APortName} to {BType.Name}[{BinstanceName}]");
                 }
-                //throw new Exception($"Failed to wire {A.GetType().Name}[{AinstanceName}].{APortName} to {BType.Name}[{BinstanceName}]");
+                throw new Exception($"Failed to wire {A.GetType().Name}[{AinstanceName}].{APortName} to {BType.Name}[{BinstanceName}]");
             }
 
             var method = A.GetType().GetMethod("PostWiringInitialize", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
             if (method != null)
             {
-                InitializeDelegate handler = (InitializeDelegate)Delegate.CreateDelegate(typeof(InitializeDelegate), A, method);
-                Initialize -= handler;  // instances can be wired to/from more than once, so only register their PostWiringInitialize once
-                Initialize += handler;
+                PostWiringInitializeDelegate handler = (PostWiringInitializeDelegate)Delegate.CreateDelegate(typeof(PostWiringInitializeDelegate), A, method);
+                PostWiringInitializeEvent -= handler;  // instances can be wired to/from more than once, so only register their PostWiringInitialize once
+                PostWiringInitializeEvent += handler;
+
+                // list of delegates alternative to a single event. This allows ordering of the handlers by adding to the list
+
+                PostWiringInializeAddHandler(handler);                
+                
             }
             /*
             method = B.GetType().GetMethod("PostWiringInitialize", System.Reflection.BindingFlags.NonPublic);
@@ -247,9 +254,50 @@ namespace Libraries
             return A;
         }
 
+        private static void PostWiringInializeAddHandler(PostWiringInitializeDelegate handler)
+        {
+            while (PostWiringInitializeDelegateList.Count <= PostWiringPriority)
+            {
+                // PostWiringInitializeDelegateList.Add(new PostWiringInitializeDelegate(handler));
+                PostWiringInitializeDelegateList.Add(null);
+            }
+            // else
+            {
+                PostWiringInitializeDelegateList[PostWiringPriority] -= handler;
+                PostWiringInitializeDelegateList[PostWiringPriority] += handler;
+            }
+        }
+
+
+/// <summary>
+/// This pair of function allows nested priorities of PostWiring functions. The ones nested innermost run last. This allows a PostWiring function to do some inner wiring, and then that inner wiring PostChanges will run after.
+/// </summary>
+public static void PostWiringInitializeDecreasePriority()
+        {
+            PostWiringPriority += 1;
+        }
+
+
+        public static void PostWiringInitializeIncreasePriority()
+        {
+            if (PostWiringPriority==0) throw new Exception("PostWiringInitializeIncreasePriority must be after a matching PostWiringInitializeDecreasePriority");
+            PostWiringPriority -= 1;
+        }
+
+
         public static void PostWiringInitialize()
         {
-            Initialize?.Invoke();
+            // PostWiringInitializeEvent?.Invoke();  // code from before we introduced priorities to PostWiring
+            for (int i = 0; i<PostWiringInitializeDelegateList.Count; i++)  // because collection is modified during the looping
+            // foreach (PostWiringInitializeDelegate p in PostWiringInitializeDelegateList)
+            {
+                PostWiringInitializeDelegate p = PostWiringInitializeDelegateList[i];
+                PostWiringInitializeDecreasePriority(); // If any new PostWiringInitialize methods are added by the ones we are about to invoke, they will go into the next delegate in the list so they are all done after these ones.
+                p?.Invoke();
+                p = null;
+                PostWiringInitializeIncreasePriority();
+            }
+            
         }
 
         private static void WriteLine(string output)

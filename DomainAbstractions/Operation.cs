@@ -18,16 +18,18 @@ namespace DomainAbstractions
     public class Operation<T> : IEvent
     {
         // Properties
-        public string InstanceName = "Default";
-        public delegate T OperationDelegate(List<T> operands);
-        public OperationDelegate Lambda;
+        public string InstanceName { get; set; } = "Default";
 
-        // Private fields
-        private T operationResult = default;
+        public delegate T OperationDelegate(List<T> operands);
+        // private OperationDelegate _Lambda;
+        public OperationDelegate Lambda { private get; set; }
 
         // Ports
         private List<IDataFlowB<T>> operands;
         private IDataFlow<T> operationResultOutput;
+
+        // Private fields
+        private T operationResult = default;
 
         /// <summary>
         /// <para>Applies an operation (described by a lambda) on inputs of type T and returns an output of type T.</para>

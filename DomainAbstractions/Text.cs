@@ -14,25 +14,16 @@ namespace DomainAbstractions
     public class Text : IUI, IDataFlow<string>, IDataFlow<bool>
     {
         // properties
-        public string InstanceName = "Default";
-        public Brush Color = Brushes.Black;
-        public Brush Background;
-        public double HeightRatio;
-        public Thickness Margin;
-        public Thickness Padding;
-        public bool ShowBorder = false;
-        public HorizontalAlignment HorizAlignment
-        {
-            set => textBlock.HorizontalAlignment = value;
-        }
+        public string InstanceName { get; set; } = "Default";
+        public Brush Color { private get; set; } = Brushes.Black;
+        public Brush Background { private get; set; }
+        public double HeightRatio { private get; set; }
+        public Thickness Margin { private get; set; }
+        public Thickness Padding { private get; set; }
+        public bool ShowBorder { private get; set; } = false;
+        public HorizontalAlignment HorizAlignment { set => textBlock.HorizontalAlignment = value; }
 
-        public Visibility Visibility
-        {
-            set
-            {
-                textBlock.Visibility = value;
-            }
-        }
+        public Visibility Visibility { set => textBlock.Visibility = value; }
 
         // properties for customizing UI
         public FontWeight FontWeight { set => textBlock.FontWeight = value; }

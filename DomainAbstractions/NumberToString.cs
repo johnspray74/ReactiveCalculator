@@ -13,8 +13,8 @@ namespace DomainAbstractions
     public class NumberToString : IDataFlow<double>
     {
         // Properties
-        public string InstanceName = "Default";
-        public string NanDisplay = "";
+        public string InstanceName { get; set; } = "Default";
+        public string NanDisplay { get; set; } = "";
 
         // Ports
         private IDataFlow<string> output;

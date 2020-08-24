@@ -14,7 +14,7 @@ namespace DomainAbstractions
     public class StringFormat<T> : IDataFlow<T>
     {
         // properties
-        public string InstanceName = "Default";
+        public string InstanceName { get; set; } = "Default";
 
         // ports
         // The IDataFlow implemented interface is input0

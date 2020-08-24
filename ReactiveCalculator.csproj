@@ -137,6 +137,7 @@
     <Compile Include="Libraries\Wiring.cs" />
     <Compile Include="ProgrammingParadigms\DataFlowConnector.cs" />
     <Compile Include="ProgrammingParadigms\EventConnector.cs" />
+    <Compile Include="ProgrammingParadigms\IFactoryMethod.cs" />
     <Compile Include="ProgrammingParadigms\IUI.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -152,6 +153,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="StoryAbstractions\CalculatorRow.cs" />
+    <Compile Include="StoryAbstractions\Multiple.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

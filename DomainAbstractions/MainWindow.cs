@@ -24,14 +24,14 @@ namespace DomainAbstractions
     public class MainWindow : IEvent, IDataFlow<bool>
     {
         // Properties -----------------------------------------------------------------
-        public string InstanceName = "Default";
-
-        // Private fields -----------------------------------------------------------------
-        private Window window;
+        public string InstanceName { get; set; } = "Default";
 
         // Ports -----------------------------------------------------------------
         private IUI iuiStructure;
         private IEvent appStart;
+
+        // Private fields -----------------------------------------------------------------
+        private Window window;
 
         /// <summary>
         /// Generates the main UI window of the application and emits a signal that the Application starts running.

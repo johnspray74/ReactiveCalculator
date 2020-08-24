@@ -15,7 +15,7 @@ namespace DomainAbstractions
     /// <typeparam name="T"></typeparam>
     class DataFlowBNull<T> : IDataFlowB<T>
     {
-        public string InstanceName = "Default";
+        public string InstanceName { get; set; } = "Default";
 
         // ports
         // (implemented) IDateFlowB (output) 

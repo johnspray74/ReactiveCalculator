@@ -16,12 +16,12 @@ namespace DomainAbstractions
 
     public class TabContainer : IUI
     {
-        //outputs
-        private List<IUI> childrenTabs = new List<IUI>();
-
         // properties
-        public string InstanceName = "Default";
+        public string InstanceName { get; set; } = "Default";
         public Thickness Margin { set => tabControl.Margin = value; }
+
+        // ports
+        private List<IUI> childrenTabs = new List<IUI>();
 
         //private fields
         private TabControl tabControl;

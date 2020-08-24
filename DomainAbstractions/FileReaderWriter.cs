@@ -14,8 +14,8 @@ namespace DomainAbstractions
     /// </summary>
     public class FileReaderWriter : IDataFlow<string>, IEvent
     {
-        // Public fields and properties
-        public string InstanceName = "Default";
+        // Properties
+        public string InstanceName { get; set; } = "Default";
 
         public bool WatchFile
         {
@@ -23,13 +23,13 @@ namespace DomainAbstractions
             set => watcher.EnableRaisingEvents = value;
         }
 
+        // Ports
+        private IDataFlow<string> textContentOutput;
+
         // Private fields
         private string fullPath = "";
         private string textContent = "";
         private FileSystemWatcher watcher = new FileSystemWatcher();
-
-        // Ports
-        private IDataFlow<string> textContentOutput;
 
         public FileReaderWriter(string url)
         {
