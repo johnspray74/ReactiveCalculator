@@ -10,7 +10,7 @@ I have had a long standing interest in calculators, and over the years owned man
 
 I eventually became despondent with them when they had large dot matrix displays. I felt they never used the display real estate well. They didn't show you the formula that you had used to get the answer so you could check what you had done. They didn't allow you to edit the formula in situ. They didn't allow you to have multiple formulas at the same time, and to name each formula result, and put in the units and a description. They didn't let you string multiple formulas together, referring to the names of other formula results. They didn't re-evaluate through all the dependencies if you changed an input value or formula. 
 
-The calculator we develop here is the calculator that these calculators should have been, and what all computer or phone calculators should be at a minimum.
+The calculator we develop here is the calculator that these calculators should have been, and what all computer or phone calculators should be at a minimum:
 
 ![Reactive calculator](/images/CalculatorScreenshot2.png)
 
@@ -19,14 +19,16 @@ The calculator we develop here is the calculator that these calculators should h
 The project contains the four folders that correspond to the four normal layers of ALA:
 
 * Application
+* Requirement Abstractions
 * Domain Abstractions
 * Programming Paradigms
 * Library
 
-Inside the Application folder is a Hello world application, which is the starting point for writing the calculators, and two versions of the calculator.
-Inside the Domain Abstractions folder are a few pre-written reuseable abstractions for the applications to use.
-Inside the ProgrammingParadigms folder are some interfaces that the abstractions use to allow them to be wired together in different ways and execute at run-time.
-Inside the Library folder is the WireTo extension method that the applications use to do the wiring. 
+Inside the Application folder is a Hello world application, which is the starting point for writing the calculators, and development versions of the calculator.
+Inside the Requirement Abstractions layer is an abstraction that implements a commonly recurring abstraction in the requirements, a calculatorRow (see the image above)
+Inside the Domain Abstractions folder are a few pre-written reuseable abstractions for the Application and Requirements Abstractions layers to use.
+Inside the ProgrammingParadigms folder are some interfaces that allow instances of abstractions to be wired together in different ways and execute at run-time.
+Inside the Library folder is the WireTo extension method that the Applications and Requirements abstractions layers use to wire up those instances. 
 
 
 ## Getting started
