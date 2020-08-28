@@ -12,7 +12,7 @@ I eventually became despondent with them when they had large dot matrix displays
 
 The calculator we develop here is the calculator that these calculators should have been, and what all computer or phone calculators should be at a minimum.
 
-
+![Reactive calculator](/images/CalculatorScreenshot2.png)
 
 # Folders and files
 
