@@ -5,8 +5,9 @@ using System.Windows;
 using Libraries;
 using ProgrammingParadigms;
 using DomainAbstractions;
+using ALASandbox.ProgrammingParadigms;
 
-namespace StoryAbstractions
+namespace RequirementsAbstractions
 {
     // TBD
     // Move the generated wiring code to its own function so that it can be called at runtime
@@ -115,14 +116,15 @@ namespace StoryAbstractions
         // Method 1 : use a DataFlowConnector object. Our boundary interface then has an event handler that gives the data to the connector
         // Method 2 : An object that implements IDataFlowB<string> will be wired to us from outside. We will have a reference to it in labelsCommaSeparated after that wiring is done. So wire the inner object directly to the object outside by copying the reference. The outside object is not wired to us when we are being constructed, so need to do it on the PostWiring event.
 
-        private IDataFlow<string> labelsCommaSeparatedInternalConnector = new DataFlowConnector<string>() { InstanceName = @"{this.InstanceName}_labelsCommaSeparatedInternalConnector" };  // method 1
+        // private IDataFlow<string> labelsCommaSeparatedInternalConnector = new DataFlowConnector<string>() { InstanceName = @"{this.InstanceName}_labelsCommaSeparatedInternalConnector" };  // method 1
         private IDataFlowB<string> labelsCommaSeparatedInternal; // method 2
 
+        /*
         private void labelsCommaSeparatedChangedHandler()  // method 1
         {
             labelsCommaSeparatedInternalConnector.Data = labelsCommaSeparated.Data;
         }
-
+        */
 
 
 
@@ -140,10 +142,10 @@ namespace StoryAbstractions
             // BEGIN AUTO-GENERATED INSTANTIATIONS FOR CalculatorRow.xmind
             DataFlowBNull<string> id_b9e566abb4cc42d1a7d3927615231c50 = new DataFlowBNull<string>() { InstanceName = "dfbn" };
             DataFlowConnector<double> dfc1 = new DataFlowConnector<double>() { InstanceName = "dfc1" };
-            DataFlowConnector<string> id_65f22d8aa160470e8da02d0fce01edca = new DataFlowConnector<string>() { InstanceName = "Default" };
+            DataFlowConnector<string> id_65f22d8aa160470e8da02d0fce01edca = new DataFlowConnector<string>() { InstanceName = "dfc2" };
             Formula Formula1 = new Formula() { InstanceName = "Formula1" };
-            Horizontal id_6fe26e8021c64d8dad4e5b6016f7b659 = new Horizontal() { InstanceName = "Default", Ratios = new int[] { 1, 2, 2, 1, 3 }, MinWidths = new int[] { 50, 200, 520 } };
-            NumberToString id_4c9cb86bce4544fe90c628e9eaecbcec = new NumberToString() { InstanceName = "Default" };
+            Horizontal id_6fe26e8021c64d8dad4e5b6016f7b659 = new Horizontal() { InstanceName = "horizontal", Ratios = new int[] { 1, 2, 2, 1, 3 }, MinWidths = new int[] { 50, 200, 520 } };
+            NumberToString id_4c9cb86bce4544fe90c628e9eaecbcec = new NumberToString() { InstanceName = "numberToString" };
             StringFormat<string> sf1 = new StringFormat<string>("({1})=>{0}") { InstanceName = "sf1" };
             Text Result1 = new Text() { InstanceName = "Result1", FontSize = 50 };
             TextBox Description1 = new TextBox() { InstanceName = "Description1", FontSize = 50 };
@@ -153,8 +155,19 @@ namespace StoryAbstractions
             // END AUTO-GENERATED INSTANTIATIONS FOR CalculatorRow.xmind
 
 
-             id_b9e566abb4cc42d1a7d3927615231c50.InstanceName = @"{InstanceName}_{id_b9e566abb4cc42d1a7d3927615231c50.InstanceName}";
-
+            id_b9e566abb4cc42d1a7d3927615231c50.InstanceName = $"{InstanceName}_{id_b9e566abb4cc42d1a7d3927615231c50.InstanceName}";
+            dfc1.InstanceName = $"{InstanceName}_{dfc1.InstanceName}";
+            dfc1.InstanceName = $"{InstanceName}_{dfc1.InstanceName}";
+            id_65f22d8aa160470e8da02d0fce01edca.InstanceName = $"{InstanceName}_{id_65f22d8aa160470e8da02d0fce01edca.InstanceName}";
+            Formula1.InstanceName = $"{InstanceName}_{Formula1.InstanceName}";
+            id_6fe26e8021c64d8dad4e5b6016f7b659.InstanceName = $"{InstanceName}_{id_6fe26e8021c64d8dad4e5b6016f7b659.InstanceName}";
+            id_4c9cb86bce4544fe90c628e9eaecbcec.InstanceName = $"{InstanceName}_{id_4c9cb86bce4544fe90c628e9eaecbcec.InstanceName}";
+            sf1.InstanceName = $"{InstanceName}_{sf1.InstanceName}";
+            Result1.InstanceName = $"{InstanceName}_{Result1.InstanceName}";
+            Description1.InstanceName = $"{InstanceName}_{Description1.InstanceName}";
+            FormulaText1.InstanceName = $"{InstanceName}_{FormulaText1.InstanceName}";
+            Label1.InstanceName = $"{InstanceName}_{Label1.InstanceName}";
+            Units1.InstanceName = $"{InstanceName}_{Units1.InstanceName}";
 
             // BEGIN AUTO-GENERATED WIRING FOR CalculatorRow.xmind
             id_6fe26e8021c64d8dad4e5b6016f7b659.WireTo(Label1, "children"); // (Horizontal (id_6fe26e8021c64d8dad4e5b6016f7b659).children) -- [List<IUI>] --> (TextBox (Label1).child)
@@ -187,10 +200,26 @@ namespace StoryAbstractions
 
             label1.DataChanged += labelChangedHandler;
             resultConnector.DataChanged += resultChangedHandler;
-            labelsCommaSeparated.DataChanged += labelsCommaSeparatedChangedHandler; // method 1
+            // labelsCommaSeparated.DataChanged += labelsCommaSeparatedChangedHandler; // method 1
             labelsCommaSeparatedInternal.WireTo(labelsCommaSeparated);  // method 2  labelsCommaSeparated has already been wired to an external implmentor of IDataFlowB, wire the interal wiring to that same external place. When the event goes off, only the internal wiring one will react and get the data.
             foreach (IDataFlowB<double> operand in operands) formulaInternal.WireTo(operand); // method2 operands is a list of IDataFlowB<doubles> which have by now been wired to multiple external implementors of IDataFlowB<double>. Wire the internal formulas operands to the same places.
         }
 
+    }
+
+
+    
+    /// <summary>
+    /// This class allows CalculatorRow to be manufactured as needed in an ALA wiring diagram.
+    /// If CalculatorRows are static in the diagram just use CalculatorRow directly
+    /// </summary>
+    class CalculatorRowFactory : IFactoryMethod
+    {
+        public string InstanceName { get; set; } = "CalculatorRowFactory";
+
+        object IFactoryMethod.FactoryMethod(string InstanceName)
+        {
+            return new CalculatorRow() { InstanceName = InstanceName };
+        }
     }
 }

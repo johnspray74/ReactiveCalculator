@@ -1,11 +1,12 @@
-﻿using System;
+﻿using ALASandbox.ProgrammingParadigms;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StoryAbstractions
+namespace DomainAbstractions
 {
 
 
@@ -27,14 +28,22 @@ namespace StoryAbstractions
     /// </summary>
     class Multiple
     {
+        // properties
+        public string InstanceName { get; set; }
+
         public delegate void WiringDelegate(object instance);
         public WiringDelegate WiringMethod { private get; set; }
 
         public delegate void CrossWiringDelegate(object instance1, object instance2);
         public CrossWiringDelegate CrossWiringMethod { private get; set; }
 
-        public delegate object FactoryDelegate();
-        public FactoryDelegate FactoryMethod { private get; set; }
+        // public delegate object FactoryDelegate();
+        // public FactoryDelegate FactoryMethod { private get; set; }
+
+        // ports
+        private IFactoryMethod factory;
+
+
 
 
         private List<object> instances = new List<object>();
@@ -50,7 +59,7 @@ namespace StoryAbstractions
         {
             for (int i = 0; i < N; i++)
             {
-                object o = FactoryMethod();
+                object o = factory.FactoryMethod(InstanceName + i.ToString());
                 instances.Add(o);
                 WiringMethod(o);
             }

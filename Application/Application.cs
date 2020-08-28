@@ -3,7 +3,7 @@ using System;
 using Libraries;
 using ProgrammingParadigms;
 using DomainAbstractions;
-using StoryAbstractions;
+using RequirementsAbstractions;
 
 
 namespace Application
@@ -22,8 +22,8 @@ namespace Application
         private Application()
         {
             // Calculator6();
-            Calculator2RowsUsingCalculatorRowAbstractionTest();
-            // CalculatorNRows();
+            // Calculator2RowsUsingCalculatorRowAbstractionTest();
+            CalculatorNRows();
 
 
             // BEGIN manual instantiations
@@ -83,15 +83,37 @@ namespace Application
 
         private void CalculatorNRows()
         {
-            // BEGIN AUTO-GENERATED INSTANTIATIONS FOR Calculator2RowsUsingCalculatorRowAbstractionTest.xmind
-            // END AUTO-GENERATED INSTANTIATIONS FOR Calculator2RowsUsingCalculatorRowAbstractionTest.xmind
-                        
-            // BEGIN AUTO-GENERATED WIRING FOR Calculator2RowsUsingCalculatorRowAbstractionTest.xmind
-            // END AUTO-GENERATED WIRING FOR Calculator2RowsUsingCalculatorRowAbstractionTest.xmind
+            // BEGIN AUTO-GENERATED INSTANTIATIONS FOR CalculatorNRows.xmind
+            CalculatorRowFactory id_012306911dbe485c91ecd24bd35b2420 = new CalculatorRowFactory() { InstanceName = "Default" };
+            DataFlowConnector<string> labelsConcatenatorConnector = new DataFlowConnector<string>() { InstanceName = "labelsConcatenatorConnector" };
+            Horizontal id_24914ab245484fe1b70af8020ca2e831 = new Horizontal() { InstanceName = "Default", Ratios = new int[] { 1,2,2,1,3 }, MinWidths = new int[] { 50,200,520 } };
+            StringConcat labelsConcatenator = new StringConcat() { InstanceName = "labelsConcatenator", Separator="," };
+            Text id_39a7a11c94da4b338a92b2235b8e96d1 = new Text("Units" ) { InstanceName = "Default", FontSize=50 };
+            Text id_6be1dbef5dd042ba88554b4482b16079 = new Text("Formula" ) { InstanceName = "Default", FontSize=50 };
+            Text id_93a237ff714b48748a4ba10ede42d2dc = new Text("Description" ) { InstanceName = "Default", FontSize=50 };
+            Text id_96b879e17b4346e4b98484224e65d582 = new Text("Label" ) { InstanceName = "Default", FontSize=50 };
+            Text id_ccc54bcd38e14c10a5ba59d851191cc4 = new Text("Result" ) { InstanceName = "Default", FontSize=50 };
+            Text id_fc0b8f38b3c14f799f605cd54214b503 = new Text("Debug output" ) { InstanceName = "Default", FontSize=50 };
+            Vertical rows = new Vertical() { InstanceName = "rows" };
+            Multiple multipleCalculatorRows = new Multiple(N: 10) { InstanceName = "MultipleRow", WiringMethod = (newInstance) => { rows.WireTo(newInstance); labelsConcatenator.WireTo(newInstance, "inputs"); newInstance.WireTo(labelsConcatenatorConnector, "labelsCommaSeparated"); }, CrossWiringMethod = (instance1, instance2) => { instance2.WireFrom(instance1, "operands"); } };
+            // END AUTO-GENERATED INSTANTIATIONS FOR CalculatorNRows.xmind
+
+            // BEGIN AUTO-GENERATED WIRING FOR CalculatorNRows.xmind
+            mainWindow.WireTo(rows, "iuiStructure"); // (@MainWindow (mainWindow).iuiStructure) -- [IUI] --> (Vertical (rows).child)
+            labelsConcatenator.WireTo(labelsConcatenatorConnector, "output"); // (StringConcat (labelsConcatenator).output) -- [iDataFlow<string>] --> (DataFlowConnector<string> (labelsConcatenatorConnector).input)
+            rows.WireTo(id_24914ab245484fe1b70af8020ca2e831, "children"); // (Vertical (rows).children) -- [List<IUI>] --> (Horizontal (id_24914ab245484fe1b70af8020ca2e831).child)
+            rows.WireTo(id_fc0b8f38b3c14f799f605cd54214b503, "children"); // (Vertical (rows).children) -- [List<IUI>] --> (Text (id_fc0b8f38b3c14f799f605cd54214b503).child)
+            id_24914ab245484fe1b70af8020ca2e831.WireTo(id_96b879e17b4346e4b98484224e65d582, "children"); // (Horizontal (id_24914ab245484fe1b70af8020ca2e831).children) -- [List<IUI>] --> (Text (id_96b879e17b4346e4b98484224e65d582).child)
+            id_24914ab245484fe1b70af8020ca2e831.WireTo(id_6be1dbef5dd042ba88554b4482b16079, "children"); // (Horizontal (id_24914ab245484fe1b70af8020ca2e831).children) -- [List<IUI>] --> (Text (id_6be1dbef5dd042ba88554b4482b16079).child)
+            id_24914ab245484fe1b70af8020ca2e831.WireTo(id_ccc54bcd38e14c10a5ba59d851191cc4, "children"); // (Horizontal (id_24914ab245484fe1b70af8020ca2e831).children) -- [List<IUI>] --> (Text (id_ccc54bcd38e14c10a5ba59d851191cc4).child)
+            id_24914ab245484fe1b70af8020ca2e831.WireTo(id_39a7a11c94da4b338a92b2235b8e96d1, "children"); // (Horizontal (id_24914ab245484fe1b70af8020ca2e831).children) -- [List<IUI>] --> (Text (id_39a7a11c94da4b338a92b2235b8e96d1).child)
+            id_24914ab245484fe1b70af8020ca2e831.WireTo(id_93a237ff714b48748a4ba10ede42d2dc, "children"); // (Horizontal (id_24914ab245484fe1b70af8020ca2e831).children) -- [List<IUI>] --> (Text (id_93a237ff714b48748a4ba10ede42d2dc).child)
+            multipleCalculatorRows.WireTo(id_012306911dbe485c91ecd24bd35b2420, "factory"); // (CalculatorRowFactory (id_012306911dbe485c91ecd24bd35b2420).NEEDNAME) -- [IFactoryMethod] --> (Multiple (multipleCalculatorRows).factory)
+            // END AUTO-GENERATED WIRING FOR CalculatorNRows.xmind
         }
-                                                                                    
-                                                                                    
-                                                                                    
+
+
+
         private void Calculator6()
         {
             // BEGIN AUTO-GENERATED INSTANTIATIONS FOR Calculator6.xmind

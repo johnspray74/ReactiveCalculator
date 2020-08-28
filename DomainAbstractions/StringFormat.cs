@@ -1,5 +1,6 @@
 ﻿using ProgrammingParadigms;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Data;
 
 namespace DomainAbstractions
@@ -34,12 +35,9 @@ namespace DomainAbstractions
             format = literal;
         }
 
-        private void PostWiringInitialize()
+        private void inputsPostWiringInitialize()
         {
-            foreach (var f in inputs)
-            {
-                f.DataChanged += DataChanged;
-            }
+            inputs.Last().DataChanged += DataChanged;
         }
 
         private object _Para0;

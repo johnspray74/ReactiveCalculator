@@ -44,7 +44,9 @@ namespace ProgrammingParadigms
         // Private fields
 
         // Ports
-        private List<IDataFlow<T>> outputs = new List<IDataFlow<T>>();
+        // IDataFlow<T> input (implemented interface)
+        // IDataflowB<T> outputs supporting fanout via IDataFlowB (implemented interface)
+        private List<IDataFlow<T>> outputs = new List<IDataFlow<T>>(); // more outputs supporting fanout via IDataFlow
 
         /// <summary>
         /// Fans out a data flow to multiple data flows, or connect IDataFlow and IDataFlowB

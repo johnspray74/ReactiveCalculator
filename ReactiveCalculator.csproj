@@ -152,8 +152,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="StoryAbstractions\CalculatorRow.cs" />
-    <Compile Include="StoryAbstractions\Multiple.cs" />
+    <Compile Include="RequirementsAbstractions\CalculatorRow.cs" />
+    <Compile Include="DomainAbstractions\Multiple.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

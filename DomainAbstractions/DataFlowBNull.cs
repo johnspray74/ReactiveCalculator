@@ -24,7 +24,7 @@ namespace DomainAbstractions
 
         // input interface 
 
-        private void PostWiringInitialize()
+        private void inputPostWiringInitialize()
         {
             input.DataChanged += InputChangedHandler;
         }

@@ -33,24 +33,22 @@ namespace DomainAbstractions
         /// </summary>
         public StringConcat() { }
 
-        private void PostWiringInitialize()
-        {
-            foreach (IDataFlowB<string> inputPort in inputs)
+        // This function is called immediately after each time the inputs port is wired to something
+        private void inputsPostWiringInitialize()
+        { 
+            inputs.Last().DataChanged += () =>
             {
-
-                inputPort.DataChanged += () =>
+                var result = "";
+                bool first = true;
+                foreach (IDataFlowB<string> input in inputs)
                 {
-                    var result = "";
-                    bool first = true;
-                    foreach (IDataFlowB<string> input in inputs)
-                    {
-                        if (!first) result += Separator;
-                        first = false;
-                        result += input.Data;
-                    }
-                    output.Data = result;
-                };
-            }
+                    if (!first) result += Separator;
+                    first = false;
+                    result += input.Data;
+                }
+                output.Data = result;
+            };
         }
+
     }
 }

@@ -10,6 +10,6 @@ namespace ALASandbox.ProgrammingParadigms
     /// </summary>
     interface IFactoryMethod
     {
-        object FactoryMethod();
+        object FactoryMethod(string InstanceName);
     }
 }
