@@ -10,7 +10,7 @@ namespace Libraries
     public static class Wiring
     {
 
-        private delegate void PostWiringInitializeDelegate();
+        public delegate void PostWiringInitializeDelegate();
         public delegate void OutputDelegate(string output);
 
         private static string firstPortName;
@@ -53,27 +53,30 @@ namespace Libraries
         /// </remarks>
         public static T WireTo<T>(this T A, object B, string APortName = null, bool reverse = false)
         {
+            // achieve the following via reflection
+            // A.field = (<type of interface>)B;
+            // or
+            // A.list.Add( (<type of interface>)B );
+
             string multiportExceptionMessage = $"The following wiring failed because the two instances are already wired together by another port.";
             multiportExceptionMessage += "\nPlease use a new WireTo with this additional port name specified:";
 
+            // Get the two instance name first for the Debug Output WriteLines
+            var AinstanceName = A?.GetType().GetProperties().FirstOrDefault(f => f.Name == "InstanceName")?.GetValue(A);
+            if (AinstanceName == null) AinstanceName = A?.GetType().GetFields().FirstOrDefault(f => f.Name == "InstanceName")?.GetValue(A);
+            var BinstanceName = B?.GetType().GetProperties().FirstOrDefault(f => f.Name == "InstanceName")?.GetValue(B);
+            if (BinstanceName == null) BinstanceName = B?.GetType().GetFields().FirstOrDefault(f => f.Name == "InstanceName")?.GetValue(B);
+
+            string DiagnosticLine = $"Failed to wire {A?.GetType().Name}[{AinstanceName}].{APortName} to {B?.GetType().Name}[{BinstanceName}]";
+
             if (A == null)
             {
-                throw new ArgumentException("A cannot be null");
+                throw new ArgumentException("A cannot be null "+DiagnosticLine);
             }
             if (B == null)
             {
-                throw new ArgumentException("B cannot be null");
+                throw new ArgumentException("B cannot be null "+DiagnosticLine);
             }
-
-            // achieve the following via reflection
-            // A.field = (<type of interface>)B;
-            // A.list.Add( (<type of interface>)B );
-
-            // Get the two instance name first for the Debug Output WriteLines
-            var AinstanceName = A.GetType().GetProperties().FirstOrDefault(f => f.Name == "InstanceName")?.GetValue(A);
-            if (AinstanceName == null) AinstanceName = A.GetType().GetFields().FirstOrDefault(f => f.Name == "InstanceName")?.GetValue(A);
-            var BinstanceName = B.GetType().GetProperties().FirstOrDefault(f => f.Name == "InstanceName")?.GetValue(B);
-            if (BinstanceName == null) BinstanceName = B.GetType().GetFields().FirstOrDefault(f => f.Name == "InstanceName")?.GetValue(B);
 
 
             var BType = B.GetType();
@@ -170,6 +173,7 @@ namespace Libraries
                 }
             }
 
+
             // Logging.WriteToWiringLog();
 
             if (!reverse && !wiredSomething)
@@ -180,9 +184,10 @@ namespace Libraries
                     var AfieldInfo = AfieldInfos.FirstOrDefault();
                     if (AfieldInfo?.GetValue(A) != null) throw new Exception($"Port already wired {A.GetType().Name}[{AinstanceName}].{APortName} to {BType.Name}[{BinstanceName}]");
                 }
-                throw new Exception($"Failed to wire {A.GetType().Name}[{AinstanceName}].{APortName} to {BType.Name}[{BinstanceName}]");
+                throw new Exception(DiagnosticLine);
             }
 
+            /*
             var method = A.GetType().GetMethod("PostWiringInitialize", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
             if (method != null)
             {
@@ -190,6 +195,7 @@ namespace Libraries
                 PostWiringInializeAddHandler(handler);                
                
             }
+            */
             /*
             method = B.GetType().GetMethod("PostWiringInitialize", System.Reflection.BindingFlags.NonPublic);
             if (method != null)
@@ -265,7 +271,7 @@ namespace Libraries
 
 
         // PostWiringInitialize section
-
+/*
         // list of delegates alternative to a single event. This allows ordering of the handlers by adding to the list
         // Note that every delgate in the list is a single function, not a multicast. This allows us to see is handlers are already in the list more easily
         private static List<PostWiringInitializeDelegate> PostWiringInitializeDelegateList = new List<PostWiringInitializeDelegate>();
@@ -281,7 +287,7 @@ namespace Libraries
 
 
 
-        static int PostWiringInitializeIndex = 0; // This Index marks where delegates have been invoked up to in the list
+        private static int PostWiringInitializeIndex = 0; // This Index marks where delegates have been invoked up to in the list
         public static void PostWiringInitialize()
         {
 
@@ -293,92 +299,15 @@ namespace Libraries
 
         }
 
-        /*
-        private static int PostWiringPriority = -1;
-        private static void PostWiringInializeAddHandler(PostWiringInitializeDelegate handler)
+
+
+
+        public static void PostWiringCallMeBack(PostWiringInitializeDelegate handler)
         {
-            PostWiringPriority++;   // we can be called recursively when a PostWiringInitize function does some wiring. Put new handlers at the end of the list
-            while (PostWiringInitializeDelegateList.Count <= PostWiringPriority)
-            {
-                PostWiringInitializeDelegateList.Add(null);
-            }
-            {
-                PostWiringInitializeDelegateList[PostWiringPriority] -= handler;
-                PostWiringInitializeDelegateList[PostWiringPriority] += handler;
-            }
-
-            PostWiringPriority++;
+            PostWiringInializeAddHandler(handler);
         }
-        public static void PostWiringInitialize()
-        {
-            // PostWiringInitializeEvent?.Invoke();  // code from before we introduced priorities to PostWiring
-            for (int i = 0; i < PostWiringInitializeDelegateList.Count; i++)  // cant use foreach because collection is modified during the looping
-                                                                              // foreach (PostWiringInitializeDelegate p in PostWiringInitializeDelegateList)
-            {
-                PostWiringInitializeDelegate p = PostWiringInitializeDelegateList[i];
-                p?.Invoke();
-                PostWiringInitializeDelegateList[i] = null; // dont ever call them again 
-            }
+*/
 
-        }
-        */
-
-        /* old old 
-                /// <summary>
-                /// This pair of function allows nested priorities of PostWiring functions. The ones nested innermost run last. This allows a PostWiring function to do some inner wiring, and then that inner wiring PostChanges will run after.
-                /// </summary>
-                public static void PostWiringInitializeDecreasePriority()
-                {
-                    PostWiringPriority += 1;
-                }
-
-
-                public static void PostWiringInitializeIncreasePriority()
-                {
-                    if (PostWiringPriority==0) throw new Exception("PostWiringInitializeIncreasePriority must be after a matching PostWiringInitializeDecreasePriority");
-                    PostWiringPriority -= 1;
-                }
-
-        public static void PostWiringInitialize()
-        {
-            for (int i = 0; i < PostWiringInitializeDelegateList.Count; i++)  // cant use foreach because collection is modified during the looping
-                                                                              // foreach (PostWiringInitializeDelegate p in PostWiringInitializeDelegateList)
-            {
-                PostWiringInitializeDelegate p = PostWiringInitializeDelegateList[i];
-                p?.Invoke();
-                PostWiringInitializeDelegateList[i] = null; // dont ever call them again 
-            }
-
-        }
-
-                public static void PostWiringInitialize()
-                {
-                    // PostWiringInitializeEvent?.Invoke();  // code from before we introduced priorities to PostWiring
-                    for (int i = 0; i<PostWiringInitializeDelegateList.Count; i++)  // because collection is modified during the looping
-                    // foreach (PostWiringInitializeDelegate p in PostWiringInitializeDelegateList)
-                    {
-                        PostWiringInitializeDelegate p = PostWiringInitializeDelegateList[i];
-                        PostWiringInitializeDecreasePriority(); // If any new PostWiringInitialize methods are added by the ones we are about to invoke, they will go into the next delegate in the list so they are all done after these ones.
-                        p?.Invoke();
-                        p = null;
-                        PostWiringInitializeIncreasePriority();
-                    }
-
-                }
-        */
-        /* original
-        private static event PostWiringInitializeDelegate PostWiringInitializeEvent;
-
-        private static void PostWiringInializeAddHandler(PostWiringInitializeDelegate handler)
-        {
-            PostWiringInitializeEvent -= handler;  // instances can be wired to/from more than once, so only register their PostWiringInitialize once
-            PostWiringInitializeEvent += handler;
-        }
-        public static void PostWiringInitialize()
-        {
-            PostWiringInitializeEvent?.Invoke();  // code from before we introduced priorities to PostWiring
-        }
-        */
 
         private static void WriteLine(string output)
         {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 
-namespace ALASandbox.ProgrammingParadigms
+namespace ProgrammingParadigms
 {
     /// <summary>
     /// Allows a FactoryMethod pattern to be wired.
@@ -10,6 +10,13 @@ namespace ALASandbox.ProgrammingParadigms
     /// </summary>
     interface IFactoryMethod
     {
-        object FactoryMethod(string InstanceName);
+        IFactoryObject FactoryMethod(string InstanceName);
+    }
+
+
+    interface IFactoryObject
+    {
+        void WireInternals();
+        void Initialize();
     }
 }

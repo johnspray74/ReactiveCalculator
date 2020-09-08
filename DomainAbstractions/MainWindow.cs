@@ -26,12 +26,21 @@ namespace DomainAbstractions
         // Properties -----------------------------------------------------------------
         public string InstanceName { get; set; } = "Default";
 
+
+
+
         // Ports -----------------------------------------------------------------
         private IUI iuiStructure;
         private IEvent appStart;
 
+
+
+
         // Private fields -----------------------------------------------------------------
         private Window window;
+
+
+
 
         /// <summary>
         /// Generates the main UI window of the application and emits a signal that the Application starts running.
@@ -42,10 +51,13 @@ namespace DomainAbstractions
             window = new Window()
             {
                 Title = title,
-                Height = SystemParameters.PrimaryScreenHeight * 0.65,
-                Width = SystemParameters.PrimaryScreenWidth * 0.6,
-                MinHeight = 500,
-                MinWidth = 750,
+                // Height = SystemParameters.PrimaryScreenHeight * 0.65,
+                Height = SystemParameters.PrimaryScreenHeight * 0.5,
+                Width = SystemParameters.PrimaryScreenWidth * 0.5,
+                // MinHeight = 500,
+                // MinWidth = 750,
+                MinHeight = 300,
+                MinWidth = 400,
                 Background = Brushes.White,
                 
                 WindowStartupLocation = WindowStartupLocation.CenterScreen
@@ -61,6 +73,9 @@ namespace DomainAbstractions
             window.SizeToContent = SizeToContent.Height; // Resizes the popup window to match the height of its contained contents
         }
 
+
+
+
         public void Run()
         {
             window.Content = iuiStructure?.GetWPFElement();
@@ -68,8 +83,14 @@ namespace DomainAbstractions
             app.Run(window);
         }
 
+
+
+
         // IEvent implementation -------------------------------------------------------
         void IEvent.Execute() => System.Windows.Application.Current.Shutdown();
+
+
+
 
         // IDataFlow<bool> implementation ----------------------------------------------
         bool IDataFlow<bool>.Data

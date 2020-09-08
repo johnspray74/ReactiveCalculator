@@ -168,13 +168,13 @@ namespace DomainAbstractions
         // private more abstract support functions ============================================================================================================================
 
 
-        private void PostWiringInitialize()
+        public Formula RunUnitTests()
         {
             // Debug.WriteLine("RunningTestRemoveUnusedLambdaParameters");
             // TestRemoveUnusedLambdaParameters();
             // Debug.WriteLine("RunningTestAddDummyParameters");
             // TestAddDummyParameters()
-
+            return this;
         }
 
 

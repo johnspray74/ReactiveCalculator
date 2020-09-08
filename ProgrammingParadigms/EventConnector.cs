@@ -36,6 +36,7 @@ namespace ProgrammingParadigms
 
         // outputs
         private List<IEvent> fanoutList = new List<IEvent>();
+        private IEvent complete;
 
         /// <summary>
         /// Fans out an IEvent to multiple IEvents, or connect IEvent and IEventB
@@ -47,6 +48,7 @@ namespace ProgrammingParadigms
         {
             foreach (var fanout in fanoutList) fanout.Execute();
             EventHappened?.Invoke();
+            complete?.Execute();
         }
 
         // IEventB implementation --------------------------------------

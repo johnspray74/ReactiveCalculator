@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+
 using ProgrammingParadigms;
+using Libraries;
 
 namespace DomainAbstractions
 {
@@ -49,36 +51,7 @@ namespace DomainAbstractions
         // IUI implementation -------------------------------------------------------
         UIElement IUI.GetWPFElement()
         {
-            if (Layouts.Length < children.Count)
-            {
-                var newLayout = new int[children.Count];
-
-                for (int i = 0; i < Layouts.Length; i++)
-                {
-                    newLayout[i] = Layouts[i];
-                }
-
-                for (int i = Layouts.Length; i < children.Count; i++)
-                {
-                    newLayout[i] = (int)GridUnitType.Auto;
-                }
-
-                Layouts = newLayout;
-            }
-
-            for (var i = 0; i < children.Count; i++)
-            {
-                GridUnitType type = (GridUnitType)Layouts[i];
-                gridPanel.RowDefinitions.Add(new RowDefinition() {
-                    Height = new GridLength(1, type)
-                });
-                var e = children[i].GetWPFElement();
-                if (e is FrameworkElement && HorizAlignment != null) (e as FrameworkElement).HorizontalAlignment = (HorizontalAlignment)HorizAlignment;
-                gridPanel.Children.Add(e);
-                System.Windows.Controls.Grid.SetRow(e, i);
-                System.Windows.Controls.Grid.SetColumn(e, 0);
-            }
-
+            AddRows();
             return gridPanel;
         }
 
@@ -87,6 +60,50 @@ namespace DomainAbstractions
         {
             get => gridPanel.Visibility == Visibility.Visible;
             set => gridPanel.Visibility = value ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+
+
+
+
+
+
+
+        public void AddRows()
+        {
+            while (gridPanel.Children.Count < children.Count)
+            {
+                if (Layouts.Length < children.Count)
+                {
+                    var newLayout = new int[children.Count];
+
+                    for (int i = 0; i < Layouts.Length; i++)
+                    {
+                        newLayout[i] = Layouts[i];
+                    }
+
+                    for (int i = Layouts.Length; i < children.Count; i++)
+                    {
+                        newLayout[i] = (int)GridUnitType.Auto;
+                    }
+
+                    Layouts = newLayout;
+                }
+
+                for (var i = gridPanel.Children.Count; i < children.Count; i++)
+                {
+                    GridUnitType type = (GridUnitType)Layouts[i];
+                    gridPanel.RowDefinitions.Add(new RowDefinition()
+                    {
+                        Height = new GridLength(1, type)
+                    });
+                    var e = children[i].GetWPFElement();
+                    if (e is FrameworkElement && HorizAlignment != null) (e as FrameworkElement).HorizontalAlignment = (HorizontalAlignment)HorizAlignment;
+                    gridPanel.Children.Add(e);
+                    System.Windows.Controls.Grid.SetRow(e, i);
+                    System.Windows.Controls.Grid.SetColumn(e, 0);
+                }
+            }
         }
     }
 }
