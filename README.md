@@ -67,12 +67,12 @@ Inside the Library folder is the WireTo extension method that the Applications a
 
     We will use Xmind to quickly create ALA diagrams during the workshop.
     
-9. Click on 'release' on the main AUTWorkshop2020 page of Github or click on this link:
+9. Click on 'release' on the main ReactiveCalculator page of Github or click on this link:
 
     https://github.com/john-spray/ReactiveCalculator/releases
 
     Click "Download the XMindParser here" to download it. Save it anywhere on your computer. 
-    In a Windows Explorer window, unzip it so that the tool's executable is ready to use during the workshop.
+    In a Windows Explorer window, unzip it so that the tool's executable is ready to use.
 	
 10. The workshop project uses a package that doesn't come installed with Visual Studio. We need to install it using the Nuget Package manager.
 
