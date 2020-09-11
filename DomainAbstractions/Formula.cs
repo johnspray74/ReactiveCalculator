@@ -15,6 +15,9 @@ using static System.Math;
 
 namespace DomainAbstractions
 {
+    using LambdaType = Func<double, double, double, double, double, double, double>;
+
+
     /// <summary>
     /// <para>Applies a formula (described by a lambda) on inputs of type double and returns an output of type double.</para>
     /// <para>The lambda can be configured by the application at design-time by setting the Lambda property e.g. Lambda=(P1,P2)&eq;&gt;P1+P2.</para>
@@ -30,12 +33,24 @@ namespace DomainAbstractions
     /// </summary>
     public class Formula : IDataFlow<string>
     {
+
+
+
+
         // Properties
         public string InstanceName { get; set; } = "Default";
         // public delegate double LambdaDelegate(List<double> operands);
         // public LambdaDelegate Lambda; // optional
 
-        public Func<double, double, double, double, double, double, double> Lambda { private get; set; }
+
+
+        // Note the following lambda function uses 6 parameters. make sure MaxLambdaParamters is also 6
+        // TBD figure out how to make this a variable number of parameters, then much of the code inside this abstraction could be simplified.
+        public LambdaType Lambda { private get; set; }
+
+
+
+
 
         // Ports
         // The IDatFlow<string> implemented interface is the formulaText where the formula can be passed in at runtime (optional)
@@ -54,9 +69,8 @@ namespace DomainAbstractions
         // Private fields
         private const int MaxLambdaDelegateParameters = 6;
         // These inputs lists have two uses:
-        // 1 is to always have 6 values to pass to the Lambda even if some inputs are unwired
-        // 2 we use them to see if inputs have actually changed
-        // 3 we copy the IDataFlowB inputs into them for easy access
+        // 1 we use them as shadow copies of the last value we had to see if inputs have actually changed
+        // 2 we copy the IDataFlowB operands into them for easier access
         private List<double> inputs = new List<double>();
 
         // This list maps the reduced lambda parameters to the input lambda parameters. For example input lambda expression is "(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x) => c*e"  reduced lambda expression is "(c,e) => e*c" and mapping is { 2, 4 }
@@ -74,10 +88,8 @@ namespace DomainAbstractions
 
         private void OperandChanged()
         {
-            if (InstanceName == "MultipleRow1_Formula1")
-            {
-            }
             // if no inputs are changed then dont change the output -- this allows a Formula to be wired in a loop in a DataFlow
+            if (operands == null) return;
             bool change = false;
             int Index = 0;
             foreach (IDataFlowB<double> operand in operands)
@@ -112,9 +124,8 @@ namespace DomainAbstractions
             {
                 _inputLambda = RemoveUnusedLambdaParameters(value, out reducedInputsMapping);
                 _inputLambda = AddDummyParameters(_inputLambda, MaxLambdaDelegateParameters);
-                while (reducedInputsMapping.Count < MaxLambdaDelegateParameters) reducedInputsMapping.Add(0);
                 Compile(_inputLambda);
-                if (inputs.Count == 0) OperandChanged(); // If formula changed first, this will get the input values from the input operand ports for the first time
+                if (inputs.Count == 0) OperandChanged(); // If formula input changes before any of the operand inputs change, this will get the input values from the input operand ports for the first time
                 SomethingChanged();
             }
         }
@@ -127,7 +138,26 @@ namespace DomainAbstractions
             double output;
             if (Lambda != null)
             {
-                output = Lambda(inputs[reducedInputsMapping[0]], inputs[reducedInputsMapping[1]], inputs[reducedInputsMapping[2]], inputs[reducedInputsMapping[3]], inputs[reducedInputsMapping[4]], inputs[reducedInputsMapping[5]]);
+                // At this point the inputs list may have less than the 6 parameters required by the lambda. Also the reducedInputsMappings may have less than the required number of mappings to those inputs
+                // Tidy all that up first
+                double[] values = new double[MaxLambdaDelegateParameters];
+                for (int i = 0; i < MaxLambdaDelegateParameters; i++)
+                {
+                    if (i<reducedInputsMapping.Count)
+                    {
+                        values[i] = inputs[reducedInputsMapping[i]];
+                    }
+                    else  // no mapping so just use the inputs directly
+                    if (i < inputs.Count)
+                    {
+                        values[i] = inputs[i];
+                    }
+                    else
+                    {
+                        values[i] = double.NaN;
+                    }
+                }
+                output = Lambda(values[0], values[1], values[2], values[3], values[4], values[5]);
             }
             else
             {
@@ -147,7 +177,8 @@ namespace DomainAbstractions
             options = options.AddImports("System.Math");
             try
             {
-                Lambda = await CSharpScript.EvaluateAsync<Func<double, double, double, double, double, double, double>>(lambda, options);
+                // Lambda = await CSharpScript.EvaluateAsync<Func<double, double, double, double, double, double, double>>(lambda, options);
+                Lambda = await CSharpScript.EvaluateAsync<LambdaType>(lambda, options);
             }
             catch (CompilationErrorException e)
             {
@@ -183,7 +214,7 @@ namespace DomainAbstractions
         /// For example input lambda expression is "(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x) => c*e" (because, for example, we might be in an application that wires more than 6 inputs)
         /// The lambda delegate has a maximum of 6 parameters.
         /// This function removes unused parameters so it returns, for the above example, "(c,e) => e*c" 
-        /// This function also has to output a mapping of the new parameter list to the (example) 26 operand inputs e.g. { 2, 4 }
+        /// This function also has to output a mapping of the new parameter list to the (example) 26 operand inputs e.g. { 2, 4 }. The paremeters used by the expressions, c & e are the number 2 and number 4 inputs
         /// </summary>
         /// <param name="lambda"></param>
         /// <param name="reducedOperandsMapping"></param>
@@ -191,7 +222,9 @@ namespace DomainAbstractions
         private string RemoveUnusedLambdaParameters(string lambda, out List<int> reducedOperandsMapping)
         {
             string[] s;
+            reducedOperandsMapping = new List<int>();
             s = lambda.Split(new string[] { "=>" }, StringSplitOptions.None);
+            if (s.Length < 2) return lambda;  // if there was only a formula, not a lambda expression e.g. 1+2 just return the same formula
             List<string> parameters = s[0].Split(',').ToList();
             for (int i = 0; i<parameters.Count; i++)
             {
@@ -201,7 +234,6 @@ namespace DomainAbstractions
             }
             List<string> identifiers = FindIdentifiers(s[1]).Distinct().ToList();
             List<string> reducedParameters = new List<string>();
-            reducedOperandsMapping = new List<int>();
             foreach (string p in identifiers)
             {
                 int i = parameters.IndexOf(p);
@@ -258,6 +290,12 @@ namespace DomainAbstractions
             assertListEq(reducedOperands, new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 });
             assertStringEq(RemoveUnusedLambdaParameters("(,a) => a", out reducedOperands), "(a) => a");
             assertListEq(reducedOperands, new List<int> { 1 });
+            assertStringEq(RemoveUnusedLambdaParameters("() => a+2", out reducedOperands), "() => a+2");
+            assertListEq(reducedOperands, new List<int> { });
+            assertStringEq(RemoveUnusedLambdaParameters("() => 1+2", out reducedOperands), "() => 1+2");
+            assertListEq(reducedOperands, new List<int> { });
+            assertStringEq(RemoveUnusedLambdaParameters("1+2", out reducedOperands), "1+2");
+            assertListEq(reducedOperands, new List<int> { });
         }
 
 
@@ -277,19 +315,32 @@ namespace DomainAbstractions
         private string AddDummyParameters(string input, int n)
         {
             // we tolerate less than six parameters - add dummy parameters to make up to six for the lambda
+            // examples input -> output
+            // "(a,b,c) => a+1" -> "(a,b,c,_P3,_P4,_P5) => a+1"
+            // "(a,,,) => a+1" ->  "(a,_P1,_P2,_P3,_P4,_P5) => a+1"
+            // "() => 2+1" -> "(_P0,_P1,_P2,_P3,_P4,_P5) => 2+1"
+            // "(,,,,,) => 2+1" ->  "(_P0,_P1,_P2,_P3,_P4,_P5) => 2+1"
+            // "(a,b,c,d,e) => a+1" ->  "(a,b,c,d,e,_P5) => a+1" 
+            // "(a,b,c,d,e,) => a+1" ->  "(a,b,c,d,e,_P5) => a+1" 
+
+            // We also tolerate no brackets and no "=>". We can create a lambda assuming the input string is just the expression part
             // examples
-            // (a,b,c) -> (a,b,c,_P3,_P4,_P5)
-            // (a,,,) ->  (a,_P1,_P2,_P3,_P4,_P5)
-            // () -> (_P0,_P1,_P2,_P3,_P4,_P5)
-            // (,,,,,) ->  (_P0,_P1,_P2,_P3,_P4,_P5)
-            // (a,b,c,d,e) ->  (a,b,c,d,e,_P5) 
-            // (a,b,c,d,e,) ->  (a,b,c,d,e,_P5) 
+            // "1+2" -> "(_P0,_P1,_P2,_P3,_P4,_P5) => 1+2"
+            // "=> 1+2" -> "(_P0,_P1,_P2,_P3,_P4,_P5) => 1+2"
 
             // nasty code follows to get correct - there must be a better way to do this
             string rv = input;
             try
             {
-                int pos = 0;
+                int pos;  // for general use for position in the string
+
+                pos = rv.IndexOf("=>", 0);
+                if (pos == -1) rv = rv.Insert(0, "=>");
+                pos = rv.IndexOf("=>", 0);
+                pos = rv.IndexOf(')', 0, pos);
+                if (pos == -1) rv = rv.Insert(0, "()");
+
+                pos = 0;
                 for (int i = 0; i < n; i++)
                 {
                     int nextpos;
@@ -324,15 +375,26 @@ namespace DomainAbstractions
 
         private void TestAddDummyParameters()
         {
-            assertStringEq(AddDummyParameters("(a,b,c)",6), "(a,b,c,_P3,_P4,_P5)");
-            assertStringEq(AddDummyParameters("(a,b,c,,,)",6), "(a,b,c,_P3,_P4,_P5)");
-            assertStringEq(AddDummyParameters("(a , , , )",6), "(a , _P1, _P2, _P3,_P4,_P5)");
-            assertStringEq(AddDummyParameters("()",6), "(_P0,_P1,_P2,_P3,_P4,_P5)");
-            assertStringEq(AddDummyParameters("(,,,,,)",6), "(_P0,_P1,_P2,_P3,_P4,_P5)");
-            assertStringEq(AddDummyParameters("(a,b,c,d,e)",6), "(a,b,c,d,e,_P5)");
+            assertStringEq(AddDummyParameters("(a,b,c)=>",6), "(a,b,c,_P3,_P4,_P5)=>");
+            assertStringEq(AddDummyParameters("(a,b,c,,,)=>", 6), "(a,b,c,_P3,_P4,_P5)=>");
+            assertStringEq(AddDummyParameters("(a , , , )=>", 6), "(a , _P1, _P2, _P3,_P4,_P5)=>");
+            assertStringEq(AddDummyParameters("()=>", 6), "(_P0,_P1,_P2,_P3,_P4,_P5)=>");
+            assertStringEq(AddDummyParameters("(,,,,,)=>", 6), "(_P0,_P1,_P2,_P3,_P4,_P5)=>");
+            assertStringEq(AddDummyParameters("(a,b,c,d,e)=>", 6), "(a,b,c,d,e,_P5)=>");
             assertStringEq(AddDummyParameters("(a,b,c,d,e,)=>a+b",6), "(a,b,c,d,e,_P5)=>a+b");
+            assertStringEq(AddDummyParameters("(a,b,c,d,e,)=> (a+b)", 6), "(a,b,c,d,e,_P5)=> (a+b)");
+            assertStringEq(AddDummyParameters("2+1", 6), "(_P0,_P1,_P2,_P3,_P4,_P5)=>2+1");
+            assertStringEq(AddDummyParameters("=>(2+1)", 6), "(_P0,_P1,_P2,_P3,_P4,_P5)=>(2+1)");
+            assertStringEq(AddDummyParameters("(2+1)", 6), "(_P0,_P1,_P2,_P3,_P4,_P5)=>(2+1)");
         }
 
 
+
+
+        private void PostWiringInitialize()
+        {
+            TestRemoveUnusedLambdaParameters();
+            TestAddDummyParameters();
+        }
     }
 }

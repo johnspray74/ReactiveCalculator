@@ -187,7 +187,6 @@ namespace Libraries
                 throw new Exception(DiagnosticLine);
             }
 
-            /*
             var method = A.GetType().GetMethod("PostWiringInitialize", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
             if (method != null)
             {
@@ -195,15 +194,12 @@ namespace Libraries
                 PostWiringInializeAddHandler(handler);                
                
             }
-            */
-            /*
             method = B.GetType().GetMethod("PostWiringInitialize", System.Reflection.BindingFlags.NonPublic);
             if (method != null)
             {
-                InitializeDelegate handler = (InitializeDelegate)Delegate.CreateDelegate(typeof(InitializeDelegate), B, method);
-                Initialize += handler;
+                PostWiringInitializeDelegate handler = (PostWiringInitializeDelegate)Delegate.CreateDelegate(typeof(PostWiringInitializeDelegate), B, method);
+                PostWiringInializeAddHandler(handler);
             }
-            */
             return A;
         }
 
@@ -271,7 +267,7 @@ namespace Libraries
 
 
         // PostWiringInitialize section
-/*
+
         // list of delegates alternative to a single event. This allows ordering of the handlers by adding to the list
         // Note that every delgate in the list is a single function, not a multicast. This allows us to see is handlers are already in the list more easily
         private static List<PostWiringInitializeDelegate> PostWiringInitializeDelegateList = new List<PostWiringInitializeDelegate>();
@@ -301,7 +297,7 @@ namespace Libraries
 
 
 
-
+/*
         public static void PostWiringCallMeBack(PostWiringInitializeDelegate handler)
         {
             PostWiringInializeAddHandler(handler);

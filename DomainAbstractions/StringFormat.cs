@@ -7,10 +7,11 @@ namespace DomainAbstractions
 {
     /// <summary>
     /// Similiar to other formatting string functions found in other languages.
-    /// Takes a string property which contains C# style data insertion points
-    /// e.g. "Data={1}, Moredata={2}"
-    /// Has a port which is a list of IDataFlows that are converted to strings and inserted at the insertion points 
+    /// Takes a string property which contains C# style string interpolation e.g. {0} means insert the string from the first input on the inputs port
+    /// e.g. "Data={0}, Moredata={1}, Anotherdata={2}"
+    /// Has a port which is a list of IDataFlows that are converted to strings and inserted at the interpolation points 
     /// according to their index numbers, so the ordering of the connections shown in the diagram are important.
+    /// Note the inputs have two ports. One is the implemeted port. Use {0} to get that input. The other is inputs. use {1}. {2} etc to get those.
     /// </summary>
     public class StringFormat<T> : IDataFlow<T>
     {
@@ -40,11 +41,14 @@ namespace DomainAbstractions
             inputs.Last().DataChanged += DataChanged;
         }
 
-        private object _Para0;
+        private T _Para0;
 
+
+
+        // implement the IDataFlow<>
         T IDataFlow<T>.Data 
         { 
-            get => (T)_Para0;
+            get => _Para0;
             set
             {
                 _Para0 = value;
