@@ -169,7 +169,7 @@ namespace DomainAbstractions
 
 
 
-        private async void Compile(string lambda)
+        private async void Compile(string formula)
         {
             // double x = Sin(1.0);
 
@@ -178,7 +178,7 @@ namespace DomainAbstractions
             try
             {
                 // Lambda = await CSharpScript.EvaluateAsync<Func<double, double, double, double, double, double, double>>(lambda, options);
-                Lambda = await CSharpScript.EvaluateAsync<LambdaType>(lambda, options);
+                Lambda = await CSharpScript.EvaluateAsync<LambdaType>(formula, options);
             }
             catch (CompilationErrorException e)
             {
