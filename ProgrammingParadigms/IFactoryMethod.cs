@@ -10,13 +10,7 @@ namespace ProgrammingParadigms
     /// </summary>
     interface IFactoryMethod
     {
-        IFactoryObject FactoryMethod(string InstanceName);
+        object FactoryMethod(string InstanceName);
     }
 
-
-    interface IFactoryObject
-    {
-        void WireInternals();
-        void Initialize();
-    }
 }

@@ -52,7 +52,7 @@ namespace Application
             DataFlowConnector<string> labelsConcatenatorConnector = new DataFlowConnector<string>() { InstanceName = "labelsConcatenatorConnector" };
             Horizontal id_24914ab245484fe1b70af8020ca2e831 = new Horizontal() { InstanceName = "Default", Ratios = new int[] { 1,2,2,1,3 }, MinWidths = new int[] { 50,200,520 } };
             Horizontal id_aa2f23f75c79479e88ccf7ed0ed6c2cc = new Horizontal() { InstanceName = "Default", Ratios = new int[] { 1,8 }, MinWidths = new int[] { 50 } };
-            Multiple MultipleRow = new Multiple(N:4 ) { InstanceName = "MultipleRow", WiringMethod = (newInstance) => { rows.WireTo(newInstance); labelsConcatenator.WireTo(newInstance,"inputs"); newInstance.WireTo(labelsConcatenatorConnector,"labelsCommaSeparated"); }, CrossWiringMethod = (instance1,instance2) => { instance2.WireFrom(instance1,"operands"); }, PostWiringInitializeMethod = delegate(IFactoryObject instance) { rows.AddRows(); instance.Initialize(); } };
+            Multiple MultipleRow = new Multiple(N:4 ) { InstanceName = "MultipleRow", WiringMethod = (newInstance) => { rows.WireTo(newInstance); labelsConcatenator.WireTo(newInstance,"inputs"); newInstance.WireTo(labelsConcatenatorConnector,"labelsCommaSeparated"); ((CalculatorRow)newInstance).WireInternals(); }, CrossWiringMethod = (instance1,instance2) => { instance2.WireFrom(instance1,"operands"); }, PostWiringInitializeMethod = delegate(object instance) { rows.AddRows(); ((CalculatorRow)instance).Initialize(); }  };
             Space id_68d3e779ba0d4f78ad48db2ed468608c = new Space() { InstanceName = "Default" };
             Text id_39a7a11c94da4b338a92b2235b8e96d1 = new Text("Units" ) { InstanceName = "Default", FontSize=25 };
             Text id_6be1dbef5dd042ba88554b4482b16079 = new Text("Formula" ) { InstanceName = "Default", FontSize=25 };
@@ -98,7 +98,7 @@ namespace Application
             CalculatorRowFactory id_012306911dbe485c91ecd24bd35b2420 = new CalculatorRowFactory() { InstanceName = "Default" };
             DataFlowConnector<string> labelsConcatenatorConnector = new DataFlowConnector<string>() { InstanceName = "labelsConcatenatorConnector" };
             Horizontal id_24914ab245484fe1b70af8020ca2e831 = new Horizontal() { InstanceName = "Default", Ratios = new int[] { 1,2,2,1,3 }, MinWidths = new int[] { 50,200,520 } };
-            Multiple MultipleRow = new Multiple(N:10 ) { InstanceName = "MultipleRow", WiringMethod = (newInstance) => { rows.WireTo(newInstance); labelsConcatenator.WireTo(newInstance,"inputs"); newInstance.WireTo(labelsConcatenatorConnector,"labelsCommaSeparated"); }, CrossWiringMethod = (instance1,instance2) => { instance2.WireFrom(instance1,"operands"); } };
+            Multiple MultipleRow = new Multiple(N:10 ) { InstanceName = "MultipleRow", WiringMethod = (newInstance) => { rows.WireTo(newInstance); labelsConcatenator.WireTo(newInstance,"inputs"); newInstance.WireTo(labelsConcatenatorConnector,"labelsCommaSeparated"); ((CalculatorRow)newInstance).WireInternals();}, CrossWiringMethod = (instance1,instance2) => { instance2.WireFrom(instance1,"operands"); } };
             Text id_39a7a11c94da4b338a92b2235b8e96d1 = new Text("Units" ) { InstanceName = "Default", FontSize=25 };
             Text id_6be1dbef5dd042ba88554b4482b16079 = new Text("Formula" ) { InstanceName = "Default", FontSize=25 };
             Text id_93a237ff714b48748a4ba10ede42d2dc = new Text("Description" ) { InstanceName = "Default", FontSize=25 };
@@ -129,77 +129,43 @@ namespace Application
         private void Calculator2ARows()
         {
             // BEGIN AUTO-GENERATED INSTANTIATIONS FOR Calculator2ARows.xmind
-            DataFlowConnector<double> dfc1 = new DataFlowConnector<double>() { InstanceName = "dfc1" };
-            DataFlowConnector<double> dfc2 = new DataFlowConnector<double>() { InstanceName = "dfc2" };
-            DataFlowConnector<string> id_5a8fd3747a7f49ad9b89740300b25273 = new DataFlowConnector<string>() { InstanceName = "Default" };
-            DataFlowConnector<string> id_6692306d5a004363a0f9b3f32d9a684f = new DataFlowConnector<string>() { InstanceName = "Default" };
-            DataFlowConnector<string> id_6e3f7a805e2c4e3b901024f90be0cbbb = new DataFlowConnector<string>() { InstanceName = "Default" };
-            Formula Formula1 = new Formula() { InstanceName = "Formula1" };
-            Formula Formula2 = new Formula() { InstanceName = "Formula2" };
-            Horizontal id_24914ab245484fe1b70af8020ca2e831 = new Horizontal() { InstanceName = "Default" };
-            Horizontal id_3cdf1b1c29524751b3b4e9e0ab35e49f = new Horizontal() { InstanceName = "Default" };
-            Horizontal id_62cb709a6e8f4af8812307ef103fb600 = new Horizontal() { InstanceName = "Default" };
-            NumberToString id_2c52c6f6a829412e9ff552742beec11b = new NumberToString() { InstanceName = "Default" };
-            NumberToString id_a1c68c7d54d74033b59a294accc0320b = new NumberToString() { InstanceName = "Default" };
-            StringConcat id_d00e2f96bebf45d3a23bc3b1b0776f22 = new StringConcat() { InstanceName = "Default", Separator = "," };
-            StringFormat<string> sf1 = new StringFormat<string>("({1})=>{0}") { InstanceName = "sf1" };
-            StringFormat<string> sf2 = new StringFormat<string>("({1})=>{0}") { InstanceName = "sf2" };
-            Text id_39a7a11c94da4b338a92b2235b8e96d1 = new Text("Units") { InstanceName = "Default", FontSize = 50 };
-            Text id_6be1dbef5dd042ba88554b4482b16079 = new Text("Formula") { InstanceName = "Default", FontSize = 50 };
-            Text id_96b879e17b4346e4b98484224e65d582 = new Text("Label") { InstanceName = "Default", FontSize = 50 };
-            Text id_ccc54bcd38e14c10a5ba59d851191cc4 = new Text("Result") { InstanceName = "Default", FontSize = 50 };
-            Text id_fc0b8f38b3c14f799f605cd54214b503 = new Text("Debug output") { InstanceName = "Default", FontSize = 50 };
-            Text Result1 = new Text() { InstanceName = "Result1", FontSize = 50 };
-            Text Result2 = new Text() { InstanceName = "Result2", FontSize = 50 };
-            TextBox FormulaText1 = new TextBox() { InstanceName = "FormulaText1", FontSize = 50 };
-            TextBox FormulaText2 = new TextBox() { InstanceName = "FormulaText2", FontSize = 50 };
-            TextBox Label1 = new TextBox() { InstanceName = "Label1", FontSize = 50 };
-            TextBox Label2 = new TextBox() { InstanceName = "Label2", FontSize = 50 };
-            TextBox Units1 = new TextBox() { InstanceName = "Units1", FontSize = 50 };
-            TextBox Units2 = new TextBox() { InstanceName = "Units2", FontSize = 50 };
-            Vertical id_b02d2caea938499b997b9bfcb80fb0e9 = new Vertical() { InstanceName = "Default" };
+            CalculatorRow Row1 = new CalculatorRow() { InstanceName = "Row1" };
+            CalculatorRow Row2 = new CalculatorRow() { InstanceName = "Row2" };
+            DataFlowConnector<string> labelsConcatenatorConnector = new DataFlowConnector<string>() { InstanceName = "labelsConcatenatorConnector" };
+            Horizontal id_24914ab245484fe1b70af8020ca2e831 = new Horizontal() { InstanceName = "Default", Ratios = new int[] { 1,2,2,1,3 }, MinWidths = new int[] { 50,200,520 } };
+            StringConcat labelsConcatenator = new StringConcat() { InstanceName = "labelsConcatenator", Separator="," };
+            Text id_39a7a11c94da4b338a92b2235b8e96d1 = new Text("Units" ) { InstanceName = "Default", FontSize=50 };
+            Text id_6be1dbef5dd042ba88554b4482b16079 = new Text("Formula" ) { InstanceName = "Default", FontSize=50 };
+            Text id_93a237ff714b48748a4ba10ede42d2dc = new Text("Description" ) { InstanceName = "Default", FontSize=50 };
+            Text id_96b879e17b4346e4b98484224e65d582 = new Text("Label" ) { InstanceName = "Default", FontSize=50 };
+            Text id_ccc54bcd38e14c10a5ba59d851191cc4 = new Text("Result" ) { InstanceName = "Default", FontSize=50 };
+            Text id_fc0b8f38b3c14f799f605cd54214b503 = new Text("Debug output" ) { InstanceName = "Default", FontSize=50 };
+            Vertical rows = new Vertical() { InstanceName = "rows" };
             // END AUTO-GENERATED INSTANTIATIONS FOR Calculator2ARows.xmind
 
             // BEGIN AUTO-GENERATED WIRING FOR Calculator2ARows.xmind
-            mainWindow.WireTo(id_b02d2caea938499b997b9bfcb80fb0e9, "iuiStructure"); // (@MainWindow (mainWindow).iuiStructure) -- [IUI] --> (Vertical (id_b02d2caea938499b997b9bfcb80fb0e9).child)
-            id_b02d2caea938499b997b9bfcb80fb0e9.WireTo(id_24914ab245484fe1b70af8020ca2e831, "children"); // (Vertical (id_b02d2caea938499b997b9bfcb80fb0e9).children) -- [List<IUI>] --> (Horizontal (id_24914ab245484fe1b70af8020ca2e831).child)
-            id_b02d2caea938499b997b9bfcb80fb0e9.WireTo(id_3cdf1b1c29524751b3b4e9e0ab35e49f, "children"); // (Vertical (id_b02d2caea938499b997b9bfcb80fb0e9).children) -- [List<IUI>] --> (Horizontal (id_3cdf1b1c29524751b3b4e9e0ab35e49f).child)
-            id_b02d2caea938499b997b9bfcb80fb0e9.WireTo(id_62cb709a6e8f4af8812307ef103fb600, "children"); // (Vertical (id_b02d2caea938499b997b9bfcb80fb0e9).children) -- [List<IUI>] --> (Horizontal (id_62cb709a6e8f4af8812307ef103fb600).child)
-            id_b02d2caea938499b997b9bfcb80fb0e9.WireTo(id_fc0b8f38b3c14f799f605cd54214b503, "children"); // (Vertical (id_b02d2caea938499b997b9bfcb80fb0e9).children) -- [List<IUI>] --> (Text (id_fc0b8f38b3c14f799f605cd54214b503).child)
+            mainWindow.WireTo(rows, "iuiStructure"); // (@MainWindow (mainWindow).iuiStructure) -- [IUI] --> (Vertical (rows).child)
+            rows.WireTo(id_24914ab245484fe1b70af8020ca2e831, "children"); // (Vertical (rows).children) -- [List<IUI>] --> (Horizontal (id_24914ab245484fe1b70af8020ca2e831).child)
+            rows.WireTo(Row1, "children"); // (Vertical (rows).children) -- [List<IUI>] --> (CalculatorRow (Row1).child)
+            rows.WireTo(Row2, "children"); // (Vertical (rows).children) -- [List<IUI>] --> (CalculatorRow (Row2).child)
+            rows.WireTo(id_fc0b8f38b3c14f799f605cd54214b503, "children"); // (Vertical (rows).children) -- [List<IUI>] --> (Text (id_fc0b8f38b3c14f799f605cd54214b503).child)
             id_24914ab245484fe1b70af8020ca2e831.WireTo(id_96b879e17b4346e4b98484224e65d582, "children"); // (Horizontal (id_24914ab245484fe1b70af8020ca2e831).children) -- [List<IUI>] --> (Text (id_96b879e17b4346e4b98484224e65d582).child)
             id_24914ab245484fe1b70af8020ca2e831.WireTo(id_6be1dbef5dd042ba88554b4482b16079, "children"); // (Horizontal (id_24914ab245484fe1b70af8020ca2e831).children) -- [List<IUI>] --> (Text (id_6be1dbef5dd042ba88554b4482b16079).child)
             id_24914ab245484fe1b70af8020ca2e831.WireTo(id_ccc54bcd38e14c10a5ba59d851191cc4, "children"); // (Horizontal (id_24914ab245484fe1b70af8020ca2e831).children) -- [List<IUI>] --> (Text (id_ccc54bcd38e14c10a5ba59d851191cc4).child)
             id_24914ab245484fe1b70af8020ca2e831.WireTo(id_39a7a11c94da4b338a92b2235b8e96d1, "children"); // (Horizontal (id_24914ab245484fe1b70af8020ca2e831).children) -- [List<IUI>] --> (Text (id_39a7a11c94da4b338a92b2235b8e96d1).child)
-            id_3cdf1b1c29524751b3b4e9e0ab35e49f.WireTo(Label1, "children"); // (Horizontal (id_3cdf1b1c29524751b3b4e9e0ab35e49f).children) -- [List<IUI>] --> (TextBox (Label1).child)
-            id_3cdf1b1c29524751b3b4e9e0ab35e49f.WireTo(FormulaText1, "children"); // (Horizontal (id_3cdf1b1c29524751b3b4e9e0ab35e49f).children) -- [List<IUI>] --> (TextBox (FormulaText1).child)
-            id_3cdf1b1c29524751b3b4e9e0ab35e49f.WireTo(Result1, "children"); // (Horizontal (id_3cdf1b1c29524751b3b4e9e0ab35e49f).children) -- [List<IUI>] --> (Text (Result1).child)
-            id_3cdf1b1c29524751b3b4e9e0ab35e49f.WireTo(Units1, "children"); // (Horizontal (id_3cdf1b1c29524751b3b4e9e0ab35e49f).children) -- [List<IUI>] --> (TextBox (Units1).child)
-            Label1.WireTo(id_6e3f7a805e2c4e3b901024f90be0cbbb, "textOutput"); // (TextBox (Label1).textOutput) -- [IDataFlow<string>] --> (DataFlowConnector<string> (id_6e3f7a805e2c4e3b901024f90be0cbbb).input)
-            id_d00e2f96bebf45d3a23bc3b1b0776f22.WireTo(id_6e3f7a805e2c4e3b901024f90be0cbbb, "inputs"); // (StringConcat (id_d00e2f96bebf45d3a23bc3b1b0776f22).inputs) -- [IDataFlowB<string>] --> (DataFlowConnector<string> (id_6e3f7a805e2c4e3b901024f90be0cbbb).outputsB)
-            FormulaText1.WireTo(sf1, "textOutput"); // (TextBox (FormulaText1).textOutput) -- [IDataFlow<string>] --> (StringFormat<string> (sf1).input0)
-            sf1.WireTo(Formula1, "output"); // (StringFormat<string> (sf1).output) -- [IDataFlow<string>] --> (Formula (Formula1).formula)
-            Formula1.WireTo(dfc1, "result"); // (Formula (Formula1).result) -- [IDataFlow<double>] --> (DataFlowConnector<double> (dfc1).input)
-            Formula1.WireTo(dfc1, "operands"); // (Formula (Formula1).operands) -- [IDataFlowB<double>] --> (DataFlowConnector<double> (dfc1).outputsB)
-            Formula2.WireTo(dfc1, "operands"); // (Formula (Formula2).operands) -- [IDataFlowB<double>] --> (DataFlowConnector<double> (dfc1).outputsB)
-            dfc1.WireTo(id_a1c68c7d54d74033b59a294accc0320b, "outputs"); // (DataFlowConnector<double> (dfc1).outputs) -- [IDataFlow<T>] --> (NumberToString (id_a1c68c7d54d74033b59a294accc0320b).input)
-            id_a1c68c7d54d74033b59a294accc0320b.WireTo(Result1, "output"); // (NumberToString (id_a1c68c7d54d74033b59a294accc0320b).output) -- [IDataFlow<string>] --> (Text (Result1).textInput)
-            id_62cb709a6e8f4af8812307ef103fb600.WireTo(Label2, "children"); // (Horizontal (id_62cb709a6e8f4af8812307ef103fb600).children) -- [List<IUI>] --> (TextBox (Label2).child)
-            id_62cb709a6e8f4af8812307ef103fb600.WireTo(FormulaText2, "children"); // (Horizontal (id_62cb709a6e8f4af8812307ef103fb600).children) -- [List<IUI>] --> (TextBox (FormulaText2).child)
-            id_62cb709a6e8f4af8812307ef103fb600.WireTo(Result2, "children"); // (Horizontal (id_62cb709a6e8f4af8812307ef103fb600).children) -- [List<IUI>] --> (Text (Result2).child)
-            id_62cb709a6e8f4af8812307ef103fb600.WireTo(Units2, "children"); // (Horizontal (id_62cb709a6e8f4af8812307ef103fb600).children) -- [List<IUI>] --> (TextBox (Units2).child)
-            Label2.WireTo(id_6692306d5a004363a0f9b3f32d9a684f, "textOutput"); // (TextBox (Label2).textOutput) -- [IDataFlow<string>] --> (DataFlowConnector<string> (id_6692306d5a004363a0f9b3f32d9a684f).input)
-            id_d00e2f96bebf45d3a23bc3b1b0776f22.WireTo(id_6692306d5a004363a0f9b3f32d9a684f, "inputs"); // (StringConcat (id_d00e2f96bebf45d3a23bc3b1b0776f22).inputs) -- [IDataFlowB<string>] --> (DataFlowConnector<string> (id_6692306d5a004363a0f9b3f32d9a684f).outputsB)
-            FormulaText2.WireTo(sf2, "textOutput"); // (TextBox (FormulaText2).textOutput) -- [IDataFlow<string>] --> (StringFormat<string> (sf2).input0)
-            sf2.WireTo(Formula2, "output"); // (StringFormat<string> (sf2).output) -- [IDataFlow<string>] --> (Formula (Formula2).formula)
-            Formula2.WireTo(dfc2, "result"); // (Formula (Formula2).result) -- [IDataFlow<double>] --> (DataFlowConnector<double> (dfc2).input)
-            Formula1.WireTo(dfc2, "operands"); // (Formula (Formula1).operands) -- [IDataFlowB<double>] --> (DataFlowConnector<double> (dfc2).outputsB)
-            Formula2.WireTo(dfc2, "operands"); // (Formula (Formula2).operands) -- [IDataFlowB<double>] --> (DataFlowConnector<double> (dfc2).outputsB)
-            dfc2.WireTo(id_2c52c6f6a829412e9ff552742beec11b, "outputs"); // (DataFlowConnector<double> (dfc2).outputs) -- [IDataFlow<T>] --> (NumberToString (id_2c52c6f6a829412e9ff552742beec11b).input)
-            id_2c52c6f6a829412e9ff552742beec11b.WireTo(Result2, "output"); // (NumberToString (id_2c52c6f6a829412e9ff552742beec11b).output) -- [IDataFlow<string>] --> (Text (Result2).textInput)
-            id_d00e2f96bebf45d3a23bc3b1b0776f22.WireTo(id_5a8fd3747a7f49ad9b89740300b25273, "output"); // (StringConcat (id_d00e2f96bebf45d3a23bc3b1b0776f22).output) -- [iDataFlow<string>] --> (DataFlowConnector<string> (id_5a8fd3747a7f49ad9b89740300b25273).input)
-            sf1.WireTo(id_5a8fd3747a7f49ad9b89740300b25273, "inputs"); // (StringFormat<string> (sf1).inputs) -- [IDataFlowB<string>] --> (DataFlowConnector<string> (id_5a8fd3747a7f49ad9b89740300b25273).outputsB)
-            sf2.WireTo(id_5a8fd3747a7f49ad9b89740300b25273, "inputs"); // (StringFormat<string> (sf2).inputs) -- [IDataFlowB<string>] --> (DataFlowConnector<string> (id_5a8fd3747a7f49ad9b89740300b25273).outputsB)
+            id_24914ab245484fe1b70af8020ca2e831.WireTo(id_93a237ff714b48748a4ba10ede42d2dc, "children"); // (Horizontal (id_24914ab245484fe1b70af8020ca2e831).children) -- [List<IUI>] --> (Text (id_93a237ff714b48748a4ba10ede42d2dc).child)
+            labelsConcatenator.WireTo(Row1, "inputs"); // (StringConcat (labelsConcatenator).inputs) -- [IDataFlowB<string>] --> (CalculatorRow (Row1).label)
+            Row2.WireTo(Row1, "operands"); // (CalculatorRow (Row2).operands) -- [IDataFlowB<double>] --> (CalculatorRow (Row1).result)
+            Row1.WireTo(Row1, "operands"); // (CalculatorRow (Row1).operands) -- [IDataFlowB<double>] --> (CalculatorRow (Row1).result)
+            labelsConcatenator.WireTo(Row2, "inputs"); // (StringConcat (labelsConcatenator).inputs) -- [IDataFlowB<string>] --> (CalculatorRow (Row2).label)
+            Row2.WireTo(Row2, "operands"); // (CalculatorRow (Row2).operands) -- [IDataFlowB<double>] --> (CalculatorRow (Row2).result)
+            Row1.WireTo(Row2, "operands"); // (CalculatorRow (Row1).operands) -- [IDataFlowB<double>] --> (CalculatorRow (Row2).result)
+            labelsConcatenator.WireTo(labelsConcatenatorConnector, "output"); // (StringConcat (labelsConcatenator).output) -- [iDataFlow<string>] --> (DataFlowConnector<string> (labelsConcatenatorConnector).input)
+            Row2.WireTo(labelsConcatenatorConnector, "labelsCommaSeparated"); // (CalculatorRow (Row2).labelsCommaSeparated) -- [IDataFlowB<string>] --> (DataFlowConnector<string> (labelsConcatenatorConnector).outputsB)
+            Row1.WireTo(labelsConcatenatorConnector, "labelsCommaSeparated"); // (CalculatorRow (Row1).labelsCommaSeparated) -- [IDataFlowB<string>] --> (DataFlowConnector<string> (labelsConcatenatorConnector).outputsB)
             // END AUTO-GENERATED WIRING FOR Calculator2ARows.xmind
+            Row1.WireInternals();
+            Row2.WireInternals();
         }
 
 
