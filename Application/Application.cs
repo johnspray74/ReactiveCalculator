@@ -21,11 +21,11 @@ namespace Application
 
         private Application()
         {
-            CalculatorNRows();
+            // CalculatorNRows();
             // Calculator10Rows();
             // Calculator2ARows();
             // Calculator6Rows();
-            // Calculator2Rows();
+            Calculator2Rows();
             // Calculator1Row(); 
             // CalculatorBasic();
             // CalculatorBasicHandWired(); // fails
@@ -52,7 +52,7 @@ namespace Application
             DataFlowConnector<string> labelsConcatenatorConnector = new DataFlowConnector<string>() { InstanceName = "labelsConcatenatorConnector" };
             Horizontal id_24914ab245484fe1b70af8020ca2e831 = new Horizontal() { InstanceName = "Default", Ratios = new int[] { 1,2,2,1,3 }, MinWidths = new int[] { 50,200,520 } };
             Horizontal id_aa2f23f75c79479e88ccf7ed0ed6c2cc = new Horizontal() { InstanceName = "Default", Ratios = new int[] { 1,8 }, MinWidths = new int[] { 50 } };
-            Multiple MultipleRow = new Multiple(N:4 ) { InstanceName = "MultipleRow", WiringMethod = (newInstance) => { rows.WireTo(newInstance); labelsConcatenator.WireTo(newInstance,"inputs"); newInstance.WireTo(labelsConcatenatorConnector,"labelsCommaSeparated"); ((CalculatorRow)newInstance).WireInternals(); }, CrossWiringMethod = (instance1,instance2) => { instance2.WireFrom(instance1,"operands"); }, PostWiringInitializeMethod = delegate(object instance) { rows.AddRows(); ((CalculatorRow)instance).Initialize(); }  };
+            Multiple MultipleRow = new Multiple(N:4 ) { InstanceName = "MultipleRow", WiringMethod = (newInstance) => { rows.WireTo(newInstance); labelsConcatenator.WireTo(newInstance,"inputs"); newInstance.WireTo(labelsConcatenatorConnector,"labelsCommaSeparated");  }, CrossWiringMethod = (instance1,instance2) => { instance2.WireFrom(instance1,"operands"); }, PostWiringInitializeMethod = delegate(object instance) { rows.AddRows(); ((CalculatorRow)instance).Initialize(); }  };
             Space id_68d3e779ba0d4f78ad48db2ed468608c = new Space() { InstanceName = "Default" };
             Text id_39a7a11c94da4b338a92b2235b8e96d1 = new Text("Units" ) { InstanceName = "Default", FontSize=25 };
             Text id_6be1dbef5dd042ba88554b4482b16079 = new Text("Formula" ) { InstanceName = "Default", FontSize=25 };
@@ -63,6 +63,7 @@ namespace Application
             TextBox id_b84a8eee3a554afaad9fa90ac6b594f9 = new TextBox() { InstanceName = "Default", Text="Title your calculation here", FontSize=15 };
             Vertical id_b02d2caea938499b997b9bfcb80fb0e9 = new Vertical() { InstanceName = "Default" };
             // END AUTO-GENERATED INSTANTIATIONS FOR CalculatorNRows.xmind
+            // ((CalculatorRow)newInstance).WireInternals();
 
             // BEGIN AUTO-GENERATED WIRING FOR CalculatorNRows.xmind
             mainWindow.WireTo(id_b02d2caea938499b997b9bfcb80fb0e9, "iuiStructure"); // (@MainWindow (mainWindow).iuiStructure) -- [IUI] --> (Vertical (id_b02d2caea938499b997b9bfcb80fb0e9).child)
@@ -98,7 +99,7 @@ namespace Application
             CalculatorRowFactory id_012306911dbe485c91ecd24bd35b2420 = new CalculatorRowFactory() { InstanceName = "Default" };
             DataFlowConnector<string> labelsConcatenatorConnector = new DataFlowConnector<string>() { InstanceName = "labelsConcatenatorConnector" };
             Horizontal id_24914ab245484fe1b70af8020ca2e831 = new Horizontal() { InstanceName = "Default", Ratios = new int[] { 1,2,2,1,3 }, MinWidths = new int[] { 50,200,520 } };
-            Multiple MultipleRow = new Multiple(N:10 ) { InstanceName = "MultipleRow", WiringMethod = (newInstance) => { rows.WireTo(newInstance); labelsConcatenator.WireTo(newInstance,"inputs"); newInstance.WireTo(labelsConcatenatorConnector,"labelsCommaSeparated"); ((CalculatorRow)newInstance).WireInternals();}, CrossWiringMethod = (instance1,instance2) => { instance2.WireFrom(instance1,"operands"); } };
+            Multiple MultipleRow = new Multiple(N:10 ) { InstanceName = "MultipleRow", WiringMethod = (newInstance) => { rows.WireTo(newInstance); labelsConcatenator.WireTo(newInstance,"inputs"); newInstance.WireTo(labelsConcatenatorConnector,"labelsCommaSeparated"); }, CrossWiringMethod = (instance1,instance2) => { instance2.WireFrom(instance1,"operands"); } };
             Text id_39a7a11c94da4b338a92b2235b8e96d1 = new Text("Units" ) { InstanceName = "Default", FontSize=25 };
             Text id_6be1dbef5dd042ba88554b4482b16079 = new Text("Formula" ) { InstanceName = "Default", FontSize=25 };
             Text id_93a237ff714b48748a4ba10ede42d2dc = new Text("Description" ) { InstanceName = "Default", FontSize=25 };
@@ -164,8 +165,8 @@ namespace Application
             Row2.WireTo(labelsConcatenatorConnector, "labelsCommaSeparated"); // (CalculatorRow (Row2).labelsCommaSeparated) -- [IDataFlowB<string>] --> (DataFlowConnector<string> (labelsConcatenatorConnector).outputsB)
             Row1.WireTo(labelsConcatenatorConnector, "labelsCommaSeparated"); // (CalculatorRow (Row1).labelsCommaSeparated) -- [IDataFlowB<string>] --> (DataFlowConnector<string> (labelsConcatenatorConnector).outputsB)
             // END AUTO-GENERATED WIRING FOR Calculator2ARows.xmind
-            Row1.WireInternals();
-            Row2.WireInternals();
+            // Row1.WireInternals();
+            // Row2.WireInternals();
         }
 
 

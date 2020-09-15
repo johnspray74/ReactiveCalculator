@@ -47,6 +47,7 @@ namespace RequirementsAbstractions
         /// </summary>
         public CalculatorRow()
         {
+            WireInternals();
         }
 
 
@@ -134,9 +135,7 @@ namespace RequirementsAbstractions
 
 
 
-        // This Cant be called in the constructor because the last part of it needs to be done after the application wiring to/from us completed
-        // This can be called either in the PostWiringInitialize or even later during runtime
-        public CalculatorRow WireInternals()
+        private void WireInternals()
         {
             if (internalWiringDone) throw new Exception("Please don't call WireInternals more than once");
 
@@ -213,7 +212,6 @@ namespace RequirementsAbstractions
             internalWiringDone = true;  
             operandsPostWiringInitialize();   // Wire up any operands we already have wired externally. Note that operands can also be wired externally at run-time
             labelsCommaSeparatedPostWiringInitialize();  // Tolerate external wiring being done before or after internal wiring to remove temporal coupling
-            return this; // support fluent pattern
         }
 
 
