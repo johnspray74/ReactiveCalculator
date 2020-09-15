@@ -14,6 +14,8 @@ The calculator we develop here is the calculator that these calculators should h
 
 ![Reactive calculator](/images/CalculatorScreenshot2.png)
 
+Click on the Wiki for how you use the calculator. Also documentation on how to understand the ALA architecture code. https://github.com/johnspray74/ReactiveCalculator/wiki
+
 # Folders and files
 
 The project contains the four folders that correspond to the four normal layers of ALA:
