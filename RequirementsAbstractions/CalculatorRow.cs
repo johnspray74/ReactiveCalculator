@@ -171,7 +171,7 @@ namespace RequirementsAbstractions
             id_6fe26e8021c64d8dad4e5b6016f7b659.WireTo(descriptionText, "children"); // (Horizontal (id_6fe26e8021c64d8dad4e5b6016f7b659).children) -- [List<IUI>] --> (TextBox (descriptionText).child)
             labelText.WireTo(id_65f22d8aa160470e8da02d0fce01edca, "textOutput"); // (TextBox (labelText).textOutput) -- [IDataFlow<string>] --> (DataFlowConnector<string> (id_65f22d8aa160470e8da02d0fce01edca).input)
             formulaText.WireTo(sf1, "textOutput"); // (TextBox (formulaText).textOutput) -- [IDataFlow<string>] --> (StringFormat<string> (sf1).input0)
-            sf1.WireTo(id_b9e566abb4cc42d1a7d3927615231c50, "inputs"); // (StringFormat<string> (sf1).inputs) -- [List<IDataFlowB<string>>] --> (DataFlowBNull<string> (id_b9e566abb4cc42d1a7d3927615231c50).output)
+            sf1.WireTo(id_b9e566abb4cc42d1a7d3927615231c50, "inputs"); // (StringFormat<string> (sf1).inputs) -- [IDataFlowB<string>] --> (DataFlowBNull<string> (id_b9e566abb4cc42d1a7d3927615231c50).output)
             sf1.WireTo(formula, "output"); // (StringFormat<string> (sf1).output) -- [IDataFlow<string>] --> (Formula (formula).formula)
             formula.WireTo(dfc1, "result"); // (Formula (formula).result) -- [IDataFlow<double>] --> (DataFlowConnector<double> (dfc1).input)
             dfc1.WireTo(id_4c9cb86bce4544fe90c628e9eaecbcec, "outputs"); // (DataFlowConnector<double> (dfc1).outputs) -- [IDataFlow<T>] --> (NumberToString (id_4c9cb86bce4544fe90c628e9eaecbcec).input)
