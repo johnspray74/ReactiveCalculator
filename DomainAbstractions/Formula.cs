@@ -68,10 +68,10 @@ namespace DomainAbstractions
 
         // Private fields
         private const int MaxLambdaDelegateParameters = 6;
-        // These inputs lists have two uses:
-        // 1 we use them as shadow copies of the last value we had to see if inputs have actually changed
+        // These operandShadows have two uses:
+        // 1 we use them as shadow copies of the last value we had on our operand input to see if they have actually changed
         // 2 we copy the IDataFlowB operands into them for easier access
-        private List<double> inputs = new List<double>();
+        private List<double> operandShadows = new List<double>();
 
         // This list maps the reduced lambda parameters to the input lambda parameters. For example input lambda expression is "(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x) => c*e"  reduced lambda expression is "(c,e) => e*c" and mapping is { 2, 4 }
         private List<int> reducedInputsMapping = new List<int>();
@@ -79,7 +79,6 @@ namespace DomainAbstractions
 
 
         int loopCounter = 0;
-        bool infiniteLoopStop;
 
         private void operandsPostWiringInitialize()
         {
@@ -91,25 +90,24 @@ namespace DomainAbstractions
             // if no inputs are changed then dont change the output -- this allows a Formula to be wired in a loop in a DataFlow
             if (operands == null) return;
             bool change = false;
-            int Index = 0;
+            int index = 0;
             foreach (IDataFlowB<double> operand in operands)
             {
-                if (inputs.Count < Index + 1) inputs.Add(double.NaN);
-                double newValue = operand.Data;
-                double oldValue = inputs[Index];
-                inputs[Index] = newValue;
-                if (DoubleEq(newValue, oldValue)) { change = true; }
-                Index++;
+                // if we have had new operands wired to us, increase the number of shadows
+                if (operandShadows.Count < index + 1) operandShadows.Add(double.NaN);
+                if (DoubleEq(operand.Data, operandShadows[index])) { change = true; }
+                operandShadows[index] = operand.Data;
+                index++;
             }
 
 
             if (change)
             {
-                loopCounter++;
-                if (loopCounter == 10) infiniteLoopStop = true;
-                if (!infiniteLoopStop) SomethingChanged();
+                // In case the user enters a formula that refers to itself, e.g. label="x"  formyla="x+1", we let it iterate 10 times then stop 
+                // later, we can allow this to go more times if it is converging
+                loopCounter++;  
+                if (loopCounter < 10) SomethingChanged();
                 loopCounter--;
-                if (loopCounter == 0) infiniteLoopStop = false;
             }
         }
 
@@ -125,7 +123,7 @@ namespace DomainAbstractions
                 _inputLambda = RemoveUnusedLambdaParameters(value, out reducedInputsMapping);
                 _inputLambda = AddDummyParameters(_inputLambda, MaxLambdaDelegateParameters);
                 Compile(_inputLambda);
-                if (inputs.Count == 0) OperandChanged(); // If formula input changes before any of the operand inputs change, this will get the input values from the input operand ports for the first time
+                if (operandShadows.Count == 0) OperandChanged(); // If formula input changes before any of the operand inputs change, this will get the input values from the input operand ports for the first time
                 SomethingChanged();
             }
         }
@@ -145,12 +143,12 @@ namespace DomainAbstractions
                 {
                     if (i<reducedInputsMapping.Count)
                     {
-                        values[i] = inputs[reducedInputsMapping[i]];
+                        values[i] = operandShadows[reducedInputsMapping[i]];
                     }
                     else  // no mapping so just use the inputs directly
-                    if (i < inputs.Count)
+                    if (i < operandShadows.Count)
                     {
-                        values[i] = inputs[i];
+                        values[i] = operandShadows[i];
                     }
                     else
                     {

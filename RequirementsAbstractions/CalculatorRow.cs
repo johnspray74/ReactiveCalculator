@@ -141,11 +141,11 @@ namespace RequirementsAbstractions
             Horizontal id_6fe26e8021c64d8dad4e5b6016f7b659 = new Horizontal() { InstanceName = "Default", Ratios = new int[] { 1,2,2,1,3 }, MinWidths = new int[] { 50,200,520 } };
             NumberToString id_4c9cb86bce4544fe90c628e9eaecbcec = new NumberToString() { InstanceName = "Default" };
             StringFormat<string> sf1 = new StringFormat<string>("({1})=>{0}" ) { InstanceName = "sf1" };
-            Text resultText = new Text() { InstanceName = "resultText", FontSize=50 };
-            TextBox descriptionText = new TextBox() { InstanceName = "descriptionText", FontSize=50 };
-            TextBox formulaText = new TextBox() { InstanceName = "formulaText", FontSize=50 };
-            TextBox labelText = new TextBox() { InstanceName = "labelText", FontSize=50 };
-            TextBox unitsText = new TextBox() { InstanceName = "unitsText", FontSize=50 };
+            Text resultText = new Text() { InstanceName = "resultText", FontSize=25 };
+            TextBox descriptionText = new TextBox() { InstanceName = "descriptionText", FontSize=25 };
+            TextBox formulaText = new TextBox() { InstanceName = "formulaText", FontSize=25 };
+            TextBox labelText = new TextBox() { InstanceName = "labelText", FontSize=25 };
+            TextBox unitsText = new TextBox() { InstanceName = "unitsText", FontSize=25 };
             // END AUTO-GENERATED INSTANTIATIONS FOR CalculatorRow.xmind
 
 
