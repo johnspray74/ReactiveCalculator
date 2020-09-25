@@ -12,7 +12,7 @@ namespace DomainAbstractions
     /// IUI "NEEDNAME": input IUI to get the WPF element
     /// IEvent "eventButtonClicked": output event when button is clicked
     /// </summary>
-    public class Button : IUI
+    public class Button : IUI, ITestButton
     {
         // properties ------------------------------------------------------------
         public string InstanceName { get; set; } = "Default";
@@ -49,5 +49,19 @@ namespace DomainAbstractions
         {
             return button;
         }
+
+
+
+
+        void ITestButton.Click()
+        {
+            eventButtonClicked?.Execute();
+        }
+    }
+
+
+    interface ITestButton
+    {
+        void Click();
     }
 }

@@ -177,7 +177,6 @@ namespace DomainAbstractions
             options = options.AddImports("System.Math");
             try
             {
-                // Lambda = await CSharpScript.EvaluateAsync<Func<double, double, double, double, double, double, double>>(lambda, options);
                 Lambda = await CSharpScript.EvaluateAsync<LambdaType>(formula, options);
             }
             catch (CompilationErrorException e)

@@ -26,7 +26,7 @@ namespace DomainAbstractions
         // public double Height { set => textBox.Height = value; }
         // public double MinWidth { set => textBox.MinWidth = value; }
         public double FontSize { set => textBox.FontSize = value; }
-        public string Text { set { textBox.Text = value; text = value; } }
+        public string Text { set { textBox.Text = value; } }
 
 
 
@@ -39,7 +39,6 @@ namespace DomainAbstractions
 
 
         // Fields
-        private string text;
         // TextBox overlaps with Systems.Windows.Controls.TextBox if we have "using System.Windows.Controls;"
         private System.Windows.Controls.TextBox textBox = new System.Windows.Controls.TextBox();
 
@@ -61,8 +60,7 @@ namespace DomainAbstractions
 
         private void TextBox_TextChanged()
         {
-            text = textBox.Text;
-            if (textOutput != null) textOutput.Data = text;
+            if (textOutput != null) textOutput.Data = textBox.Text;
             DataChanged?.Invoke();
         }
 
@@ -90,7 +88,7 @@ namespace DomainAbstractions
 
         string IDataFlowB<string>.Data
         {
-            get => text;
+            get => textBox.Text;
         }
 
         // IEvent implementation
