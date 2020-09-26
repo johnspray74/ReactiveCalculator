@@ -62,6 +62,25 @@ namespace Application
             public CalculatorNRows(out MainWindow mw)
             {
                 // BEGIN AUTO-GENERATED INSTANTIATIONS FOR CalculatorNRows.xmind
+                DataFlowConnector<string> labelsConcatenatorConnector = new DataFlowConnector<string>() { InstanceName = "labelsConcatenatorConnector" };
+                StringConcat labelsConcatenator = new StringConcat() { InstanceName = "labelsConcatenator", Separator = "," };
+                MainWindow mainWindow = new MainWindow(title: "Reactive calculator") { InstanceName = "mainWindow" };
+                Vertical id_ab7d6bb3231b4b37be376729297d30f9 = new Vertical() { };
+                Text id_ae40036a59474bc0b346d7831c886d3d = new Text(text: "Reactive Calculator") { FontSize = 25 };
+                TextBox id_d5bb593d07704c6db1a13375135cc4eb = new TextBox() { Text = "Title your calculator here", FontSize = 15 };
+                Horizontal id_b8af25dcb2e04ad1b781278bf1f14a8b = new Horizontal() { Ratios = new int[] { 1, 2, 2, 1, 3 }, MinWidths = new int[] { 50, 200, 520 } };
+                Vertical rows = new Vertical() { InstanceName = "rows" };
+                Horizontal id_a34cada9225e48da874b6ab33682cbbf = new Horizontal() { Ratios = new int[] { 1, 8 }, MinWidths = new int[] { 50 } };
+                Text id_61a7f69d4bb4483a9b1594e249025cab = new Text(text: "Label") { FontSize = 25 };
+                Text id_d041e7f378b247708f7c62283542ae2a = new Text(text: "Formula") { FontSize = 25 };
+                Text id_d7e3236140ff42f58d8817f329f70153 = new Text(text: "Result") { FontSize = 25 };
+                Text id_2b57779b47be4366a13549f62593527d = new Text(text: "Units") { FontSize = 25 };
+                Text id_c2a173a7c4d84fe4a1483a91b735c231 = new Text(text: "Description") { FontSize = 25 };
+                Button id_69a51ddc7a1f4f25b5b702f552a3d5e5 = new Button(title: "Add row") { FontSize = 25 };
+                Multiple MultipleRow = new Multiple(N: 4) { InstanceName = "MultipleRow", WiringMethod = (newInstance) => { rows.WireTo(newInstance); labelsConcatenator.WireTo(newInstance, "inputs"); newInstance.WireTo(labelsConcatenatorConnector, "labelsCommaSeparated"); testCalculatorRows.Add((ITestCalculatorRow)newInstance); }, CrossWiringMethod = (instance1, instance2) => { instance2.WireFrom(instance1, "operands"); }, PostWiringInitializeMethod = delegate (object instance) { _rows.AddRows(); ((CalculatorRow)instance).Initialize(); } };
+                Space id_fc080cf2fe5645fe930db00f3a17e48f = new Space();
+                CalculatorRowFactory id_79a15ff2ce34491bba4a10f066e0baaf = new CalculatorRowFactory() { };
+                /*
                 Button id_803db86064414b379608f65bc07098bc = new Button("Add row" ) { InstanceName = "Default", FontSize=25 };
                 CalculatorRowFactory id_012306911dbe485c91ecd24bd35b2420 = new CalculatorRowFactory() { InstanceName = "Default" };
                 DataFlowConnector<string> labelsConcatenatorConnector = new DataFlowConnector<string>() { InstanceName = "labelsConcatenatorConnector" };
@@ -80,9 +99,27 @@ namespace Application
                 TextBox id_b84a8eee3a554afaad9fa90ac6b594f9 = new TextBox() { InstanceName = "Default", Text="Title your calculation here", FontSize=15 };
                 Vertical id_b02d2caea938499b997b9bfcb80fb0e9 = new Vertical() { InstanceName = "Default" };
                 Vertical rows = new Vertical() { InstanceName = "rows" };
+                */
                 // END AUTO-GENERATED INSTANTIATIONS FOR CalculatorNRows.xmind
 
                 // BEGIN AUTO-GENERATED WIRING FOR CalculatorNRows.xmind
+                mainWindow.WireTo(id_ab7d6bb3231b4b37be376729297d30f9, "iuiStructure");
+                id_ab7d6bb3231b4b37be376729297d30f9.WireTo(id_ae40036a59474bc0b346d7831c886d3d, "children");
+                id_ab7d6bb3231b4b37be376729297d30f9.WireTo(id_d5bb593d07704c6db1a13375135cc4eb, "children");
+                id_ab7d6bb3231b4b37be376729297d30f9.WireTo(id_b8af25dcb2e04ad1b781278bf1f14a8b, "children");
+                id_ab7d6bb3231b4b37be376729297d30f9.WireTo(rows, "children");
+                id_ab7d6bb3231b4b37be376729297d30f9.WireTo(id_a34cada9225e48da874b6ab33682cbbf, "children");
+                id_b8af25dcb2e04ad1b781278bf1f14a8b.WireTo(id_61a7f69d4bb4483a9b1594e249025cab, "children");
+                id_b8af25dcb2e04ad1b781278bf1f14a8b.WireTo(id_d041e7f378b247708f7c62283542ae2a, "children");
+                id_b8af25dcb2e04ad1b781278bf1f14a8b.WireTo(id_d7e3236140ff42f58d8817f329f70153, "children");
+                id_b8af25dcb2e04ad1b781278bf1f14a8b.WireTo(id_2b57779b47be4366a13549f62593527d, "children");
+                id_b8af25dcb2e04ad1b781278bf1f14a8b.WireTo(id_c2a173a7c4d84fe4a1483a91b735c231, "children");
+                id_a34cada9225e48da874b6ab33682cbbf.WireTo(id_69a51ddc7a1f4f25b5b702f552a3d5e5, "children");
+                id_a34cada9225e48da874b6ab33682cbbf.WireTo(id_fc080cf2fe5645fe930db00f3a17e48f, "children");
+                id_69a51ddc7a1f4f25b5b702f552a3d5e5.WireTo(MultipleRow, "eventButtonClicked");
+                MultipleRow.WireTo(id_79a15ff2ce34491bba4a10f066e0baaf, "factory");
+                labelsConcatenator.WireTo(labelsConcatenatorConnector, "output");
+                /*
                 mainWindow.WireTo(id_b02d2caea938499b997b9bfcb80fb0e9, "iuiStructure"); // (MainWindow (mainWindow).iuiStructure) -- [IUI] --> (Vertical (id_b02d2caea938499b997b9bfcb80fb0e9).child)
                 labelsConcatenator.WireTo(labelsConcatenatorConnector, "output"); // (StringConcat (labelsConcatenator).output) -- [iDataFlow<string>] --> (DataFlowConnector<string> (labelsConcatenatorConnector).input)
                 id_b02d2caea938499b997b9bfcb80fb0e9.WireTo(id_fc0b8f38b3c14f799f605cd54214b503, "children"); // (Vertical (id_b02d2caea938499b997b9bfcb80fb0e9).children) -- [List<IUI>] --> (Text (id_fc0b8f38b3c14f799f605cd54214b503).child)
@@ -99,6 +136,7 @@ namespace Application
                 id_aa2f23f75c79479e88ccf7ed0ed6c2cc.WireTo(id_68d3e779ba0d4f78ad48db2ed468608c, "children"); // (Horizontal (id_aa2f23f75c79479e88ccf7ed0ed6c2cc).children) -- [List<IUI>] --> (Space (id_68d3e779ba0d4f78ad48db2ed468608c).child)
                 id_803db86064414b379608f65bc07098bc.WireTo(MultipleRow, "eventButtonClicked"); // (Button (id_803db86064414b379608f65bc07098bc).eventButtonClicked) -- [IEvent] --> (Multiple (MultipleRow).addRow)
                 MultipleRow.WireTo(id_012306911dbe485c91ecd24bd35b2420, "factory"); // (Multiple (MultipleRow).factory) -- [IFactoryMethod] --> (CalculatorRowFactory (id_012306911dbe485c91ecd24bd35b2420).factory)
+                */
                 // END AUTO-GENERATED WIRING FOR CalculatorNRows.xmind
 
                 // These are used to solve compiler error "Cannot use local variable 'rows' before it is declared" in the lambda functions in the wiring code above if they reference 'rows' and 'labelsConcetenator' instead;
@@ -110,8 +148,10 @@ namespace Application
 
 
                 // these are used for testing the application to set the title and press the button
-                title = id_b84a8eee3a554afaad9fa90ac6b594f9;
-                addRowButton = id_803db86064414b379608f65bc07098bc;
+                title = id_d5bb593d07704c6db1a13375135cc4eb;
+                // title = id_b84a8eee3a554afaad9fa90ac6b594f9;
+                addRowButton = id_69a51ddc7a1f4f25b5b702f552a3d5e5;
+                // addRowButton = id_803db86064414b379608f65bc07098bc;
 
                 mw = mainWindow;
             }
