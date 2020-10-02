@@ -7,11 +7,11 @@ using System.Windows;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ALASandbox")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Reactive Calculator")]
+[assembly: AssemblyDescription("A spreadsheet style calculator")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ALASandbox")]
+[assembly: AssemblyProduct("Reactive Calculator")]
 [assembly: AssemblyCopyright("Copyright ©  2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
