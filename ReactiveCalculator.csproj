@@ -140,8 +140,8 @@
     <Compile Include="DomainAbstractions\TextBox.cs" />
     <Compile Include="DomainAbstractions\Vertical.cs" />
     <Compile Include="Libraries\Wiring.cs" />
-    <Compile Include="ProgrammingParadigms\DataFlowConnector.cs" />
-    <Compile Include="ProgrammingParadigms\EventConnector.cs" />
+    <Compile Include="ProgrammingParadigms\DataFlow.cs" />
+    <Compile Include="ProgrammingParadigms\Event.cs" />
     <Compile Include="ProgrammingParadigms\IFactoryMethod.cs" />
     <Compile Include="ProgrammingParadigms\IUI.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

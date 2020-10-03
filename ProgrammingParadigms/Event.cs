@@ -23,7 +23,7 @@ namespace ProgrammingParadigms
 
 
     /// <summary>
-    /// This second methiod of implementing the Event programming paradigm (using IEventB) is more complicated, but overcomes a limitation in the C# language in the case where
+    /// This second method of implementing the Event programming paradigm (using IEventB) is more complicated, but overcomes a limitation in the C# language in the case where
     /// a domain abstraction needs to have more than one receive port. (C# doesn't allow you to implement IEvent twice) To overcome this C# language limitation, the receiver has IEventB fields instead of implementing IEvent.
     /// So the implemetation is the reverse of IEvent - with IEventB, the sender implements the interface and the receiver requires the interface.
     /// The interface itself is implemented as a C# event. So don't confuse the ALA programming paradigm, IEvent and IEventB, with C# events. IEventB uses a C# event, IEvent uses a simple Execute method.
@@ -73,7 +73,7 @@ namespace ProgrammingParadigms
         public string InstanceName { get; set; }
 
         // outputs
-        private List<IEvent> fanoutList = new List<IEvent>();
+        private List<IEvent> outputs = new List<IEvent>();
         private IEvent complete;
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace ProgrammingParadigms
         // IEvent implementation ------------------------------------
         void IEvent.Execute()
         {
-            foreach (var fanout in fanoutList) fanout.Execute();
+            foreach (var fanout in outputs) fanout.Execute();
             EventHappened?.Invoke();
             complete?.Execute();
         }
