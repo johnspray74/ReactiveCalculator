@@ -6,7 +6,7 @@ using DomainAbstractions;
 using ProgrammingParadigms;
 using Libraries;
 
-namespace RequirementsAbstractions
+namespace Application
 {
     // TBD
     // Move the generated wiring code to its own function so that it can be called at runtime
