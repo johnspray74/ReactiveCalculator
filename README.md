@@ -21,13 +21,11 @@ Click on the Wiki for how you use the calculator. Also documentation on how to u
 The project contains the four folders that correspond to the four normal layers of ALA:
 
 * Application
-* Requirement Abstractions
 * Domain Abstractions
 * Programming Paradigms
 * Library
 
 Inside the Application folder is a Hello world application, which is the starting point for writing the calculators, and development versions of the calculator.
-Inside the Requirement Abstractions layer is an abstraction that implements a commonly recurring abstraction in the requirements, a calculatorRow (see the image above)
 Inside the Domain Abstractions folder are a few pre-written reuseable abstractions for the Application and Requirements Abstractions layers to use.
 Inside the ProgrammingParadigms folder are some interfaces that allow instances of abstractions to be wired together in different ways and execute at run-time.
 Inside the Library folder is the WireTo extension method that the Applications and Requirements abstractions layers use to wire up those instances. 
@@ -59,15 +57,15 @@ Inside the Library folder is the WireTo extension method that the Applications a
 
     Alternatively, unzip the downloaded zip file into the folder.
 
-6. Double click the file ALASandbox.sln, which will open in Visual Studio.
+6. Double click the file ReactiveCalculator.sln, which will open in Visual Studio.
     1. If you get a pop up asking "How do you want to open this file?" select either "Microsoft Visual Studio Version Selector" Or "Visual Studio 2019"
     ![Version_Selector](/images/Version_Selector.PNG)
 
-7. Press F5 to run the default application which is Hello world.
+7. Press F5 to run the default application which is the latest version of the calculator. The calculator uses a package which it should get from Nuget automatically. If you get an error about a package missing, try right cliking on the solution in Solution Explorer the Restore Nuget packages. If that fails, the are instruction below to manually install the needed package to the solution.
 
-8. Install Xmind from https://www.xmind.net/xmind2020/
+8. If you want to view or change the diagrams, install Xmind from https://www.xmind.net/xmind2020/
 
-    We will use Xmind to quickly create ALA diagrams during the workshop.
+    I am in the process of transitioning to a new diagramming tool specifically written to support ALA application diagrams. So Xmind is a temporary tool.
     
 9. Click on 'release' on the main ReactiveCalculator page of Github or click on this link:
 
@@ -76,7 +74,7 @@ Inside the Library folder is the WireTo extension method that the Applications a
     Click "Download the XMindParser here" to download it. Save it anywhere on your computer. 
     In a Windows Explorer window, unzip it so that the tool's executable is ready to use.
 	
-10. The workshop project uses a package that doesn't come installed with Visual Studio. We need to install it using the Nuget Package manager.
+10. The workshop project uses a package that doesn't come installed with Visual Studio. It should isntall automatically when you press F5 to run the program. If it doesn't install, these are the manual instracyions. 
 
     1. In Visual Studio, click Tools, Nuget Packet Manager, Manage Nuget Packages for Solution
 	
