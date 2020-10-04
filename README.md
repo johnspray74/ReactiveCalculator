@@ -1,4 +1,4 @@
-# ReactiveCalculator 
+# Reactive Calculator 
 
 This project was originally a workshop for ALA (Abstraction Layered Architecture) reference here: (https://abstractionlayeredarchitecture.com)
 
