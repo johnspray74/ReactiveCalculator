@@ -1,0 +1,23 @@
+If you are new to this project, it uses an architecture called ALA (abstractionlayeredarchitecture.com)
+Section 2.15 at this website has the background information about this calculator and its design.
+
+ALA uses four subfolders/namespaces which are four layers called:
+
+Application
+DomainAbstractions
+ProgrammingParadigms
+Library
+
+Dependencies only go down these layers.
+The entire application is written in the Application layer. It consists of Application.cs and CalculatorRow.cs, but these are mostly generated code from two diagrams of the same names respectively.
+
+In the Application diagram, start reading the code at the mainWindow.
+
+These diagrams instantiate abstractions in the DomainAbstractions layer, and then wires them together.
+
+The wiring of these instances is achieved using interfaces that are in the ProgrammingParadigms layer.
+There are programming paradigms for Events, DataFlow, and UI.
+
+The wiring engine (WireTo extension method) is in the Library layer.
+
+

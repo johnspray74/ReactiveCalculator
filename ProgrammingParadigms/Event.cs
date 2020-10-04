@@ -3,7 +3,17 @@ using System.Collections.Generic;
 
 namespace ProgrammingParadigms
 {
-    /// <summary>
+    // A prerequisite to understanding this programming paradigm interface is to know that the layer below provides a wiring engine. The application uses it to wire together instances of domain abstractions, and this wiring together is done via interfaces in this programming paradigms layer.
+    // This particular programming paradigm interface is for the flow of data between the instances of domain abstractions that get wired together using it.
+    // Theory about ALA can be found at abstractionlayeredarchitecture.com
+
+    // Note the two interfaces below, IEvent and IEventB, and the EventConnector are all considered part of the same programming paradigm abstraction - events. 
+    // That's why all three are in a common file
+
+
+
+
+   /// <summary>
     /// Events or observer pattern (publish/subscribe) without data.
     /// An example usage would be to wire a Button, which is an IEvent sender, to a FileBrowser, which is an IEvent receiver. When the button is pressed, the FileBrowser opens.
     /// Currently is synchronous only (TBD asynchronous version configurable per domain abstraction port)

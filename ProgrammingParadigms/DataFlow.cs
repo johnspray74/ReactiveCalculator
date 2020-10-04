@@ -3,8 +3,15 @@ using Libraries;
 
 namespace ProgrammingParadigms
 {
-    // Note the two interfaces below, IdataFlow and IDataFlowB, and the DataFlowConnector are all considered part of the same programming paradigm abstraction - data-flow. 
-    // Thats why all three are in a common file
+    // A prerequisite to understanding this programming paradigm interface is to know that the layer below provides a wiring engine. The application uses it to wire together instances of domain abstractions, and this wiring together is done via interfaces in this programming paradigms layer.
+    // This particular programming paradigm interface is for the flow of data between the instances of domain abstractions that get wired together using it.
+
+    // Note the two interfaces below, IDataFlow and IDataFlowB, and the DataFlowConnector are all considered part of the same programming paradigm abstraction - data-flow. 
+    // That's why all three are in a common file
+    // Theory about ALA can be found at abstractionlayeredarchitecture.com
+
+
+
 
     /// <summary>
     /// A data-flow programming paradigm with a single scalar value with a primitive data type.
