@@ -76,7 +76,19 @@ Reading an ALA application starts with reading the code in the Application folde
     Click "Download the XMindParser here" to download it. Save it anywhere on your computer. 
     In a Windows Explorer window, unzip it so that the tool's executable is ready to use.
 	
-10. The workshop project uses a package that doesn't come installed with Visual Studio. It should isntall automatically when you press F5 to run the program. If it doesn't install, these are the manual instracyions. 
+10. You may need to pull the latest changes in the repository on the morning of the workshop. 
+
+    In Windows Explorer, inside the project folder, right click and select "Git Bash" from the context menu.
+    
+    In the Git Bash terminal pull the latest changes with this command:
+    ```
+    $ git pull
+    ```
+
+
+## How to manually install the Nuget package
+
+The workshop project uses a package that doesn't come installed with Visual Studio. It should isntall automatically when you press F5 to run the program. If it doesn't install, these are the manual instructions. 
 
     1. In Visual Studio, click Tools, Nuget Packet Manager, Manage Nuget Packages for Solution
 	
@@ -90,11 +102,3 @@ Reading an ALA application starts with reading the code in the Application folde
 	
 	![CodeAnalysis_installed](/images/ScriptingNuget03.png)
 
-11. You will need to pull the latest changes in the repository on the morning of the workshop. 
-
-    Inside the project folder right click and select "Git Bash" from the context menu.
-    
-    Inside the Git Bash terminal pull the latest changes with this command:
-    ```
-    $ git pull
-    ```
