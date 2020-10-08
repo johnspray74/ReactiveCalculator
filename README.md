@@ -102,3 +102,7 @@ The workshop project uses a package that doesn't come installed with Visual Stud
 	
 	![CodeAnalysis_installed](/images/ScriptingNuget03.png)
 
+## Feedback
+
+If you would like to feedback anything about this project or ALA, discuss or question anything, or contribute to it as an open source project, please contact johnspay274 at gmail dot com
+
