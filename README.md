@@ -63,7 +63,7 @@ Reading an ALA application starts with reading the code in the Application folde
     1. If you get a pop up asking "How do you want to open this file?" select either "Microsoft Visual Studio Version Selector" Or "Visual Studio 2019"
     ![Version_Selector](/images/Version_Selector.PNG)
 
-7. Press F5 to run the default application which is the latest version of the calculator. The calculator uses a package which it should get from Nuget automatically. If you get an error about a package missing, try right cliking on the solution in Solution Explorer the Restore Nuget packages. If that fails, the are instruction below to manually install the needed package to the solution.
+7. Press F5 to run the default application which is the latest version of the calculator. The calculator uses a package which it should get from Nuget automatically. If you get an error about a package missing, try right cliking on the solution in Solution Explorer, then Restore Nuget packages. If that fails, there are instructions below to manually install the needed package from Nuget.
 
 8. If you want to view or change the diagrams, install Xmind from https://www.xmind.net/xmind2020/
 
