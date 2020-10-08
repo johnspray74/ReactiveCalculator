@@ -40,8 +40,8 @@ Reading an ALA application starts with reading the code in the Application folde
     ![Install_VisualStudio](/images/Install_VisualStudio.PNG)
 
 2. If you don't already have Git installed, install Git from https://git-scm.com/download/win. It is worth making the effort to use Git to clone the repository because then you can get the latest version easily. We may be adding new material up until the workshop starts. It will also allow you to contribute your changes back to the repository for others to use.
-    1. In the Select Components window, leave all default options checked and check any other additional components you want installed.
-    1. Next, in the Choosing the default editor, used by Git unless you're familiar with Vim we highly recommend using a text editor you're comfortable using. If Notepad++ is installed, we suggest using it as your editor. If Notepad++ is not installed, you can cancel the install and [install Notepad++](https://notepad-plus-plus.org/) and then restart the GitHub install.
+    1. In the "Select Components" window, leave all default options checked and check any other additional components you want installed.
+    1. Next, in the "Choosing the default editor" used by Git, unless you're familiar with Vim we highly recommend using a text editor you're comfortable using. If Notepad++ is installed, we suggest using it as your editor. If Notepad++ is not installed, you can cancel the install and [install Notepad++](https://notepad-plus-plus.org/) and then restart the GitHub install.
     1. Leave all other options as the recommended defaults
 
     If you can't make Git work, you can download a zip file from this repository.
