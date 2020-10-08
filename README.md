@@ -86,6 +86,17 @@ Reading an ALA application starts with reading the code in the Application folde
     ```
 
 
+## New features to be done
+
+1. Formatting the reult. Currently the output is a random number of significant digits, decimal places and scientific notation.
+
+   My plan is to be able to format each row result individually. To make the UI simple I envisage four radio buttons or a simple drop down selection on every row. The options are the normal "Float", "Fixed", "Sci", "Eng" and a small textbox for entering the number of significant digits/decimal places. There could also be a tick box to supress trailing decimal places that are zero.
+   
+2. Supporting SI unit prefixes. There would be a TextBox in front of the units in which you can enter an SI prefix such as k, m, M etc. The result is then multiplied/divided by the corresponding 10 to the power of a multiple of 3.
+
+3. Menus with New/Load/save/SaveAs, Help, About etc.
+
+
 ## How to manually install the Nuget package
 
 The workshop project uses a package that doesn't come installed with Visual Studio. It should isntall automatically when you press F5 to run the program. If it doesn't install, these are the manual instructions. 
@@ -101,6 +112,7 @@ The workshop project uses a package that doesn't come installed with Visual Stud
 	3. Allow it to install dependencies and Accept the licenses.
 	
 	![CodeAnalysis_installed](/images/ScriptingNuget03.png)
+
 
 ## Feedback
 
