@@ -1,8 +1,8 @@
 # Reactive Calculator 
 
 This project was originally a workshop for ALA (Abstraction Layered Architecture) reference here: (https://abstractionlayeredarchitecture.com)
-
-The exercise was to write a calculator using ALA (in C# for Visual Studio on Windows).
+Section 2.15 in the website tells the story of the development of this calculator. 
+The workshop was to write a calculator using ALA (in C# for Visual Studio on Windows).
 
 # The calculator
 
