@@ -25,13 +25,15 @@ The project contains the four folders that correspond to the four normal layers 
 * Programming Paradigms
 * Library
 
-Inside the Application folder is a Hello world application, which is the starting point for writing the calculators, and development versions of the calculator.
-Inside the Domain Abstractions folder are a few pre-written reuseable abstractions for the Application and Requirements Abstractions layers to use.
-Inside the ProgrammingParadigms folder are some interfaces that allow instances of abstractions to be wired together in different ways and execute at run-time.
-Inside the Library folder is the WireTo extension method that the Applications and Requirements abstractions layers use to wire up those instances. 
+Inside the Application folder is a Hello world application, which is the starting point for writing the calculators, togther with seveal development versions of the calculator.
+Inside the Domain Abstractions folder are a few pre-written reuseable abstractions for the Application to instantiate and wire togther to make a calculator.
+Inside the ProgrammingParadigms folder are some interfaces that allow the instances of abstractions to be wired together and execute at run-time.
+Inside the Library folder is the WireTo extension method that the Application uses to wire up those instances. 
+
+Reading an ALA application starts with reading the code in the Application folder (in the form of diagrams) while knowing the abstractions it is using (from the Domain Abstractions layer). Hopefully, what those abstractions are is sufficiently well documented just inside their source files.
 
 
-## Getting started
+## Executing the code
 
 1. If you don't already have Visual Studio, install Visual Studio Community 2019 from https://visualstudio.microsoft.com/vs for C# development on a Windows PC.
     1. Once the installer loads select the ".NET desktop development" from the options and then click Install
