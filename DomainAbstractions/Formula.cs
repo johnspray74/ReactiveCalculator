@@ -58,7 +58,7 @@ namespace DomainAbstractions
         private IDataFlow<double> result;
 
         /// <summary>
-        /// <para>Applies an formula (described by a lambda) on inputs of type T and returns an output of type T.</para>
+        /// <para>Evaluates a formula (described by a lambda string) using a list of inputs of type double and gives the result to the output of type double</para>
         /// </summary>
         public Formula()
         {
@@ -195,15 +195,6 @@ namespace DomainAbstractions
 
         // private more abstract support functions ============================================================================================================================
 
-
-        public Formula RunUnitTests()
-        {
-            // Debug.WriteLine("RunningTestRemoveUnusedLambdaParameters");
-            // TestRemoveUnusedLambdaParameters();
-            // Debug.WriteLine("RunningTestAddDummyParameters");
-            // TestAddDummyParameters()
-            return this;
-        }
 
 
         /// <summary>
@@ -365,10 +356,6 @@ namespace DomainAbstractions
         }
 
 
-        private void assertStringEq(string a, string b)
-        {
-            if (a != b) throw new Exception($"Failed: {a} should equal {b}");
-        }
 
         private void TestAddDummyParameters()
         {
@@ -387,11 +374,20 @@ namespace DomainAbstractions
 
 
 
+        private void assertStringEq(string a, string b)
+        {
+            if (a != b) throw new Exception($"Failed: {a} should equal {b}");
+        }
+
+
+
 
         private void PostWiringInitialize()
         {
-            TestRemoveUnusedLambdaParameters();
-            TestAddDummyParameters();
+            // Debug.WriteLine("RunningTestRemoveUnusedLambdaParameters");
+            // TestRemoveUnusedLambdaParameters();
+            // Debug.WriteLine("RunningTestAddDummyParameters");
+            // TestAddDummyParameters();
         }
     }
 }

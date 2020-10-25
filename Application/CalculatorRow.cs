@@ -136,9 +136,11 @@ namespace Application
             // BEGIN AUTO-GENERATED INSTANTIATIONS FOR CalculatorRow.xmind
             DataFlowBNull<string> id_b9e566abb4cc42d1a7d3927615231c50 = new DataFlowBNull<string>() { InstanceName = "Default" };
             DataFlowConnector<double> dfc1 = new DataFlowConnector<double>() { InstanceName = "dfc1" };
+            DataFlowConnector<string> id_2ce385f7abc549b98a72fc2c4dd709fd = new DataFlowConnector<string>() { InstanceName = "Default" };
             DataFlowConnector<string> id_65f22d8aa160470e8da02d0fce01edca = new DataFlowConnector<string>() { InstanceName = "Default" };
             Formula formula = new Formula() { InstanceName = "formula" };
-            Horizontal id_6fe26e8021c64d8dad4e5b6016f7b659 = new Horizontal() { InstanceName = "Default", Ratios = new int[] { 1,2,2,1,3 }, MinWidths = new int[] { 50,200,520 } };
+            FormulaRender formulaRender = new FormulaRender() { InstanceName = "formulaRender" };
+            Horizontal id_6fe26e8021c64d8dad4e5b6016f7b659 = new Horizontal() { InstanceName = "Default", Ratios = new int[] { 1,2,2,2,1,3 }, MinWidths = new int[] { 50,200,520,520 } };
             NumberToString id_4c9cb86bce4544fe90c628e9eaecbcec = new NumberToString() { InstanceName = "Default" };
             StringFormat<string> sf1 = new StringFormat<string>("({1})=>{0}" ) { InstanceName = "sf1" };
             Text resultText = new Text() { InstanceName = "resultText", FontSize=25 };
@@ -146,6 +148,7 @@ namespace Application
             TextBox formulaText = new TextBox() { InstanceName = "formulaText", FontSize=25 };
             TextBox labelText = new TextBox() { InstanceName = "labelText", FontSize=25 };
             TextBox unitsText = new TextBox() { InstanceName = "unitsText", FontSize=25 };
+            TransformOperator id_3d142790cd894fffbe31c6a9936a40f9 = new TransformOperator("^","Pow",rightAssociative:true ) { InstanceName = "Default" };
             // END AUTO-GENERATED INSTANTIATIONS FOR CalculatorRow.xmind
 
 
@@ -166,11 +169,15 @@ namespace Application
             // BEGIN AUTO-GENERATED WIRING FOR CalculatorRow.xmind
             id_6fe26e8021c64d8dad4e5b6016f7b659.WireTo(labelText, "children"); // (Horizontal (id_6fe26e8021c64d8dad4e5b6016f7b659).children) -- [List<IUI>] --> (TextBox (labelText).child)
             id_6fe26e8021c64d8dad4e5b6016f7b659.WireTo(formulaText, "children"); // (Horizontal (id_6fe26e8021c64d8dad4e5b6016f7b659).children) -- [List<IUI>] --> (TextBox (formulaText).child)
+            id_6fe26e8021c64d8dad4e5b6016f7b659.WireTo(formulaRender, "children"); // (Horizontal (id_6fe26e8021c64d8dad4e5b6016f7b659).children) -- [List<IUI>] --> (FormulaRender (formulaRender).child)
             id_6fe26e8021c64d8dad4e5b6016f7b659.WireTo(resultText, "children"); // (Horizontal (id_6fe26e8021c64d8dad4e5b6016f7b659).children) -- [List<IUI>] --> (Text (resultText).child)
             id_6fe26e8021c64d8dad4e5b6016f7b659.WireTo(unitsText, "children"); // (Horizontal (id_6fe26e8021c64d8dad4e5b6016f7b659).children) -- [List<IUI>] --> (TextBox (unitsText).child)
             id_6fe26e8021c64d8dad4e5b6016f7b659.WireTo(descriptionText, "children"); // (Horizontal (id_6fe26e8021c64d8dad4e5b6016f7b659).children) -- [List<IUI>] --> (TextBox (descriptionText).child)
             labelText.WireTo(id_65f22d8aa160470e8da02d0fce01edca, "textOutput"); // (TextBox (labelText).textOutput) -- [IDataFlow<string>] --> (DataFlowConnector<string> (id_65f22d8aa160470e8da02d0fce01edca).input)
-            formulaText.WireTo(sf1, "textOutput"); // (TextBox (formulaText).textOutput) -- [IDataFlow<string>] --> (StringFormat<string> (sf1).input0)
+            formulaText.WireTo(id_2ce385f7abc549b98a72fc2c4dd709fd, "textOutput"); // (TextBox (formulaText).textOutput) -- [IDataFlow<string>] --> (DataFlowConnector<string> (id_2ce385f7abc549b98a72fc2c4dd709fd).input)
+            id_2ce385f7abc549b98a72fc2c4dd709fd.WireTo(id_3d142790cd894fffbe31c6a9936a40f9, "outputs"); // (DataFlowConnector<string> (id_2ce385f7abc549b98a72fc2c4dd709fd).outputs) -- [IDataFlow<string>] --> (TransformOperator (id_3d142790cd894fffbe31c6a9936a40f9).input)
+            id_2ce385f7abc549b98a72fc2c4dd709fd.WireTo(formulaRender, "outputs"); // (DataFlowConnector<string> (id_2ce385f7abc549b98a72fc2c4dd709fd).outputs) -- [IDataFlow<string>] --> (FormulaRender (formulaRender).input)
+            id_3d142790cd894fffbe31c6a9936a40f9.WireTo(sf1, "output"); // (TransformOperator (id_3d142790cd894fffbe31c6a9936a40f9).output) -- [IDataFlow<string>] --> (StringFormat<string> (sf1).input0)
             sf1.WireTo(id_b9e566abb4cc42d1a7d3927615231c50, "inputs"); // (StringFormat<string> (sf1).inputs) -- [IDataFlowB<string>] --> (DataFlowBNull<string> (id_b9e566abb4cc42d1a7d3927615231c50).output)
             sf1.WireTo(formula, "output"); // (StringFormat<string> (sf1).output) -- [IDataFlow<string>] --> (Formula (formula).formula)
             formula.WireTo(dfc1, "result"); // (Formula (formula).result) -- [IDataFlow<double>] --> (DataFlowConnector<double> (dfc1).input)

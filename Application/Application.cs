@@ -27,16 +27,17 @@ namespace Application
             // These are all the different versions of the calculator
             // Some use auto-gnerated code from their respective diagram
             // uncomment one
-            testCalculator = new CalculatorNRows(out mainWindow);
+            // testCalculator = new CalculatorNRows(out mainWindow);
             // mainWindow = CalculatorNRows();   // replaced with the tested version
             // mainWindow = Calculator10Rows();
             // mainWindow = Calculator2ARows();
             // mainWindow = Calculator2Rows();
+            mainWindow = Calculator2RowHandWired();
             // mainWindow = Calculator1Row(); 
             // mainWindow = CalculatorBasic();
             // mainWindow = CalculatorBasicHandWired(); // fails
             // mainWindow = HelloWorld();
-
+            //            new TransformOperator("^", "Pow", rightAssociative: true); // testing only
         }
 
         private Application Initialize()
@@ -64,7 +65,7 @@ namespace Application
                 Button id_803db86064414b379608f65bc07098bc = new Button("Add row" ) { InstanceName = "Default", FontSize=25 };
                 CalculatorRowFactory id_012306911dbe485c91ecd24bd35b2420 = new CalculatorRowFactory() { InstanceName = "Default" };
                 DataFlowConnector<string> labelsConcatenatorConnector = new DataFlowConnector<string>() { InstanceName = "labelsConcatenatorConnector" };
-                Horizontal id_24914ab245484fe1b70af8020ca2e831 = new Horizontal() { InstanceName = "Default", Ratios = new int[] { 1,2,2,1,3 }, MinWidths = new int[] { 50,200,520 } };
+                Horizontal id_24914ab245484fe1b70af8020ca2e831 = new Horizontal() { InstanceName = "Default", Ratios = new int[] { 1,2,2,2,1,3 }, MinWidths = new int[] { 50,200,520,520 } };
                 Horizontal id_aa2f23f75c79479e88ccf7ed0ed6c2cc = new Horizontal() { InstanceName = "Default", Ratios = new int[] { 1,8 }, MinWidths = new int[] { 50 } };
                 MainWindow mainWindow = new MainWindow("Reactive Calculator" ) { InstanceName = "mainWindow" };
                 Multiple MultipleRow = new Multiple(N:4 ) { InstanceName = "MultipleRow", WiringMethod = (newInstance) => { _rows.WireTo(newInstance); _labelsConcatenator.WireTo(newInstance,"inputs"); newInstance.WireTo(labelsConcatenatorConnector,"labelsCommaSeparated"); testCalculatorRows.Add((ITestCalculatorRow)newInstance); }, CrossWiringMethod = (instance1,instance2) => { instance2.WireFrom(instance1,"operands"); }, PostWiringInitializeMethod = delegate(object instance) { _rows.AddRows(); ((CalculatorRow)instance).Initialize(); }  };
@@ -74,6 +75,7 @@ namespace Application
                 Text id_6be1dbef5dd042ba88554b4482b16079 = new Text("Formula" ) { InstanceName = "Default", FontSize=25 };
                 Text id_93a237ff714b48748a4ba10ede42d2dc = new Text("Description" ) { InstanceName = "Default", FontSize=25 };
                 Text id_96b879e17b4346e4b98484224e65d582 = new Text("Label" ) { InstanceName = "Default", FontSize=25 };
+                Text id_a72464a6a1a8426887ca40b886b5567e = new Text("Text book" ) { InstanceName = "Default", FontSize=25 };
                 Text id_ccc54bcd38e14c10a5ba59d851191cc4 = new Text("Result" ) { InstanceName = "Default", FontSize=25 };
                 Text id_fc0b8f38b3c14f799f605cd54214b503 = new Text("Reactive Calculator" ) { InstanceName = "Default", FontSize=25 };
                 TextBox id_b84a8eee3a554afaad9fa90ac6b594f9 = new TextBox() { InstanceName = "Default", Text="Title your calculation here", FontSize=15 };
@@ -91,6 +93,7 @@ namespace Application
                 id_b02d2caea938499b997b9bfcb80fb0e9.WireTo(id_aa2f23f75c79479e88ccf7ed0ed6c2cc, "children"); // (Vertical (id_b02d2caea938499b997b9bfcb80fb0e9).children) -- [List<IUI>] --> (Horizontal (id_aa2f23f75c79479e88ccf7ed0ed6c2cc).Child)
                 id_24914ab245484fe1b70af8020ca2e831.WireTo(id_96b879e17b4346e4b98484224e65d582, "children"); // (Horizontal (id_24914ab245484fe1b70af8020ca2e831).children) -- [List<IUI>] --> (Text (id_96b879e17b4346e4b98484224e65d582).child)
                 id_24914ab245484fe1b70af8020ca2e831.WireTo(id_6be1dbef5dd042ba88554b4482b16079, "children"); // (Horizontal (id_24914ab245484fe1b70af8020ca2e831).children) -- [List<IUI>] --> (Text (id_6be1dbef5dd042ba88554b4482b16079).child)
+                id_24914ab245484fe1b70af8020ca2e831.WireTo(id_a72464a6a1a8426887ca40b886b5567e, "children"); // (Horizontal (id_24914ab245484fe1b70af8020ca2e831).children) -- [List<IUI>] --> (Text (id_a72464a6a1a8426887ca40b886b5567e).child)
                 id_24914ab245484fe1b70af8020ca2e831.WireTo(id_ccc54bcd38e14c10a5ba59d851191cc4, "children"); // (Horizontal (id_24914ab245484fe1b70af8020ca2e831).children) -- [List<IUI>] --> (Text (id_ccc54bcd38e14c10a5ba59d851191cc4).child)
                 id_24914ab245484fe1b70af8020ca2e831.WireTo(id_39a7a11c94da4b338a92b2235b8e96d1, "children"); // (Horizontal (id_24914ab245484fe1b70af8020ca2e831).children) -- [List<IUI>] --> (Text (id_39a7a11c94da4b338a92b2235b8e96d1).child)
                 id_24914ab245484fe1b70af8020ca2e831.WireTo(id_93a237ff714b48748a4ba10ede42d2dc, "children"); // (Horizontal (id_24914ab245484fe1b70af8020ca2e831).children) -- [List<IUI>] --> (Text (id_93a237ff714b48748a4ba10ede42d2dc).child)
@@ -199,11 +202,14 @@ namespace Application
 
                 addRowButton.Click();
                 testCalculatorRows[10].EnterLabel("");
-                testCalculatorRows[10].EnterFormula("ke/mass/g + alt");
+                testCalculatorRows[10].EnterFormula("ke/mass/g+alt");
                 testCalculatorRows[10].EnterUnit("m");
                 testCalculatorRows[10].EnterDescription("equiv altitude of total energy");
                 assertStringEq(testCalculatorRows[10].ReadResult().Substring(0, 7), "3288044");
 
+                addRowButton.Click();
+                testCalculatorRows[11].EnterLabel("");
+                testCalculatorRows[11].EnterFormula("\u221A(2/3+4)");
             }
 
 
@@ -713,6 +719,68 @@ namespace Application
 
 
 
+
+
+
+        private MainWindow Calculator2RowHandWired()
+        {
+            // To understand this code, you need the wiring diagram of the two row calculator
+
+            // first instantiate instances or abstraction we need to give names to for wiring. The rest can be anonymous.
+            StringConcat stringConcat = new StringConcat() { Separator = "," };
+            DataFlowConnector<string> stringConcatConnector = new DataFlowConnector<string>(); // Connectors are needed when there is fan-out or fan-in in the diagram
+            stringConcat.WireTo(stringConcatConnector, "output");
+            Formula[] formulas = { new Formula(), new Formula() }; // instantiate both the formulas up-front because we need to cross wire them
+
+
+            MainWindow mainWindow = new MainWindow("Calculator")
+                .WireTo(new Vertical()
+                    .WireTo(WireRow(stringConcat, stringConcatConnector, formulas[0], formulas))
+                    .WireTo(WireRow(stringConcat, stringConcatConnector, formulas[1], formulas))
+                    );
+            return mainWindow;
+        }
+
+
+        private Horizontal WireRow(StringConcat stringConcat, DataFlowConnector<string> stringConcatConnector, Formula formula, Formula[] formulas)
+        {
+            // To understand this code, you need the wiring diagram of the two row calculator
+
+            // first instantiate objects we need to give names to for wiring.  The rest can be anonymous.
+            Text result = new Text(); 
+
+            // Wire up a calculator row
+            Horizontal row = new Horizontal()
+                .WireTo(new TextBox()
+                    .WireTo(new DataFlowConnector<string>()
+                        .WireFrom(stringConcat, "inputs")
+                    )
+                )
+                .WireTo(new TextBox()
+                    .WireTo(new StringFormat<string>("({1})=>{0}")
+                        .WireTo(stringConcatConnector, "inputs")
+                        .WireTo(formula
+                            .WireTo(new DataFlowConnector<double>()
+                                .WireFrom(formulas[0], "operands")
+                                .WireFrom(formulas[1], "operands")
+                                .WireTo(new NumberToString()
+                                    .WireTo(result)
+                                )
+                            )
+                        )
+                    )
+                )
+                .WireTo(result)
+                .WireTo(new TextBox());
+            return row;
+        }
+
+                    
+
+
+
+
+
         private MainWindow CalculatorBasicHandWired()
         {
             MainWindow mainWindow = new MainWindow("Calculator");
@@ -743,6 +811,7 @@ namespace Application
                 );
             return mainWindow;
         }
+
 
 
 
