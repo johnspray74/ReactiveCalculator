@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Exversion</name>
+    </assembly>
+    <members>
+        <member name="T:Exversion.BaseConverter">
+            <summary>
+            Base class for String-to-String converter.
+            </summary>
+        </member>
+        <member name="T:Exversion.TypedConverter`2">
+            <summary>
+            Base class for String-to-String converter with intermidiate data
+            (that is created with some Builder).
+            </summary>
+        </member>
+        <member name="T:Exversion.Analytics.AnalyticsConverter">
+            <summary>
+            Base converter for Analytics library.
+            </summary>
+        </member>
+        <member name="T:Exversion.Analytics.AnalyticsTeXConverter">
+            <summary>
+            Analytics converter to TeX format.
+            </summary>
+        </member>
+        <member name="T:Exversion.Physics.PhysicsConverter">
+            <summary>
+            Base converter for Physics library.
+            </summary>
+        </member>
+        <member name="T:Exversion.Physics.PhysicsTeXConverter">
+            <summary>
+            Physics converter to TeX format.
+            </summary>
+        </member>
+        <member name="T:Exversion.TeX">
+            <summary>
+            Base data for TeX format.
+            </summary>
+        </member>
+    </members>
+</doc>

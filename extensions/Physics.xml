@@ -1,0 +1,1877 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Physics</name>
+    </assembly>
+    <members>
+        <member name="T:Physics.Units.LocalizedResourceUnitConverter">
+            <summary>
+            Unit converter that allows to localize units with resources
+            </summary>
+        </member>
+        <member name="M:Physics.Units.LocalizedResourceUnitConverter.#ctor(System.Globalization.CultureInfo)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="aCulture">Culture</param>
+        </member>
+        <member name="M:Physics.Units.LocalizedResourceUnitConverter.#ctor(System.Globalization.CultureInfo,System.Resources.ResourceManager)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="aCulture">Culture</param>
+            <param name="aManager">Resource manager</param>
+        </member>
+        <member name="M:Physics.Units.LocalizedResourceUnitConverter.ConvertToString(Physics.Units.Unit)">
+            <summary>
+            Converts unit to string
+            </summary>
+            <param name="u"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Physics.Units.LocalizedResourceUnitConverter.Culture">
+            <summary>
+            Culture to localize units
+            </summary>
+        </member>
+        <member name="P:Physics.Units.LocalizedResourceUnitConverter.Manager">
+            <summary>
+            Resource manager to get localization strings
+            </summary>
+        </member>
+        <member name="T:Physics.Units.BaseDerivedUnit">
+            <summary>
+            Base class for any unit that can be derived by
+            combining (multiplying) Exponent Units.
+            </summary>
+        </member>
+        <member name="M:Physics.Units.BaseDerivedUnit.Direct(System.Double)">
+            <summary>
+            Direct conversion
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Physics.Units.BaseDerivedUnit.Inverse(System.Double)">
+            <summary>
+            Inverse conversion
+            </summary>
+            <param name="__base"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Physics.Units.BaseDerivedUnit.DirectScale">
+            <summary>
+            Direct scale (product of all unit's scales)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Physics.Units.BaseDerivedUnit.InverseScale">
+            <summary>
+            Inverse scale (1.0/DirectScale)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Physics.Units.BaseDerivedUnit.IsZeroBased">
+            <summary>
+            Derived unit is zero based if ALL contained units are.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Physics.Units.BaseDerivedUnit.IsScalable">
+            <summary>
+            Derived unit is Scalable if ALL contained units are.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Physics.Units.DerivedUnit">
+            <summary>
+            Base class for all known derived units in physics
+            those have their own names and symbols (for an example
+            Newton N, Pascal Pa and so on). The descendant class
+            must be sealed and override GetSymbol, GetName, GetPlural
+            and RecreateUnits (from those it is derived).
+            </summary>
+        </member>
+        <member name="T:Physics.Units.ExponentUnit">
+            <summary>
+            Base class for all units in the form Factor*(Prefix*Unit)^Exponent
+            for an example m^2, 1/ms and so on.
+            NOTE: Prefix IS under the Exponent and Factor is NOT.
+            and Factor can have arbitrary value (by default 1.0).
+            </summary>
+        </member>
+        <member name="M:Physics.Units.ExponentUnit.#ctor(Physics.Units.Unit,System.Int32,Physics.UnitPrefix,System.Double)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="aUnit"></param>
+            <param name="anExponent"></param>
+            <param name="aPrefix"></param>
+            <param name="aFactor"></param>
+        </member>
+        <member name="P:Physics.Units.ExponentUnit.Exponent">
+            <summary>
+            Exponent
+            </summary>
+        </member>
+        <member name="P:Physics.Units.ExponentUnit.Base">
+            <summary>
+            Base unit
+            </summary>
+        </member>
+        <member name="P:Physics.Units.ExponentUnit.Prefix">
+            <summary>
+            Prefix
+            </summary>
+        </member>
+        <member name="P:Physics.Units.ExponentUnit.Factor">
+            <summary>
+            Factor
+            </summary>
+        </member>
+        <member name="M:Physics.Units.ExponentUnit.PowerSymbol(System.String,System.String,System.Int32)">
+            <summary>
+            Constructs exponent form (sign of the exponent is not taken into account)
+            </summary>
+            <param name="aPrefix"></param>
+            <param name="aSymbol"></param>
+            <param name="anExponent"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Physics.Units.ExponentUnit.UnitSymbol(System.String,System.String,System.Int32)">
+            <summary>
+            Constructs unit form (sign of the exponent is taken into account)
+            </summary>
+            <param name="aPrefix"></param>
+            <param name="aSymbol"></param>
+            <param name="anExponent"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Physics.Units.ExponentUnit.PowerSymbol">
+            <summary>
+            Power symbol
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Physics.Units.ExponentUnit.Direct(System.Double)">
+            <summary>
+            Direct conversion
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Physics.Units.ExponentUnit.Inverse(System.Double)">
+            <summary>
+            Inverse conversion
+            (See direct conversion. We need to change the order of prefix using.)
+            </summary>
+            <param name="__base"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Physics.Units.ExponentUnit.DirectScale">
+            <summary>
+            Direct scale ( Factor*(Prefix*Unit.DirectScale)^Exponent )
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Physics.Units.ExponentUnit.InverseScale">
+            <summary>
+            Inverse scale (1.0/DirectScale)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Physics.Units.ExponentUnit.IsZeroBased">
+            <summary>
+            Exponent unit is zero based if base unit is
+            OR exponent is 0 (no matter what is unit).
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Physics.Units.ExponentUnit.IsScalable">
+            <summary>
+            Exponent unit is scalable if Underlying unit is scalable,
+            OR exponent is 0 (no matter what is unit).
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Physics.Units.Conversion">
+            <summary>
+            Double value conversion delegate
+            </summary>
+            <param name="value">Value to convert</param>
+        </member>
+        <member name="T:Physics.Units.BinaryOperationData">
+            <summary>
+            Data for making binary operation.
+            </summary>
+        </member>
+        <member name="F:Physics.Units.BinaryOperationData.F1">
+            <summary>
+            Conversion for the 1st operand
+            (null value means no conversion needed).
+            </summary>
+        </member>
+        <member name="F:Physics.Units.BinaryOperationData.F2">
+            <summary>
+            Conversion for the 2nd operand.
+            (null value means no conversion needed).
+            </summary>
+        </member>
+        <member name="F:Physics.Units.BinaryOperationData.Result">
+            <summary>
+            Result unit for operation.
+            </summary>
+        </member>
+        <member name="T:Physics.Units.SpecialUnit">
+            <summary>
+            Just an abstraction for special branch of inheritance.
+            All unit classes those are not in the main unit structure (Base or Derived)
+            must be inherited from this class for automatical registration and usage.
+            They must implement their own conversion algorithms and provide Names and Symbols.
+            </summary>
+        </member>
+        <member name="M:Physics.Units.SpecialUnit.IsMultiplicative">
+            <summary>
+            The unit can be used in multiplicative operations
+            (product, division, power). 
+            </summary>
+        </member>
+        <member name="M:Physics.Units.SpecialUnit.IsAdditiveWith(Physics.Units.Unit)">
+            <summary>
+            The unit is additive with another one.
+            </summary>
+        </member>
+        <member name="M:Physics.Units.SpecialUnit.GetAdditiveConversion(Physics.Units.Unit,Physics.Units.Unit)">
+            <summary>
+            Gets conversion functions for additive operations.
+            </summary>
+        </member>
+        <member name="T:Physics.Units.NonlinearUnit">
+            <summary>
+            Base class for all units those are converted by nonlinear law.
+            </summary>
+        </member>
+        <member name="M:Physics.Units.NonlinearUnit.DirectScale">
+            <summary>
+            Nonlinear units are NOT scalable.
+            </summary>
+        </member>
+        <member name="M:Physics.Units.NonlinearUnit.InverseScale">
+            <summary>
+            Nonlinear units are NOT scalable.
+            </summary>
+        </member>
+        <member name="M:Physics.Units.NonlinearUnit.IsScalable">
+            <summary>
+            Nonlinear unit IS NOT scalable (in general case).
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Physics.Units.NonlinearUnit.IsAdditiveWith(Physics.Units.Unit)">
+            <summary>
+            Nonlinear unit IS NOT additive with other (in general case).
+            </summary>
+        </member>
+        <member name="T:Physics.Units.LogarithmicUnit">
+            <summary>
+            Logarithmic Unit
+            https://en.wikipedia.org/wiki/Logarithmic_units
+            
+            General formula: Y = F*log{B}(X/R)
+            Where: Y - value in logarithmic units,
+                   X - value in units for conversion,
+                   R - reference value (in units for conversion),
+                   B - logarithm base,
+                   F - multiplication factor.
+            </summary>
+        </member>
+        <member name="M:Physics.Units.LogarithmicUnit.IsZeroBased">
+            <summary>
+            Logarithmic unit is NOT zero based
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Physics.Units.LogarithmicUnit.IsMultiplicative">
+            <summary>
+            Logarithmic unit is NOT multiplicative.
+            </summary>
+        </member>
+        <member name="M:Physics.Units.LogarithmicUnit.IsAdditiveWith(Physics.Units.Unit)">
+            <summary>
+            Logarithmic unit is additive with another logarithmic units
+            if their dimensions equal or one is dimensionless.
+            </summary>
+        </member>
+        <member name="M:Physics.Units.LogarithmicUnit.GetAdditiveConversion(Physics.Units.Unit,Physics.Units.Unit)">
+            <summary>
+            Gets conversion functions for additive operations with logarithmic units.
+            RULES: If both units are dimensioned, or both are dimensionless - u2->u1
+                   If only one dimensioned - no conversion made.
+                   If dimensioned present - result unit is that, else result unit is the first.
+            </summary>
+        </member>
+        <member name="M:Physics.Units.LogarithmicUnit.GetBase">
+            <summary>
+            Base of the Logarithm
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Physics.Units.LogarithmicUnit.GetReference">
+            <summary>
+            Reference value.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Physics.Units.LogarithmicUnit.GetFactor">
+            <summary>
+            Factor value.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Physics.Units.LogarithmicUnit.Base">
+            <summary>
+            Base of the Logarithm
+            </summary>
+        </member>
+        <member name="P:Physics.Units.LogarithmicUnit.Reference">
+            <summary>
+            Reference value
+            </summary>
+        </member>
+        <member name="P:Physics.Units.LogarithmicUnit.Factor">
+            <summary>
+            Factor value
+            </summary>
+        </member>
+        <member name="M:Physics.Units.LogarithmicUnit.GetDimension">
+            <summary>
+            Logarithmic units are always Dimensionless
+            (express relative values)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Physics.Units.LogarithmicUnit.Direct(System.Double)">
+            <summary>
+            Direct conversion to some base unit.
+            X = R*B^(Y/F)
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Physics.Units.LogarithmicUnit.Inverse(System.Double)">
+            <summary>
+            Inverse conversion from some base unit.
+            Y = F*log{B}(X/R)
+            </summary>
+            <param name="__base"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Physics.Units.DimensionedLogarithmic">
+            <summary>
+            Special class for DIMENSIONED logarithmic units
+            - representing relation to physical value mesured in some units.
+            </summary>
+        </member>
+        <member name="F:Physics.Units.DimensionedLogarithmic.referenceUnit">
+            <summary>
+            Reference unit - the relative physical value measured with.
+            </summary>
+        </member>
+        <member name="F:Physics.Units.DimensionedLogarithmic.referenceValue">
+            <summary>
+            Reference value, calculated based on the reference unit.
+            </summary>
+        </member>
+        <member name="M:Physics.Units.DimensionedLogarithmic.InitReferences">
+            <summary>
+            Reference initializer
+            </summary>
+        </member>
+        <member name="M:Physics.Units.DimensionedLogarithmic.CreateReferenceUnit">
+            <summary>
+            Creates Reference Unit.
+            Must be overriden in descendant classes.
+            DO NOT call in descendants! Use lazy function GetReferenceUnit.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Physics.Units.DimensionedLogarithmic.GetReferenceUnit">
+            <summary>
+            Lazy reference unit getter.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Physics.Units.DimensionedLogarithmic.GetDimension">
+            <summary>
+            Logarithmic unit dimension is based on Reference Unit dimension.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Physics.Units.DimensionedLogarithmic.GetReference">
+            <summary>
+            Lazy reference value getter.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Physics.Units.DimensionedLogarithmic.ReferenceUnit">
+            <summary>
+            Reference unit - the relative physical value measured with.
+            </summary>
+        </member>
+        <member name="T:Physics.Units.BinaryUnit">
+            <summary>
+            Logarithmic dimensionless unit to base 2
+            </summary>
+        </member>
+        <member name="T:Physics.Units.NaturalUnit">
+            <summary>
+            Logarithmic dimensionless unit to base e
+            </summary>
+        </member>
+        <member name="T:Physics.Units.DecimalUnit">
+            <summary>
+            Logarithmic dimensionless unit to base 10
+            </summary>
+        </member>
+        <member name="T:Physics.Units.DecibelBase">
+            <summary>
+            Base dimensionless decibel unit (decimal logarithmic unit)
+            https://en.wikipedia.org/wiki/Decibel
+            </summary>
+        </member>
+        <member name="M:Physics.Units.DecibelBase.GetReference">
+            <summary>
+            For all dimensionless decibels Reference = 1.0
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Physics.Units.BinaryDimensioned">
+            <summary>
+            Logarithmic dimensioned unit to base 2
+            </summary>
+        </member>
+        <member name="T:Physics.Units.NaturalDimensioned">
+            <summary>
+            Logarithmic dimensioned unit to base e
+            </summary>
+        </member>
+        <member name="T:Physics.Units.DecimalDimensioned">
+            <summary>
+            Logarithmic dimensioned unit to base 10
+            </summary>
+        </member>
+        <member name="T:Physics.Units.DecibelDimensioned">
+            <summary>
+            Base dimensioned decibel unit
+            </summary>
+        </member>
+        <member name="T:Physics.Units.DecibelDimensioned10">
+            <summary>
+            Dimensioned Decibel with Factor = 10
+            </summary>
+        </member>
+        <member name="T:Physics.Units.DecibelDimensioned20">
+            <summary>
+            Dimensioned Decibel with Factor = 20
+            </summary>
+        </member>
+        <member name="T:Physics.Units.PhysicalProperty">
+            <summary>
+            The base abstract class for PhysicalProperty
+            (?)
+            </summary>
+        </member>
+        <member name="M:Physics.Units.PhysicalProperty.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="T:Physics.Units.BaseUnit">
+            <summary>
+            Abstract class for BASE physical units.
+            http://en.wikipedia.org/wiki/Physical_quantities
+            Length, Time, Mass, Thermodynamic temperature,
+            Electric current, Amount of substance, Luminous intensity.
+            </summary>
+        </member>
+        <member name="T:Physics.Units.BaseZeroUnit">
+            <summary>
+            The unit for zero offset Delta = 0.0
+            </summary>
+        </member>
+        <member name="M:Physics.Units.BaseZeroUnit.IsZeroBased">
+            <summary>
+            All descendants are zero based.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Physics.Units.DimensionlessUnit">
+            <summary>
+            Base class for Dimensionless units (BASE unit is 1).
+            </summary>
+        </member>
+        <member name="T:Physics.Units.LengthUnit">
+            <summary>
+            Base class for Length units (BASE unit is meter).
+            </summary>
+        </member>
+        <member name="T:Physics.Units.TimeUnit">
+            <summary>
+            Base class for Time units (BASE unit is second).
+            </summary>
+        </member>
+        <member name="T:Physics.Units.MassUnit">
+            <summary>
+            Base class for Mass units (BASE unit is kilogram).
+            </summary>
+        </member>
+        <member name="T:Physics.Units.TemperatureUnit">
+            <summary>
+            Base class for Temperature units (BASE unit is kelvin).
+            </summary>
+        </member>
+        <member name="M:Physics.Units.TemperatureUnit.IsZeroBased">
+            <summary>
+            All temperature units are NOT zero based.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Physics.Units.ElectricUnit">
+            <summary>
+            Base class for Electric Current units (BASE unit is ampere).
+            </summary>
+        </member>
+        <member name="T:Physics.Units.AmountUnit">
+            <summary>
+            Base class for Amount of Substance units (BASE unit is mole).
+            </summary>
+        </member>
+        <member name="T:Physics.Units.LuminousIntensityUnit">
+            <summary>
+            Base class for Luminous Intensity units (BASE unit is candela).
+            </summary>
+        </member>
+        <member name="T:Physics.Units.InformationUnit">
+            <summary>
+            Base class for Information units (BASE unit is Bit).
+            </summary>
+        </member>
+        <member name="T:Physics.Units.PlaneAngleUnit">
+            <summary>
+            Base class for Plane Angle units (BASE unit is Radian).
+            </summary>
+        </member>
+        <member name="T:Physics.Units.SolidAngleUnit">
+            <summary>
+            Base class for Solid Angle units (BASE unit is Steradian).
+            </summary>
+        </member>
+        <member name="T:Physics.Units.Dimensionless">
+            <summary>
+            Dimensionless
+            </summary>
+        </member>
+        <member name="M:Physics.Units.Dimensionless.IsZeroBased">
+            <summary>
+            Dimensionless unit is zero based.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Physics.Units.Metre">
+            <summary>
+            Metre
+            </summary>
+        </member>
+        <member name="T:Physics.Units.Submetre">
+            <summary>
+            Class to get units from Metre and Prefixes and to be able to convert with Length units.
+            </summary>
+        </member>
+        <member name="M:Physics.Units.Submetre.#ctor(Physics.UnitPrefix)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="prefix"></param>
+        </member>
+        <member name="M:Physics.Units.Submetre.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <member name="T:Physics.Units.Second">
+            <summary>
+            Second
+            </summary>
+        </member>
+        <member name="T:Physics.Units.Subsecond">
+            <summary>
+            Class to get units from Second and Prefixes and to be able to convert with Time units.
+            </summary>
+        </member>
+        <member name="M:Physics.Units.Subsecond.#ctor(Physics.UnitPrefix)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="prefix"></param>
+        </member>
+        <member name="M:Physics.Units.Subsecond.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <member name="T:Physics.Units.Kilogram">
+            <summary>
+            Kilogram
+            </summary>
+        </member>
+        <member name="T:Physics.Units.Gram">
+            <summary>
+            Gram
+            </summary>
+        </member>
+        <member name="T:Physics.Units.Subgram">
+            <summary>
+            Class to get units from Gram and Prefixes and to be able to convert with Mass units.
+            </summary>
+        </member>
+        <member name="M:Physics.Units.Subgram.#ctor(Physics.UnitPrefix)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="prefix"></param>
+        </member>
+        <member name="M:Physics.Units.Subgram.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="T:Physics.Units.Kelvin">
+            <summary>
+            Kelvin
+            </summary>
+        </member>
+        <member name="T:Physics.Units.Ampere">
+            <summary>
+            Ampere
+            </summary>
+        </member>
+        <member name="T:Physics.Units.Mole">
+            <summary>
+            Mole
+            </summary>
+        </member>
+        <member name="T:Physics.Units.Candela">
+            <summary>
+            Candela
+            </summary>
+        </member>
+        <member name="T:Physics.Units.Bit">
+            <summary>
+            Bit
+            </summary>
+        </member>
+        <member name="T:Physics.Units.Radian">
+            <summary>
+            Radian
+            </summary>
+        </member>
+        <member name="T:Physics.Units.Steradian">
+            <summary>
+            Steradian
+            </summary>
+        </member>
+        <member name="T:Physics.Units.ConstructedUnit">
+            <summary>
+            A unit that can be constructed by user combining exponent units.
+            This unit does not have its own name and symbol.
+            </summary>
+        </member>
+        <member name="M:Physics.Units.ConstructedUnit.FindUnit(Physics.Units.ExponentUnit)">
+            <summary>
+            Finds analogous Exponent unit.
+            Exponent units are analogous if their Base units and prefixes are equal.
+            </summary>
+            <param name="value">Exponent unit</param>
+            <returns>Unit index</returns>
+        </member>
+        <member name="M:Physics.Units.ConstructedUnit.AddUnit(Physics.Units.ExponentUnit)">
+            <summary>
+            Adds an exponent unit
+            </summary>
+            <param name="aUnit"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Physics.Units.ConstructedUnit.AddUnit(Physics.Units.ConstructedUnit)">
+            <summary>
+            Adds a constructed unit
+            </summary>
+            <param name="aUnit"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Physics.Units.ConstructedUnit.DeleteUnit(System.Int32)">
+            <summary>
+            Deletes an exponent unit
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Physics.Units.ConstructedUnit.UnitCount">
+            <summary>
+            Unit count
+            </summary>
+        </member>
+        <member name="P:Physics.Units.ConstructedUnit.Item(System.Int32)">
+            <summary>
+            Exponent units
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Physics.Units.UnitConverter">
+            <summary>
+            The class is to implement string to physical units conversions.
+            </summary>
+        </member>
+        <member name="P:Physics.Units.UnitConverter.UnitAssembly">
+            <summary>
+            Units assembly
+            </summary>
+        </member>
+        <member name="P:Physics.Units.UnitConverter.RegisteredPrefixes">
+            <summary>
+            Prefixes
+            </summary>
+        </member>
+        <member name="P:Physics.Units.UnitConverter.RegisteredSymbols">
+            <summary>
+            Symbols
+            </summary>
+        </member>
+        <member name="M:Physics.Units.UnitConverter.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:Physics.Units.UnitConverter.CreateUnitAssembly">
+            <summary>
+            Creates an assembly to register units hierarchy
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Physics.Units.UnitConverter.ConvertString(System.String)">
+            <summary>
+            Converts string to unit
+            </summary>
+            <param name="str">String value</param>
+            <returns>Created unit (if unsuccessfull - null)</returns>
+        </member>
+        <member name="M:Physics.Units.UnitConverter.ConvertToString(Physics.Units.Unit)">
+            <summary>
+            Converts unit to string
+            </summary>
+            <param name="u"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Physics.Units.ConverterConstants">
+            <summary>
+            Converter constants
+            </summary>
+        </member>
+        <member name="T:Physics.Units.Unit">
+            <summary>
+            The base abstract class for all units
+            (http://en.wikipedia.org/wiki/Unit_of_measurement)
+            </summary>
+        </member>
+        <member name="P:Physics.Units.Unit.Name">
+            <summary>
+            The name of the unit.
+            </summary>
+        </member>
+        <member name="P:Physics.Units.Unit.Plural">
+            <summary>
+            The plural form of the name.
+            </summary>
+        </member>
+        <member name="P:Physics.Units.Unit.Symbol">
+            <summary>
+            The symbol of the unit.
+            </summary>
+        </member>
+        <member name="P:Physics.Units.Unit.Dimension">
+            <summary>
+            The Dimension of the unit.
+            </summary>
+        </member>
+        <member name="M:Physics.Units.Unit.Direct(System.Double)">
+            <summary>
+            Direct conversion to some base unit.
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Physics.Units.Unit.Inverse(System.Double)">
+            <summary>
+            Inverse conversion from some base unit.
+            </summary>
+            <param name="__base"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Physics.Units.Unit.DirectScale">
+            <summary>
+            Direct scale (the multiplication factor,
+            used for 'interval' conversion from this unit scale to base)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Physics.Units.Unit.InverseScale">
+            <summary>
+            Inverse scale (the multiplication factor,
+            used for 'interval' conversion from base unit scale to this one)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Physics.Units.Unit.IsZeroBased">
+            <summary>
+            Unit is zero based.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Physics.Units.Unit.IsScalable">
+            <summary>
+            Unit is scalable (scale factor can be used for INTREVAL conversion).
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Physics.Units.Unit.Convertible(Physics.Units.Unit,Physics.Units.Unit)">
+            <summary>
+            Checks if units are convertible.
+            If not - raises a EUnitsUnconvertible exception.
+            (Units are convertible if they have compatible dimensions.)
+            </summary>
+            <param name="_from"></param>
+            <param name="_to"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Physics.Units.Unit.Convert(Physics.Units.Unit,Physics.Units.Unit,System.Double)">
+            <summary>
+            Converts 'value' from '_from' unit to '_to' one.
+            NOTE: use Convertible function before this method for safe conversion. 
+            </summary>
+            <returns>Converted value</returns>
+        </member>
+        <member name="M:Physics.Units.Unit.ScaleFactor(Physics.Units.Unit,Physics.Units.Unit)">
+            <summary>
+            Calculates SCALE FACTOR (for INTERVAL conversion).
+            NOTE: use Convertible function before this method for safe conversion. 
+            </summary>
+            <returns>Scale Factor Value.</returns>
+        </member>
+        <member name="M:Physics.Units.Unit.MakeConversion(Physics.Units.Unit,Physics.Units.Unit,System.Boolean)">
+            <summary>
+            Creates conversion delegate.
+            Checks if conversion possible (if check is true), throws exception if not.
+            Conversion algorithm depends on scalability of units: if not scalable - use general algorithm.
+            </summary>
+        </member>
+        <member name="M:Physics.Units.Unit.MakeAdditiveConversion(Physics.Units.Unit,Physics.Units.Unit)">
+            <summary>
+            Makes suitable additive conversion for specified units
+            (checks if conversion possible, throws exception if not).
+            </summary>
+            <returns>Binary conversion data.</returns>
+        </member>
+        <member name="M:Physics.Units.Unit.MakeMultiplyConversion(Physics.Units.Unit,Physics.Units.Unit)">
+            <summary>
+            Makes suitable multiplication conversion for specified units
+            (checks if conversion possible, throws exception if not).
+            Simplification: if dimensions equal - the first dimension squared,
+                            if both dimensionless - the first dimension used.
+            </summary>
+            <returns>Binary conversion data.</returns>
+        </member>
+        <member name="M:Physics.Units.Unit.MakeDivideConversion(Physics.Units.Unit,Physics.Units.Unit)">
+            <summary>
+            Makes suitable divide conversion for specified units
+            (checks if conversion possible, throws exception if not).
+            Simplification: if dimensions equal - the result is dimensionless,
+                            if both dimensionless - the first dimension used.
+            </summary>
+            <returns>Binary conversion data.</returns>
+        </member>
+        <member name="M:Physics.Units.Unit.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:Physics.Units.Unit.Equals(System.Object)">
+            <summary>
+            Equals
+            </summary>
+        </member>
+        <member name="M:Physics.Units.Unit.GetHashCode">
+            <summary>
+            Hash code
+            </summary>
+        </member>
+        <member name="M:Physics.Units.Unit.ToString">
+            <summary>
+            To string conversion
+            </summary>
+        </member>
+        <member name="M:Physics.Units.Unit.op_Implicit(System.Double)~Physics.Units.Unit">
+            <summary>
+            Converts double to dimensionless unit
+            </summary>
+        </member>
+        <member name="M:Physics.Units.Unit.op_Implicit(Physics.Units.Unit)~System.String">
+            <summary>
+            Converts unit to string
+            </summary>
+        </member>
+        <member name="M:Physics.Units.Unit.op_Equality(Physics.Units.Unit,Physics.Units.Unit)">
+            <summary>
+            ==
+            </summary>
+        </member>
+        <member name="M:Physics.Units.Unit.op_Inequality(Physics.Units.Unit,Physics.Units.Unit)">
+            <summary>
+            !=
+            </summary>
+        </member>
+        <member name="M:Physics.Units.Unit.PowerBaseOrDerived(Physics.Units.Unit,System.Int32)">
+            <summary>
+            WARNING : FOR BaseUnit OR DerivedUnit ONLY!
+            </summary>
+            <param name="BaseOrDerivedUnit">MUST BE OF TYPE BaseUnit OR DerivedUnit</param>
+            <param name="exponent">Exponent</param>
+            <returns>Exponent unit</returns>
+        </member>
+        <member name="M:Physics.Units.Unit.op_ExclusiveOr(Physics.Units.Unit,System.Int32)">
+            <summary>
+            Power operator
+            </summary>
+            <param name="value">Unit</param>
+            <param name="exponent">Exponent</param>
+            <returns>Unit</returns>
+        </member>
+        <member name="M:Physics.Units.Unit.CreateConstructed(Physics.Units.Unit)">
+            <summary>
+            Creates constructed unit by another unit.
+            WARNING: UNIT MUST BE OF TYPE BaseUnit, DerivedUnit, ExponentUnit or ConstructedUnit.
+            </summary>
+            <param name="u">Unit</param>
+            <returns>Constructed unit if successfull, null - if not</returns>
+        </member>
+        <member name="M:Physics.Units.Unit.op_Multiply(Physics.Units.Unit,Physics.Units.Unit)">
+            <summary>
+            * operator
+            </summary>
+            <param name="x">First operand</param>
+            <param name="y">Second operand</param>
+            <returns>Unit</returns>
+        </member>
+        <member name="M:Physics.Units.Unit.op_Division(Physics.Units.Unit,Physics.Units.Unit)">
+            <summary>
+            / operator
+            </summary>
+            <param name="x">First operand</param>
+            <param name="y">Second operand</param>
+            <returns>Unit</returns>
+        </member>
+        <member name="F:Physics.Units.Unit.DimensionlessUnitValue">
+            <summary>
+            Static dimensionless unit value
+            </summary>
+        </member>
+        <member name="T:Physics.Units.LinearUnit">
+            <summary>
+            Base class for all units those are converted by linear law.
+            Direct conversion (to base unit) is Base = Delta + Value * Factor
+            and the inverted conversion (from base to this unit)
+            is Value = (Base - Delta) / Factor (Factor!=0).
+            </summary>
+        </member>
+        <member name="P:Physics.Units.LinearUnit.Delta">
+            <summary>
+            Delta
+            </summary>
+        </member>
+        <member name="P:Physics.Units.LinearUnit.Factor">
+            <summary>
+            Factor
+            </summary>
+        </member>
+        <member name="M:Physics.Units.LinearUnit.Direct(System.Double)">
+            <summary>
+            Direct conversion
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Physics.Units.LinearUnit.Inverse(System.Double)">
+            <summary>
+            Inverse conversion
+            </summary>
+            <param name="__base"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Physics.Units.LinearUnit.DirectScale">
+            <summary>
+            Direct scale (for ANY linear unit equals Factor)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Physics.Units.LinearUnit.InverseScale">
+            <summary>
+            Inverse scale (for ANY linear unit equals 1.0/Factor)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Physics.Units.LinearUnit.IsZeroBased">
+            <summary>
+            Linear unit is zero based if Delta==0.0
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Physics.Units.LinearUnit.IsScalable">
+            <summary>
+            Linear unit IS scalable
+            (INTERVAL conversion can be done using Factor value).
+            </summary>
+            <returns>true</returns>
+        </member>
+        <member name="T:Physics.Units.LinearSubunit">
+            <summary>
+            Base class to get linear units with Prefixes
+            </summary>
+        </member>
+        <member name="M:Physics.Units.LinearSubunit.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:Physics.Units.LinearSubunit.#ctor(Physics.UnitPrefix)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="aPrefix">Prefix</param>
+        </member>
+        <member name="M:Physics.Units.LinearSubunit.IsZeroBased">
+            <summary>
+            Subunit is zero based if base unit is.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Physics.Units.LinearSubunit.BaseUnit">
+            <summary>
+            Base Linear unit
+            </summary>
+        </member>
+        <member name="P:Physics.Units.LinearSubunit.Prefix">
+            <summary>
+            Prefix
+            </summary>
+        </member>
+        <member name="T:Physics.Units.MeasurementSystem">
+            <summary>
+            System of measurement (unit system)
+            </summary>
+        </member>
+        <member name="M:Physics.Units.MeasurementSystem.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="P:Physics.Units.MeasurementSystem.Item(Physics.PhysicalDimension)">
+            <summary>
+            Returns the unit of a physical dimension
+            </summary>
+            <param name="index">A physical dimension</param>
+            <returns>Unit</returns>
+        </member>
+        <member name="M:Physics.Units.MeasurementSystem.CreateStandardUnit(Physics.Dimension)">
+            <summary>
+            Creates the unit of specified dimension
+            </summary>
+            <param name="dimension">Specified dimension</param>
+            <returns>The unit</returns>
+        </member>
+        <member name="T:Physics.Units.CustomSystem">
+            <summary>
+            Customizible unit system
+            </summary>
+        </member>
+        <member name="F:Physics.Units.CustomSystem.name">
+            <summary>
+            System name
+            </summary>
+        </member>
+        <member name="M:Physics.Units.CustomSystem.ToString">
+            <summary>
+            To string
+            </summary>
+            <returns>SI</returns>
+        </member>
+        <member name="P:Physics.Units.CustomSystem.Name">
+            <summary>
+            System name
+            </summary>
+        </member>
+        <member name="M:Physics.Units.CustomSystem.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="T:Physics.Units.SI">
+            <summary>
+            SI unit system
+            </summary>
+        </member>
+        <member name="M:Physics.Units.SI.ToString">
+            <summary>
+            To string
+            </summary>
+            <returns>SI</returns>
+        </member>
+        <member name="T:Physics.Units.US">
+            <summary>
+            US unit system
+            </summary>
+        </member>
+        <member name="M:Physics.Units.US.ToString">
+            <summary>
+            To string
+            </summary>
+            <returns>SI</returns>
+        </member>
+        <member name="T:Physics.Units.Natural">
+            <summary>
+            Natural unit system
+            </summary>
+        </member>
+        <member name="M:Physics.Units.Natural.ToString">
+            <summary>
+            To string
+            </summary>
+            <returns>SI</returns>
+        </member>
+        <member name="T:Physics.Units.Systems">
+            <summary>
+            Existing measurement systems
+            </summary>
+        </member>
+        <member name="T:Physics.Kibi">
+            <summary>
+            Prefix kibi-
+            </summary>
+        </member>
+        <member name="T:Physics.Mebi">
+            <summary>
+            Prefix mebi-
+            </summary>
+        </member>
+        <member name="T:Physics.Gibi">
+            <summary>
+            Prefix gibi-
+            </summary>
+        </member>
+        <member name="T:Physics.Tebi">
+            <summary>
+            Prefix tebi-
+            </summary>
+        </member>
+        <member name="T:Physics.Pebi">
+            <summary>
+            Prefix pebi-
+            </summary>
+        </member>
+        <member name="T:Physics.DifferentDimensionsException">
+            <summary>
+            Different dimensions exception
+            </summary>
+        </member>
+        <member name="T:Physics.UnitConversionException">
+            <summary>
+            Units unconvertible exception
+            </summary>
+        </member>
+        <member name="M:Physics.UnitConversionException.#ctor(System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:Physics.UnitConversionException.#ctor(System.String,System.Exception)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="message"></param>
+            <param name="innerException"></param>
+        </member>
+        <member name="T:Physics.UnitsUnconvertibleException">
+            <summary>
+            Units unconvertible exception
+            </summary>
+        </member>
+        <member name="M:Physics.UnitsUnconvertibleException.#ctor(System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:Physics.UnitsUnconvertibleException.#ctor(System.String,System.Exception)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="message"></param>
+            <param name="innerException"></param>
+        </member>
+        <member name="T:Physics.UnitsOperationException">
+            <summary>
+            Units operation exception
+            </summary>
+        </member>
+        <member name="M:Physics.UnitsOperationException.#ctor(System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:Physics.UnitsOperationException.#ctor(System.String,System.Exception)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="message"></param>
+            <param name="innerException"></param>
+        </member>
+        <member name="T:Physics.UnitNotScalableException">
+            <summary>
+            Unit not scalable
+            </summary>
+        </member>
+        <member name="M:Physics.UnitNotScalableException.#ctor(System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:Physics.UnitNotScalableException.#ctor(System.String,System.Exception)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="message"></param>
+            <param name="innerException"></param>
+        </member>
+        <member name="T:Physics.UnitsExponentiationException">
+            <summary>
+            Error of exponentiation
+            </summary>
+        </member>
+        <member name="T:Physics.Formatting.Formatter">
+            <summary>
+            Unit Symbol string formatter.
+            </summary>
+        </member>
+        <member name="T:Physics.Symbols">
+            <summary>
+            Conversion Symbols and values
+            </summary>
+        </member>
+        <member name="T:Physics.Constants">
+            <summary>
+            Physical constants
+            </summary>
+        </member>
+        <member name="F:Physics.Constants.StandardGravity">
+            <summary>
+            Standard gravity m/s^2
+            </summary>
+        </member>
+        <member name="F:Physics.Constants.StandardAtmosphere">
+            <summary>
+            Standard atmosphere Pa
+            </summary>
+        </member>
+        <member name="F:Physics.Constants.SpeedOfLight">
+            <summary>
+            Speed of light c (m/s)
+            </summary>
+        </member>
+        <member name="F:Physics.Constants.NewtonianGravitation">
+            <summary>
+            Gravitational constant G (m^3/kg s^2)
+            </summary>
+        </member>
+        <member name="F:Physics.Constants.Planck">
+            <summary>
+            Planck's constant h (J s)
+            </summary>
+        </member>
+        <member name="F:Physics.Constants.ElectronRestMass">
+            <summary>
+            Electron rest mass (kg)
+            </summary>
+        </member>
+        <member name="F:Physics.Constants.ElementaryCharge">
+            <summary>
+            Elementary charge (C)
+            </summary>
+        </member>
+        <member name="F:Physics.Constants.BohrRadius">
+            <summary>
+            Bohr Radius of Hydrogen (m)
+            </summary>
+        </member>
+        <member name="T:Physics.PhysicalDimension">
+            <summary>
+            Basic properties such as length, mass, time and temperature
+            that can be measured are called dimensions
+            (http://www.che.iitb.ac.in/faculty/madhu/CL152/Handouts/Handout1.pdf).
+            There are the following dimensions (base quantities) now
+            (http://en.wikipedia.org/wiki/Physical_quantities
+            http://en.wikipedia.org/wiki/Dimensional_analysis) -
+            Length, Time, Mass, Thermodynamic temperature,
+            Electric current, Amount of substance, Luminous intensity.
+            Additional three dimensions introduced Information, Plane Angle and Solid Angle
+            to distinguish these (dimensionless) quantities from truly dimensionless.
+            </summary>
+        </member>
+        <member name="T:Physics.ExponentDimension">
+            <summary>
+            Dimension in exponential form, for an example L^2 (squared Length)
+            </summary>
+        </member>
+        <member name="F:Physics.ExponentDimension.Base">
+            <summary>
+            Base dimension (which is under the exponent)
+            </summary>
+        </member>
+        <member name="F:Physics.ExponentDimension.Exponent">
+            <summary>
+            The exponent value
+            </summary>
+        </member>
+        <member name="M:Physics.ExponentDimension.op_Multiply(Physics.ExponentDimension,Physics.ExponentDimension)">
+            <summary>
+            * operator
+            </summary>
+        </member>
+        <member name="M:Physics.ExponentDimension.op_Division(Physics.ExponentDimension,Physics.ExponentDimension)">
+            <summary>
+            / operator
+            </summary>
+        </member>
+        <member name="T:Physics.Dimension">
+            <summary>
+            Dimension
+            </summary>
+        </member>
+        <member name="F:Physics.Dimension.fExponents">
+            <summary>
+            Physical dimension exponents
+            (the index corresponds the order of physical dimension)
+            </summary>
+        </member>
+        <member name="M:Physics.Dimension.VirtualOnly">
+            <summary>
+            Dimension contains virtual only Physical Dimensions.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Physics.Dimension.Exponents">
+            <summary>
+            Exponents of corresponding dimensions
+            </summary>
+        </member>
+        <member name="M:Physics.Dimension.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:Physics.Dimension.#ctor(Physics.PhysicalDimension)">
+            <summary>
+            Creates a base dimension base^1
+            </summary>
+            <param name="__base">Physical dimension</param>
+        </member>
+        <member name="P:Physics.Dimension.Item(Physics.PhysicalDimension)">
+            <summary>
+            Exponent of the physical dimension
+            </summary>
+            <param name="index">Physical dimension</param>
+            <returns>Value of the exponent</returns>
+        </member>
+        <member name="M:Physics.Dimension.op_Equality(Physics.Dimension,Physics.Dimension)">
+            <summary>
+            ==
+            </summary>
+        </member>
+        <member name="M:Physics.Dimension.Compatible(Physics.Dimension,Physics.Dimension)">
+            <summary>
+            Checks, if two Dimensions are compatible for conversion.
+            Differes from == operator by Virtual dimensions comparison.
+            If dimensions are 'pure' virtual - they compared for strong equality,
+            else they compared by not virtual base dimensions only.
+            </summary>
+        </member>
+        <member name="M:Physics.Dimension.op_Inequality(Physics.Dimension,Physics.Dimension)">
+            <summary>
+            !=
+            </summary>
+        </member>
+        <member name="M:Physics.Dimension.Equals(System.Object)">
+            <summary>
+            ==
+            </summary>
+        </member>
+        <member name="M:Physics.Dimension.GetHashCode">
+            <summary>
+            Hash code
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Physics.Dimension.op_Multiply(Physics.Dimension,Physics.Dimension)">
+            <summary>
+            *
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Physics.Dimension.op_Division(Physics.Dimension,Physics.Dimension)">
+            <summary>
+            /
+            </summary>
+        </member>
+        <member name="M:Physics.Dimension.op_ExclusiveOr(Physics.Dimension,System.Int32)">
+            <summary>
+            Power operator
+            WARNING: carefully use in expressions with * operator
+                     because ^ has lower precedence than *, so ALWAYS use () for powers.
+                     To write Time multiplied by squared Length use expression: Time * (Length ^ 2)
+                     (DO NOT USE Time * Length ^ 2, because it is (Time*Length)^2)
+            </summary>
+        </member>
+        <member name="M:Physics.Dimension.Power(Physics.Dimension,System.Int32)">
+            <summary>
+            Power
+            </summary>
+        </member>
+        <member name="M:Physics.Dimension.op_Implicit(Physics.Dimension)~System.String">
+            <summary>
+            Converts dimension to string
+            </summary>
+            <param name="x"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Physics.Dimension.ConstructDimensionFraction(System.String,System.String)">
+            <summary>
+            Constructs a fraction
+            </summary>
+            <param name="n">Numerator</param>
+            <param name="d">Denominator</param>
+            <returns></returns>
+        </member>
+        <member name="M:Physics.Dimension.GetBaseDimension(Physics.PhysicalDimension)">
+            <summary>
+            Gets base dimension
+            </summary>
+            <param name="index">Physical dimension</param>
+            <returns>Dimension</returns>
+        </member>
+        <member name="M:Physics.Dimension.IsVirtual(Physics.PhysicalDimension)">
+            <summary>
+            Checks if the physical dimension is Virtual.
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Physics.Dimension.IsBaseDimension(Physics.Dimension)">
+            <summary>
+            Defines if the dimension is base (fundamental)
+            </summary>
+            <param name="dimension">The dimension</param>
+            <returns>Result</returns>
+        </member>
+        <member name="F:Physics.Dimension.Dimensionless">
+            <summary>
+            Dimensionless
+            </summary>
+        </member>
+        <member name="F:Physics.Dimension.Length">
+            <summary>
+            Length
+            </summary>
+        </member>
+        <member name="F:Physics.Dimension.Time">
+            <summary>
+            Time
+            </summary>
+        </member>
+        <member name="F:Physics.Dimension.Mass">
+            <summary>
+            Mass
+            </summary>
+        </member>
+        <member name="F:Physics.Dimension.Temperature">
+            <summary>
+            Temperature
+            </summary>
+        </member>
+        <member name="F:Physics.Dimension.ElectricCurrent">
+            <summary>
+            Electric Current
+            </summary>
+        </member>
+        <member name="F:Physics.Dimension.AmountOfSubstance">
+            <summary>
+            Amount of Substance
+            </summary>
+        </member>
+        <member name="F:Physics.Dimension.LuminousIntensity">
+            <summary>
+            Luminous Intensity
+            </summary>
+        </member>
+        <member name="F:Physics.Dimension.Information">
+            <summary>
+            Information
+            </summary>
+        </member>
+        <member name="F:Physics.Dimension.PlaneAngle">
+            <summary>
+            Plane Angle
+            </summary>
+        </member>
+        <member name="F:Physics.Dimension.SolidAngle">
+            <summary>
+            Solid Angle
+            </summary>
+        </member>
+        <member name="F:Physics.Dimension.BaseDimensions">
+            <summary>
+            Base dimensions
+            </summary>
+        </member>
+        <member name="T:Physics.UnitPrefix">
+            <summary>
+            Base type for all unit prefixes (for an example - milli-, deci- and so on).
+            http://en.wikipedia.org/wiki/SI_prefix
+            There are proposals for further harmonisation of the capitalisation.
+            Therefore the symbols for kilo, hecto, and deca would be changed from ‘k’ to ‘K’, from ‘h’ to ‘H’, and from ‘da’ to ‘D’.
+            </summary>
+        </member>
+        <member name="M:Physics.UnitPrefix.op_Equality(Physics.UnitPrefix,Physics.UnitPrefix)">
+            <summary>
+            ==
+            </summary>
+            <param name="x"></param>
+            <param name="y"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Physics.UnitPrefix.op_Inequality(Physics.UnitPrefix,Physics.UnitPrefix)">
+            <summary>
+            !=
+            </summary>
+            <param name="x"></param>
+            <param name="y"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Physics.UnitPrefix.Equals(System.Object)">
+            <summary>
+            Equals
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Physics.UnitPrefix.GetHashCode">
+            <summary>
+            Hash code
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Physics.Deci">
+            <summary>
+            Prefix deci-
+            </summary>
+        </member>
+        <member name="T:Physics.Centi">
+            <summary>
+            Prefix centi-
+            </summary>
+        </member>
+        <member name="T:Physics.Milli">
+            <summary>
+            Prefix milli-
+            </summary>
+        </member>
+        <member name="T:Physics.Micro">
+            <summary>
+            Prefix micro-
+            </summary>
+        </member>
+        <member name="T:Physics.Nano">
+            <summary>
+            Prefix nano-
+            </summary>
+        </member>
+        <member name="T:Physics.Pico">
+            <summary>
+            Prefix pico-
+            </summary>
+        </member>
+        <member name="T:Physics.Femto">
+            <summary>
+            Prefix femto-
+            </summary>
+        </member>
+        <member name="T:Physics.Atto">
+            <summary>
+            Prefix atto-
+            </summary>
+        </member>
+        <member name="T:Physics.Zepto">
+            <summary>
+            Prefix zepto-
+            </summary>
+        </member>
+        <member name="T:Physics.Yocto">
+            <summary>
+            Prefix yocto-
+            </summary>
+        </member>
+        <member name="T:Physics.Deca">
+            <summary>
+            Prefix deca-
+            </summary>
+        </member>
+        <member name="T:Physics.Hecto">
+            <summary>
+            Prefix hecto-
+            </summary>
+        </member>
+        <member name="T:Physics.Kilo">
+            <summary>
+            Prefix kilo-
+            </summary>
+        </member>
+        <member name="T:Physics.Mega">
+            <summary>
+            Prefix mega-
+            </summary>
+        </member>
+        <member name="T:Physics.Giga">
+            <summary>
+            Prefix giga-
+            </summary>
+        </member>
+        <member name="T:Physics.Tera">
+            <summary>
+            Prefix tera-
+            </summary>
+        </member>
+        <member name="T:Physics.Peta">
+            <summary>
+            Prefix peta-
+            </summary>
+        </member>
+        <member name="T:Physics.Exa">
+            <summary>
+            Prefix exa-
+            </summary>
+        </member>
+        <member name="T:Physics.Zetta">
+            <summary>
+            Prefix zetta-
+            </summary>
+        </member>
+        <member name="T:Physics.Yotta">
+            <summary>
+            Prefix yotta-
+            </summary>
+        </member>
+        <member name="T:Physics.Quantities.PhysicalQuantity">
+            <summary>
+            Base class for any physical quantity.
+            Defines Name, Symbol and physical dimension.
+            http://en.wikipedia.org/wiki/Physical_quantity
+            </summary>
+        </member>
+        <member name="P:Physics.Quantities.PhysicalQuantity.Name">
+            <summary>
+            Name
+            </summary>
+        </member>
+        <member name="P:Physics.Quantities.PhysicalQuantity.Symbol">
+            <summary>
+            Symbol
+            </summary>
+        </member>
+        <member name="P:Physics.Quantities.PhysicalQuantity.Dimension">
+            <summary>
+            Dimension
+            </summary>
+        </member>
+        <member name="M:Physics.Quantities.PhysicalQuantity.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:Physics.Quantities.PhysicalQuantity.Compatible(Physics.Quantities.PhysicalQuantity,Physics.Units.Unit)">
+            <summary>
+            Detects if a Qyantity is compatible with a Unit
+            </summary>
+            <param name="aQuantity">Physical Quantity</param>
+            <param name="aUnit">Unit</param>
+            <returns>Are they compatible</returns>
+        </member>
+        <member name="T:Physics.Quantities.FundamentalQuantity">
+            <summary>
+            Abstract class for any fundamental (base) quantity
+            (Time, Length, Mass and so on).
+            Descendant classes must be Sealed and override GetBaseDimension, GetName.
+            </summary>
+        </member>
+        <member name="T:Physics.Quantities.DerivedQuantity">
+            <summary>
+            Base class for any not fundamental quantity
+            (this class is used to organize class hierarcies only(?))
+            </summary>
+        </member>
+        <member name="T:Physics.Quantities.Length">
+            <summary>
+            Length
+            </summary>
+        </member>
+        <member name="T:Physics.Quantities.Time">
+            <summary>
+            Time
+            </summary>
+        </member>
+        <member name="T:Physics.Quantities.Mass">
+            <summary>
+            Mass
+            </summary>
+        </member>
+        <member name="T:Physics.Quantities.Temperature">
+            <summary>
+            Temperature
+            </summary>
+        </member>
+        <member name="T:Physics.Quantities.ElectricCurrent">
+            <summary>
+            Electric Current
+            </summary>
+        </member>
+        <member name="T:Physics.Quantities.AmountOfSubstance">
+            <summary>
+            Amount of Substance
+            </summary>
+        </member>
+        <member name="T:Physics.Quantities.LuminousIntensity">
+            <summary>
+            Luminous Intensity
+            </summary>
+        </member>
+        <member name="T:Physics.Quantities.Information">
+            <summary>
+            Information
+            </summary>
+        </member>
+        <member name="T:Physics.Quantities.PlaneAngle">
+            <summary>
+            Plane Angle
+            </summary>
+        </member>
+        <member name="T:Physics.Quantities.SolidAngle">
+            <summary>
+            Solid Angle
+            </summary>
+        </member>
+        <member name="T:Physics.Quantities.QuantitiesManager">
+            <summary>
+            Class to manage physical quantities
+            </summary>
+        </member>
+        <member name="P:Physics.Quantities.QuantitiesManager.QuantityAssembly">
+            <summary>
+            Quantity Assembly
+            </summary>
+        </member>
+        <member name="M:Physics.Quantities.QuantitiesManager.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:Physics.Quantities.QuantitiesManager.#ctor(Physics.Units.UnitConverter)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="aConverter"></param>
+        </member>
+        <member name="P:Physics.Quantities.QuantitiesManager.System">
+            <summary>
+            Measurement System
+            </summary>
+        </member>
+        <member name="M:Physics.Quantities.QuantitiesManager.GetCompatibleUnits(Physics.Quantities.PhysicalQuantity)">
+            <summary>
+            Finds all compatible units
+            (if a quantity == null - all units)
+            </summary>
+            <param name="aQuantity">Quantity</param>
+            <returns>Compatible units</returns>
+        </member>
+        <member name="M:Physics.Quantities.QuantitiesManager.GetCompatibleUnits(System.String,System.Collections.Generic.List{Physics.Units.Unit})">
+            <summary>
+            Finds all compatible units
+            </summary>
+            <param name="aQuantityName">Name of the quantity</param>
+            <param name="units">Compatible units</param>
+            <returns>The quantity</returns>
+        </member>
+        <member name="M:Physics.Quantities.QuantitiesManager.GetCompatibleUnitSymbols(System.String,System.Collections.Generic.List{Physics.Units.Unit},System.Collections.Generic.List{System.String})">
+            <summary>
+            Finds all compatible unit symbols
+            </summary>
+            <param name="aQuantityName">Name of the quantity</param>
+            <param name="units">Compatible units</param>
+            <param name="symbols">Unit symbols</param>
+            <returns>Quantity</returns>
+        </member>
+        <member name="M:Physics.Quantities.QuantitiesManager.GetQuantityNames">
+            <summary>
+            All quantity names
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Physics.Quantities.QuantitiesManager.GetQuantitySymbols">
+            <summary>
+            All quantity Symbols
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Physics.Quantities.QuantitiesManager.Item(System.String)">
+            <summary>
+            Quantities by index
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Physics.Quantities.LocalizedResourceQuantitiesManager">
+            <summary>
+            Class to Localaze physical quantities
+            </summary>
+        </member>
+        <member name="M:Physics.Quantities.LocalizedResourceQuantitiesManager.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:Physics.Quantities.LocalizedResourceQuantitiesManager.#ctor(Physics.Units.UnitConverter)">
+            <summary>
+            Constructor
+            (Unit converter Culture and Resource Manager are used to localize Quantities)
+            </summary>
+            <param name="aConverter">Unit converter</param>
+        </member>
+    </members>
+</doc>

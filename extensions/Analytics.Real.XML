@@ -1,0 +1,122 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Analytics.Real</name>
+    </assembly>
+    <members>
+        <member name="T:Analytics.Functions.RealIfFinction">
+            <summary>
+            If function with Double result.
+            </summary>
+        </member>
+        <member name="T:Analytics.Functions.Sine">
+            <summary>
+            Sine function
+            </summary>
+        </member>
+        <member name="T:Analytics.Functions.Cosine">
+            <summary>
+            Cosine function
+            </summary>
+        </member>
+        <member name="T:Analytics.Functions.Tangent">
+            <summary>
+            Tangent function
+            </summary>
+        </member>
+        <member name="T:Analytics.Functions.Arcsine">
+            <summary>
+            Arcsine function
+            </summary>
+        </member>
+        <member name="T:Analytics.Functions.Arccosine">
+            <summary>
+            Arccosine function
+            </summary>
+        </member>
+        <member name="T:Analytics.Functions.Arctangent">
+            <summary>
+            Arctangent function
+            </summary>
+        </member>
+        <member name="T:Analytics.Functions.HyperbolicSine">
+            <summary>
+            Hyperbolic Sine function
+            </summary>
+        </member>
+        <member name="T:Analytics.Functions.HyperbolicCosine">
+            <summary>
+            Hyperbolic Cosine function
+            </summary>
+        </member>
+        <member name="T:Analytics.Functions.HyperbolicTangent">
+            <summary>
+            Hyperbolic Tangent function
+            </summary>
+        </member>
+        <member name="T:Analytics.Functions.Logarithm">
+            <summary>
+            Logarithm function
+            (NOTE: the Base of logarithm is the Parameter of the function)
+            </summary>
+        </member>
+        <member name="T:Analytics.Functions.NaturalLogarithm">
+            <summary>
+            Natural Logarithm function
+            </summary>
+        </member>
+        <member name="T:Analytics.Operators.RealAdd">
+            <summary>
+            Double + Double = Double
+            </summary>
+        </member>
+        <member name="T:Analytics.Operators.RealSubtract">
+            <summary>
+            Double - Double = Double
+            </summary>
+        </member>
+        <member name="T:Analytics.Operators.RealMultiply">
+            <summary>
+            Double * Double = Double
+            </summary>
+        </member>
+        <member name="T:Analytics.Operators.RealDivide">
+            <summary>
+            Double / Double = Double
+            </summary>
+        </member>
+        <member name="T:Analytics.Operators.RealPower">
+            <summary>
+            Double ^ Double = Double
+            </summary>
+        </member>
+        <member name="T:Analytics.Operators.RealMinus">
+            <summary>
+            - Double = Double
+            </summary>
+        </member>
+        <member name="T:Analytics.Operators.RealFactorial">
+            <summary>
+            Double! = Double
+            NOTE: the operand value must have nonnegative 
+            (almost) integer value (see IntegerValuePrecision constant).
+            WARNING: for large operand values the precision lost is possible.
+            </summary>
+        </member>
+        <member name="T:Analytics.Operators.RealAbsolute">
+            <summary>
+            |Double| = Double
+            </summary>
+        </member>
+        <member name="T:Analytics.Operators.RealSquareRoot">
+            <summary>
+            √(Double) = Double
+            </summary>   
+        </member>
+        <member name="T:Analytics.Operators.RealApproximatelyOperator">
+            <summary>
+            Double ≈ Double  = Boolean
+            </summary>
+        </member>
+    </members>
+</doc>
