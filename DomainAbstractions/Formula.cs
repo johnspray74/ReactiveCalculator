@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Dynamic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
-using Microsoft.Win32;
 using ProgrammingParadigms;
-using static System.Math;
+using CalculatorFunctions;
 
 
 namespace DomainAbstractions
@@ -167,12 +163,20 @@ namespace DomainAbstractions
 
 
 
+
+
         private async void Compile(string formula)
         {
             // double x = Sin(1.0);
-
+            if (formula.IndexOf("=>") == formula.Length - 2)
+            {
+                Lambda = null;
+                return;
+            }
             var options = ScriptOptions.Default;
             options = options.AddImports("System.Math");
+            options = options.AddReferences(typeof(CalcFunctions).Assembly);  // This adds our own functions, e.g. Fact which are in the CalculatorFunctions project
+            options = options.AddImports("CalculatorFunctions.CalcFunctions");
             try
             {
                 Lambda = await CSharpScript.EvaluateAsync<LambdaType>(formula, options);
@@ -391,3 +395,6 @@ namespace DomainAbstractions
         }
     }
 }
+
+
+

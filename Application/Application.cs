@@ -18,7 +18,7 @@ namespace Application
         {
             Application app = new Application();
             app.Initialize();
-            // app.mainWindow.WireTo(app.testCalculator, "appStart");   // This is just for running the tests. They dont run yet - they use appStart IEvent which is an output port of MainWindow when the window is loaded
+            app.mainWindow.WireTo(app.testCalculator, "appStart");   // This is just for running the tests. They dont run yet - they use appStart IEvent which is an output port of MainWindow when the window is loaded
             app.mainWindow.Run();
         }
 
@@ -27,12 +27,12 @@ namespace Application
             // These are all the different versions of the calculator
             // Some use auto-gnerated code from their respective diagram
             // uncomment one
-            // testCalculator = new CalculatorNRows(out mainWindow);
+            testCalculator = new CalculatorNRows(out mainWindow);
             // mainWindow = CalculatorNRows();   // replaced with the tested version
             // mainWindow = Calculator10Rows();
             // mainWindow = Calculator2ARows();
             // mainWindow = Calculator2Rows();
-            mainWindow = Calculator2RowHandWired();
+            // mainWindow = Calculator2RowHandWired();
             // mainWindow = Calculator1Row(); 
             // mainWindow = CalculatorBasic();
             // mainWindow = CalculatorBasicHandWired(); // fails
@@ -174,14 +174,14 @@ namespace Application
 
                 addRowButton.Click();
                 testCalculatorRows[6].EnterLabel("ke");
-                testCalculatorRows[6].EnterFormula("0.5*mass*(vel*vel)");
+                testCalculatorRows[6].EnterFormula("0.5*mass*vel^2");
                 testCalculatorRows[6].EnterUnit("J");
                 testCalculatorRows[6].EnterDescription("kinetic energy of satellite");
                 assertStringEq(testCalculatorRows[6].ReadResult().Substring(0, 10), "3036875190");
 
                 addRowButton.Click();
                 testCalculatorRows[7].EnterLabel("g");
-                testCalculatorRows[7].EnterFormula("G*me/(re*re)");
+                testCalculatorRows[7].EnterFormula("G*me/re^2");
                 testCalculatorRows[7].EnterUnit("m/s2");
                 testCalculatorRows[7].EnterDescription("gravitational acceleration at earth's surface");
                 assertStringEq(testCalculatorRows[7].ReadResult().Substring(0, 4), "9.83");
@@ -202,14 +202,11 @@ namespace Application
 
                 addRowButton.Click();
                 testCalculatorRows[10].EnterLabel("");
-                testCalculatorRows[10].EnterFormula("ke/mass/g+alt");
+                testCalculatorRows[10].EnterFormula("ke/mass/g + alt");
                 testCalculatorRows[10].EnterUnit("m");
                 testCalculatorRows[10].EnterDescription("equiv altitude of total energy");
                 assertStringEq(testCalculatorRows[10].ReadResult().Substring(0, 7), "3288044");
 
-                addRowButton.Click();
-                testCalculatorRows[11].EnterLabel("");
-                testCalculatorRows[11].EnterFormula("\u221A(2/3+4)");
             }
 
 

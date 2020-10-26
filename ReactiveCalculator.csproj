@@ -152,6 +152,7 @@
     <Compile Include="DomainAbstractions\MainWindow.cs" />
     <Compile Include="DomainAbstractions\NumberToString.cs" />
     <Compile Include="DomainAbstractions\Operation.cs" />
+    <Compile Include="DomainAbstractions\RegexReplace.cs" />
     <Compile Include="DomainAbstractions\Space.cs" />
     <Compile Include="DomainAbstractions\StringConcat.cs" />
     <Compile Include="DomainAbstractions\StringFormat.cs" />
@@ -215,6 +216,12 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="CalculatorFunctions\CalculatorFunctions.csproj">
+      <Project>{0bb02c3d-4a9e-4957-b960-b6dc75bc51ae}</Project>
+      <Name>CalculatorFunctions</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
