@@ -45,12 +45,18 @@ namespace Application
         /// The user enters a formula e.g. 2+3 e.g. velocity*time consisting of literal values, the labels (of other rows) and operators, including C# math library operators e.g. Sqrt(velocity)
         /// The input operands is a list of inputs which should have the results of all other rows wired to it in the order of the labels in the labelsCommaSeparated.
         /// </summary>
-        public CalculatorRow()
+        public CalculatorRow(ConstructorCallbackDelegate ConstructorCallbackMethod = null)
         {
+            // This pattern allow the constructor to get its necessary properties set before the rest of the construction takes place
+            ConstructorCallbackMethod?.Invoke(this);
+
             WireInternals();
         }
 
 
+        public int[] Ratios { get;  set; }
+        public int[] MinWidths { get;  set; }
+        public int FontSize { get; set; }
 
 
 
@@ -140,16 +146,19 @@ namespace Application
             DataFlowConnector<string> id_65f22d8aa160470e8da02d0fce01edca = new DataFlowConnector<string>() { InstanceName = "Default" };
             Formula formula = new Formula() { InstanceName = "formula" };
             FormulaRender formulaRender = new FormulaRender() { InstanceName = "formulaRender" };
-            Horizontal id_6fe26e8021c64d8dad4e5b6016f7b659 = new Horizontal() { InstanceName = "Default", Ratios = new int[] { 1,2,2,2,1,3 }, MinWidths = new int[] { 50,200,520,520 } };
+            Horizontal id_6fe26e8021c64d8dad4e5b6016f7b659 = new Horizontal() { InstanceName = "Default", Ratios = Ratios, MinWidths = MinWidths };
+            NumberFormatting id_bab796380f6d4c4eb93428662ce78dc2 = new NumberFormatting() { InstanceName = "Default" };
             NumberToString id_4c9cb86bce4544fe90c628e9eaecbcec = new NumberToString() { InstanceName = "Default" };
             RegexReplace id_6008429a36ce435da09c8f7c5534800c = new RegexReplace("Sqrt","\u221A" ) { InstanceName = "Default" };
             RegexReplace id_8537240f2a654a788fbc6103c2e3a45f = new RegexReplace(@"\s","" ) { InstanceName = "Default" };
             StringFormat<string> sf1 = new StringFormat<string>("({1})=>{0}" ) { InstanceName = "sf1" };
-            Text resultText = new Text() { InstanceName = "resultText", FontSize=25 };
-            TextBox descriptionText = new TextBox() { InstanceName = "descriptionText", FontSize=25 };
-            TextBox formulaText = new TextBox() { InstanceName = "formulaText", FontSize=25 };
-            TextBox labelText = new TextBox() { InstanceName = "labelText", FontSize=25 };
-            TextBox unitsText = new TextBox() { InstanceName = "unitsText", FontSize=25 };
+            StringToNumber<int> id_ccfb4bf2e9df48e3a9c4d7f0f34d2d3a = new StringToNumber<int>() { InstanceName = "Default" };
+            Text resultText = new Text() { InstanceName = "resultText", FontSize=FontSize };
+            TextBox descriptionText = new TextBox() { InstanceName = "descriptionText", FontSize=FontSize };
+            TextBox digitsText = new TextBox() { InstanceName = "digitsText", FontSize=10 };
+            TextBox formulaText = new TextBox() { InstanceName = "formulaText", FontSize=FontSize };
+            TextBox labelText = new TextBox() { InstanceName = "labelText", FontSize=FontSize };
+            TextBox unitsText = new TextBox() { InstanceName = "unitsText", FontSize=FontSize };
             TransformOperator id_3d142790cd894fffbe31c6a9936a40f9 = new TransformOperator("^","Pow",rightAssociative:true ) { InstanceName = "Default" };
             TransformOperator id_ba99ef2eb1eb4ab7adfeab8d1b9bfb2b = new TransformOperator("!","Fact",unary:true ) { InstanceName = "Default" };
             // END AUTO-GENERATED INSTANTIATIONS FOR CalculatorRow.xmind
@@ -176,6 +185,7 @@ namespace Application
             id_6fe26e8021c64d8dad4e5b6016f7b659.WireTo(resultText, "children"); // (Horizontal (id_6fe26e8021c64d8dad4e5b6016f7b659).children) -- [List<IUI>] --> (Text (resultText).child)
             id_6fe26e8021c64d8dad4e5b6016f7b659.WireTo(unitsText, "children"); // (Horizontal (id_6fe26e8021c64d8dad4e5b6016f7b659).children) -- [List<IUI>] --> (TextBox (unitsText).child)
             id_6fe26e8021c64d8dad4e5b6016f7b659.WireTo(descriptionText, "children"); // (Horizontal (id_6fe26e8021c64d8dad4e5b6016f7b659).children) -- [List<IUI>] --> (TextBox (descriptionText).child)
+            id_6fe26e8021c64d8dad4e5b6016f7b659.WireTo(digitsText, "children"); // (Horizontal (id_6fe26e8021c64d8dad4e5b6016f7b659).children) -- [List<IUI>] --> (TextBox (digitsText).child)
             labelText.WireTo(id_65f22d8aa160470e8da02d0fce01edca, "textOutput"); // (TextBox (labelText).textOutput) -- [IDataFlow<string>] --> (DataFlowConnector<string> (id_65f22d8aa160470e8da02d0fce01edca).input)
             formulaText.WireTo(id_2ce385f7abc549b98a72fc2c4dd709fd, "textOutput"); // (TextBox (formulaText).textOutput) -- [IDataFlow<string>] --> (DataFlowConnector<string> (id_2ce385f7abc549b98a72fc2c4dd709fd).input)
             id_2ce385f7abc549b98a72fc2c4dd709fd.WireTo(id_3d142790cd894fffbe31c6a9936a40f9, "outputs"); // (DataFlowConnector<string> (id_2ce385f7abc549b98a72fc2c4dd709fd).outputs) -- [IDataFlow<string>] --> (TransformOperator (id_3d142790cd894fffbe31c6a9936a40f9).input)
@@ -186,9 +196,12 @@ namespace Application
             sf1.WireTo(formula, "output"); // (StringFormat<string> (sf1).output) -- [IDataFlow<string>] --> (Formula (formula).formula)
             formula.WireTo(dfc1, "result"); // (Formula (formula).result) -- [IDataFlow<double>] --> (DataFlowConnector<double> (dfc1).input)
             dfc1.WireTo(id_4c9cb86bce4544fe90c628e9eaecbcec, "outputs"); // (DataFlowConnector<double> (dfc1).outputs) -- [IDataFlow<T>] --> (NumberToString (id_4c9cb86bce4544fe90c628e9eaecbcec).input)
-            id_4c9cb86bce4544fe90c628e9eaecbcec.WireTo(resultText, "output"); // (NumberToString (id_4c9cb86bce4544fe90c628e9eaecbcec).output) -- [IDataFlow<string>] --> (Text (resultText).textInput)
+            id_4c9cb86bce4544fe90c628e9eaecbcec.WireTo(id_bab796380f6d4c4eb93428662ce78dc2, "output"); // (NumberToString (id_4c9cb86bce4544fe90c628e9eaecbcec).output) -- [IDataFlow<string>] --> (NumberFormatting (id_bab796380f6d4c4eb93428662ce78dc2).input)
             id_6008429a36ce435da09c8f7c5534800c.WireTo(id_8537240f2a654a788fbc6103c2e3a45f, "output"); // (RegexReplace (id_6008429a36ce435da09c8f7c5534800c).output) -- [IDataFlow<string>] --> (RegexReplace (id_8537240f2a654a788fbc6103c2e3a45f).input)
             id_8537240f2a654a788fbc6103c2e3a45f.WireTo(formulaRender, "output"); // (RegexReplace (id_8537240f2a654a788fbc6103c2e3a45f).output) -- [IDataFlow<string>] --> (FormulaRender (formulaRender).input)
+            id_bab796380f6d4c4eb93428662ce78dc2.WireTo(resultText, "output"); // (NumberFormatting (id_bab796380f6d4c4eb93428662ce78dc2).output) -- [IDataFlow<string>] --> (Text (resultText).textInput)
+            digitsText.WireTo(id_ccfb4bf2e9df48e3a9c4d7f0f34d2d3a, "textOutput"); // (TextBox (digitsText).textOutput) -- [IDataFlow<string>] --> (StringToNumber<int> (id_ccfb4bf2e9df48e3a9c4d7f0f34d2d3a).input)
+            id_ccfb4bf2e9df48e3a9c4d7f0f34d2d3a.WireTo(id_bab796380f6d4c4eb93428662ce78dc2, "output"); // (StringToNumber<int> (id_ccfb4bf2e9df48e3a9c4d7f0f34d2d3a).output) -- [IDataFlow<T>] --> (NumberFormatting (id_bab796380f6d4c4eb93428662ce78dc2).digits)
             // END AUTO-GENERATED WIRING FOR CalculatorRow.xmind
 
 
@@ -279,6 +292,12 @@ namespace Application
 
 
 
+
+
+
+        //  Testing interface implementation -------------------------------------------------------------------------------------------------------------------------------------
+
+
         // Testing interface
         // This interface faces upward, which means it is intended to be used by our client who also used our public interface to construct us
         // This interface allows the client to insert test data into its wiring
@@ -300,7 +319,7 @@ namespace Application
 
         string ITestCalculatorRow.ReadResult()
         {
-            return ((IDataFlow<string>)internalResultText).Data; 
+            return ((IDataFlow<string>)internalResultText).Data;
         }
 
         void ITestCalculatorRow.EnterUnit(string unit)
@@ -320,23 +339,33 @@ namespace Application
 
 
 
+// class CalculatorRowFactory -----------------------------------------------------------------------------------------------------------------------------------------------------------
+// allows CalculatorRow to be instantiated by via the IFactoryMethod interface
+
 
     /// <summary>
-    /// This class allows CalculatorRow to be manufactured as needed in an ALA wiring diagram.
-    /// If CalculatorRows are static in the diagram just use CalculatorRow directly
+    /// This small class allows the CalculatorRow class to be instantiated at runtime
+    /// It implements the IFactoryMethod which allows an instance of this class to be wired to any generic object that uses IFactoryMethod, for example an instance of Multiple.
+    /// If CalculatorRows are static in the diagram just instantiate the CalculatorRow class directly instead
     /// </summary>
     class CalculatorRowFactory : IFactoryMethod
     {
         public string InstanceName { get; set; } = "CalculatorRowFactory";
 
-        object IFactoryMethod.FactoryMethod(string InstanceName)
+        object IFactoryMethod.FactoryMethod(string InstanceName, ConstructorCallbackDelegate ConstructorCallbackMethod)
         {
-            return (object) new CalculatorRow() { InstanceName = InstanceName };
+            return (object)new CalculatorRow(ConstructorCallbackMethod) { InstanceName = InstanceName  };
         }
     }
 
 
 
+
+
+
+    // Testing interface for calculatorRow class -------------------------------------------------------------------------------------------------------------------------------------
+    // This interface allows you to enter values into CalculatorRows textBoxes as if the user had done it, and read out the result from the result Text as if the user was reading it
+    // i.e. this interface supports acceptance testing of the application that uses the CalculatorRow class
 
     interface ITestCalculatorRow
     {
@@ -346,5 +375,6 @@ namespace Application
         void EnterUnit(string unit);
         void EnterDescription(string description);
     }
+
 
 }

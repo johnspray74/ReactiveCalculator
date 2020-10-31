@@ -31,6 +31,7 @@ namespace DomainAbstractions
         public delegate void PostWiringDelegate(object instance);
         public PostWiringDelegate PostWiringInitializeMethod { private get; set; }
 
+        public ConstructorCallbackDelegate ConstructorCallbackMethod { private get; set; }
 
 
         // ports
@@ -53,7 +54,7 @@ namespace DomainAbstractions
         {
             for (int i = 0; i < N; i++)
             {
-                object o = factory.FactoryMethod(InstanceName + i.ToString());
+                object o = factory.FactoryMethod(InstanceName + i.ToString(), ConstructorCallbackMethod);
                 instances.Add(o);
                 WiringMethod(o);
             }
@@ -67,7 +68,7 @@ namespace DomainAbstractions
         // implement IEvent input port 
         void IEvent.Execute()
         {
-            object fo = factory.FactoryMethod(InstanceName + instances.Count.ToString());
+            object fo = factory.FactoryMethod(InstanceName + instances.Count.ToString(), ConstructorCallbackMethod);
             instances.Add(fo);
             WiringMethod(fo);
             N = instances.Count;

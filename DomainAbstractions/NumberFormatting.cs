@@ -15,7 +15,7 @@ namespace DomainAbstractions
     /// 
 
 
-    enum FormatMode { sig, fix, sci, eng }
+    enum FormatMode { Sig, Fix, Sci, Eng }
 
 
     public class NumberFormatting : IDataFlow<string>, IDataFlow<int>, IDataFlow<FormatMode>
@@ -41,40 +41,60 @@ namespace DomainAbstractions
 
         // Private fields
         private string input = default;
-        private FormatMode formatMode = FormatMode.sig;
-        private int digits;
+        private FormatMode mode = FormatMode.Sig;
+        private int digits = 3;
 
 
         // IDataFlow<T> implementation -----------------------------------------------------------------
-        string IDataFlow<string>.Data
+        string IDataFlow<string>.Data { get => input; set { input = value; SomethingChanged(); } }
+
+
+
+
+
+        int IDataFlow<int>.Data { get => digits; set { digits = value; SomethingChanged(); }  }
+
+
+
+
+
+        FormatMode IDataFlow<FormatMode>.Data { get => mode; set { mode = value; SomethingChanged();  } }
+
+
+
+
+
+
+
+
+
+        private void SomethingChanged()
         {
-            get => input;
-            set
+            switch (mode)
             {
-                input = value;
-                switch (formatMode)
-                {
-                    case FormatMode.sig:
-                        input = FormatSignificantDigits(input, digits);
-                        break;
-                    case FormatMode.fix:
-                        input = FormatFixedPoint(input, digits);
-                        break;
-                    case FormatMode.sci:
-                        break;
-                    case FormatMode.eng:
-                        break;
-                }
-                output.Data = input;
+                case FormatMode.Sig:
+                    output.Data = FormatSignificantDigits(input, digits);
+                    break;
+                case FormatMode.Fix:
+                    output.Data = FormatFixedPoint(input, digits);
+                    break;
+                case FormatMode.Sci:
+                    output.Data = FormatScientific(input, digits);
+                    break;
+                case FormatMode.Eng:
+                    output.Data = FormatScientific(input, digits, 3);
+                    break;
             }
         }
 
-        int IDataFlow<int>.Data { get => digits; set => digits = value; }
 
 
 
 
-        FormatMode IDataFlow<FormatMode>.Data { get; set; }
+
+
+
+
 
 
 
@@ -110,56 +130,86 @@ namespace DomainAbstractions
                 mantissa = input.Substring(0, exponentPosition);
                 exponent = input.Substring(exponentPosition, input.Length - exponentPosition);
             }
-            bool round = false;
-            if (mantissa.Length - 1 > digits)  // we will discard at least one decimal place (-1 is for the decimal point)
+
+            int firstNonZero = 0;
+            bool pointIncluded = true;
+            while (firstNonZero < mantissa.Length && (mantissa[firstNonZero] == '0' || mantissa[firstNonZero] == '.'))
             {
-                if (mantissa[digits + 1] >= '5') round = true;
-                // Truncate decimal places (decimal point stays)
-                mantissa = mantissa.Substring(0, digits + 1);
-                // do the ripple rounding of the mantissa
-                // at this point the mantissa may or may not have a decimal point in it
-                int i = mantissa.Length;
-                while (round)
-                {
-                    i--;
-                    if (i>=0)
-                    {
-                        char c = mantissa[i];
-                        if (c=='.') continue;
-                        if (c=='9')
-                        {
-                            c = '0';
-                        }
-                        else
-                        {
-                            c++;
-                            round = false;
-                        }
-                        mantissa = mantissa.Remove(i, 1).Insert(i, c.ToString());
-                    }
-                    else
-                    {
-                        mantissa = mantissa.Insert(0, "1");
-                        pointPosition = input.IndexOf(".");
-                        if (pointPosition!=-1)
-                        {
-                            mantissa = mantissa.Substring(0, mantissa.Length - 1); // truncate a zero
-                        }
-                        round = false;
-                    }
-                }
+                if (mantissa[firstNonZero] == '.') pointIncluded = false;
+                firstNonZero++;
+            }
+            int significantDigits = mantissa.Length - firstNonZero;
+            if (pointIncluded) significantDigits--;
+            if (significantDigits == 0) // If the mantissa is any form of zero, we return simply "0" regardsless of the significant digits required
+            {
+                input = "0";
+                goto done;
+            }
+            if (significantDigits > digits)  // we will discard at least one decimal place (-1 is for the decimal point)
+            {
+                int roundDigit = mantissa.Length - significantDigits + digits;
+                mantissa = Round(mantissa, roundDigit);
             }
             pointPosition = mantissa.IndexOf(".");
             if (pointPosition == mantissa.Length-1)
             {
                 mantissa = mantissa.Substring(0, mantissa.Length - 1); // remove trailing decimal point
             }
-
             input = mantissa + exponent;
         done:
             if (minus) input = "-" + input;
             return input;
         }
+
+
+        /// <summary>
+        /// Rounds a number in the form of a string at the specified position
+        /// </summary>
+        /// <param name="mantissa"></param>
+        /// <param name="roundDigit"></param>
+        /// <returns></returns>
+        private string Round(string mantissa, int roundDigit)
+        {
+
+            bool round = false;
+            if (mantissa[roundDigit] >= '5') round = true;
+            // Truncate decimal places (decimal point stays)
+            mantissa = mantissa.Substring(0, roundDigit);
+            // do the ripple rounding of the mantissa
+            // at this point the mantissa may or may not have a decimal point in it
+            int i = mantissa.Length;
+            while (round)
+            {
+                i--;
+                if (i >= 0)
+                {
+                    char c = mantissa[i];
+                    if (c == '.') continue;
+                    if (c == '9')
+                    {
+                        c = '0';
+                    }
+                    else
+                    {
+                        c++;
+                        round = false;
+                    }
+                    mantissa = mantissa.Remove(i, 1).Insert(i, c.ToString());
+                }
+                else
+                {
+                    mantissa = mantissa.Insert(0, "1");
+                    int pointPosition = mantissa.IndexOf(".");
+                    if (pointPosition != -1)
+                    {
+                        mantissa = mantissa.Substring(0, mantissa.Length - 1); // truncate a zero
+                    }
+                    round = false;
+                }
+            }
+            return mantissa;
+        }
+
 
 
 
@@ -173,6 +223,9 @@ namespace DomainAbstractions
             assertStringEq(FormatSignificantDigits("1",1),"1");
             assertStringEq(FormatSignificantDigits("1.", 1), "1");
             assertStringEq(FormatSignificantDigits("1.0", 1), "1");
+            assertStringEq(FormatSignificantDigits("0.12345", 1), "0.1");
+            assertStringEq(FormatSignificantDigits("0.012345", 5), "0.012345");
+            assertStringEq(FormatSignificantDigits("0.0012345", 4), "0.001235");
             assertStringEq(FormatSignificantDigits("123", 0), "123");
             assertStringEq(FormatSignificantDigits("123.", 0), "123.");
             assertStringEq(FormatSignificantDigits("123.0", 0), "123.0");
@@ -205,7 +258,6 @@ namespace DomainAbstractions
             assertStringEq(FormatSignificantDigits("999.99", 4), "1000");
             assertStringEq(FormatSignificantDigits("999.99", 3), "1000");
             assertStringEq(FormatSignificantDigits("999.99", 2), "1000");
-            // assertStringEq(FormatSignificantDigits("00", 1), "0");
             assertStringEq(FormatSignificantDigits("-0", 1), "-0");
             assertStringEq(FormatSignificantDigits("-0.0", 0), "-0.0");
             assertStringEq(FormatSignificantDigits("-0.0", 1), "-0");
@@ -264,7 +316,10 @@ namespace DomainAbstractions
             int pointPosition = input.IndexOf(".");
             if (pointPosition != -1)
             {
-                input = FormatSignificantDigits(input, pointPosition + digits);  // trim off decimal places and do rounding
+                if (pointPosition + 1 + digits < input.Length)
+                {
+                    input = Round(input, pointPosition + 1 + digits);  // trim off decimal places and do rounding
+                }
                 // also may remove the decimal point
             }
             pointPosition = input.IndexOf(".");
@@ -277,8 +332,14 @@ namespace DomainAbstractions
                 }
             }
             while (input.Length - pointPosition - 1 < digits) input += "0";
+            pointPosition = input.IndexOf(".");
+            if (pointPosition == input.Length - 1)
+            {
+                input = input.Substring(0, input.Length - 1); // remove trailing decimal point
+            }
 
-            done:
+
+        done:
             if (minus) input = "-" + input;
             return input;
         }
@@ -314,7 +375,6 @@ namespace DomainAbstractions
             assertStringEq(FormatFixedPoint("999.99", 2), "999.99");
             assertStringEq(FormatFixedPoint("999.99", 1), "1000.0");
             assertStringEq(FormatFixedPoint("999.99", 0), "1000");
-            // assertStringEq(FormatFixedPoint("00", 0), "0.");
             assertStringEq(FormatFixedPoint("-0", 1), "-0.0");
             assertStringEq(FormatFixedPoint("-0.0", 0), "-0");
             assertStringEq(FormatFixedPoint("-0.0", 1), "-0.0");
@@ -508,7 +568,7 @@ namespace DomainAbstractions
             assertStringEq(FormatScientific("123.456E6", 6), "1.234560E8");
             assertStringEq(FormatScientific("1.2345678901234567890E-6", 7), "1.2345679E-6");
             assertStringEq(FormatScientific("9.99", 1), "1.0E1");
-            // assertStringEq(FormatScientific("00", 0), "0.E0");
+            assertStringEq(FormatScientific("00", 0), "0E0");
             assertStringEq(FormatScientific("-0", 1), "-0.0E0");
             assertStringEq(FormatScientific("-0.0", 0), "-0E0");
             assertStringEq(FormatScientific("-0.0", 1), "-0.0E0");

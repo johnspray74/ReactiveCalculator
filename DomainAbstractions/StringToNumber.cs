@@ -10,22 +10,45 @@ namespace DomainAbstractions
     /// 1. IDataFlow<T> input: input data
     /// 2. IEvent eventOutput: output event
     /// </summary>
-    public class StringToNumber : IDataFlow<string>
+    public class StringToNumber<T> : IDataFlow<string>
     {
         // Properties
         public string InstanceName { get; set; } = "Default";
 
         // Ports
-        private IDataFlow<double> output;
+        private IDataFlow<T> output;
 
         /// <summary>
-        /// Converts any kind of IDataFlow to an IEvent.
+        /// Converts string to double or int
         /// </summary>
-        public StringToNumber() { }
+        public StringToNumber() 
+        {
+            // type conversion tests to see how to convert to a gneric type
+            // type conversion left here to ensure type T is compatible
+            double d = 0.0;
+            string s = "0";
+            T t;
+            t = (T)ConvertValue<T>(d);
+            t = (T)ConvertValue<T,double>(d);
+            t = (T)ConvertValue<T,string>(s);
+        }
 
 
-        // Private fields
-        private string data = default;
+
+        private T ConvertValue<T, U>(U value) where U : System.IConvertible
+        {
+            return (T)System.Convert.ChangeType(value, typeof(T));
+        }
+
+        private T ConvertValue<T>(double value)
+        {
+            return (T)System.Convert.ChangeType(value, typeof(T));
+        }
+
+
+        private string data;
+
+
 
 
 
@@ -35,8 +58,20 @@ namespace DomainAbstractions
             get => data;
             set
             {
+                data = value;
+                /*
                 if (!double.TryParse(value, out double temp)) temp = double.NaN;
-                output.Data = temp;
+                output.Data = (T)System.Convert.ChangeType(temp, typeof(T));
+                */
+
+                try
+                {
+                    output.Data = (T)ConvertValue<T,string>(data);
+                }
+                catch
+                {
+                    output.Data = default(T);
+                }
             }
         }
     }

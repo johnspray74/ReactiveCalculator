@@ -18,7 +18,7 @@ namespace Application
         {
             Application app = new Application();
             app.Initialize();
-            app.mainWindow.WireTo(app.testCalculator, "appStart");   // This is just for running the tests. They dont run yet - they use appStart IEvent which is an output port of MainWindow when the window is loaded
+            // app.mainWindow.WireTo(app.testCalculator, "appStart");   // This is just for running the tests. They dont run yet - they use appStart IEvent which is an output port of MainWindow when the window is loaded
             app.mainWindow.Run();
         }
 
@@ -62,23 +62,30 @@ namespace Application
 
             public CalculatorNRows(out MainWindow mw)
             {
+                // These Ratios and MinWidths are for the columns of the calculator
+                // Label, Formula, TextBook, Result, Units, Description, Format, Digits
+                int[] Ratios = new int[] { 1, 2, 2, 2, 1, 2, 1 };
+                int[] MinWidths = new int[] { 50, 100, 100, 100, 50, 50, 50 };
+                int FontSize = 25;
+
                 // BEGIN AUTO-GENERATED INSTANTIATIONS FOR CalculatorNRows.xmind
-                Button id_803db86064414b379608f65bc07098bc = new Button("Add row" ) { InstanceName = "Default", FontSize=25 };
+                Button id_803db86064414b379608f65bc07098bc = new Button("Add row" ) { InstanceName = "Default", FontSize=FontSize };
                 CalculatorRowFactory id_012306911dbe485c91ecd24bd35b2420 = new CalculatorRowFactory() { InstanceName = "Default" };
                 DataFlowConnector<string> labelsConcatenatorConnector = new DataFlowConnector<string>() { InstanceName = "labelsConcatenatorConnector" };
-                Horizontal id_24914ab245484fe1b70af8020ca2e831 = new Horizontal() { InstanceName = "Default", Ratios = new int[] { 1,2,2,2,1,3 }, MinWidths = new int[] { 50,200,520,520 } };
+                Horizontal id_24914ab245484fe1b70af8020ca2e831 = new Horizontal() { InstanceName = "Default", Ratios = Ratios, MinWidths = MinWidths };
                 Horizontal id_aa2f23f75c79479e88ccf7ed0ed6c2cc = new Horizontal() { InstanceName = "Default", Ratios = new int[] { 1,8 }, MinWidths = new int[] { 50 } };
                 MainWindow mainWindow = new MainWindow("Reactive Calculator" ) { InstanceName = "mainWindow" };
-                Multiple MultipleRow = new Multiple(N:4 ) { InstanceName = "MultipleRow", WiringMethod = (newInstance) => { _rows.WireTo(newInstance); _labelsConcatenator.WireTo(newInstance,"inputs"); newInstance.WireTo(labelsConcatenatorConnector,"labelsCommaSeparated"); testCalculatorRows.Add((ITestCalculatorRow)newInstance); }, CrossWiringMethod = (instance1,instance2) => { instance2.WireFrom(instance1,"operands"); }, PostWiringInitializeMethod = delegate(object instance) { _rows.AddRows(); ((CalculatorRow)instance).Initialize(); }  };
+                Multiple MultipleRow = new Multiple(N:4 ) { InstanceName = "MultipleRow", ConstructorCallbackMethod = (instance) => {   ((CalculatorRow)instance).FontSize = FontSize;  ((CalculatorRow)instance).Ratios = Ratios;   ((CalculatorRow)instance).MinWidths = MinWidths; }, WiringMethod = (newInstance) => {  _rows.WireTo(newInstance); _labelsConcatenator.WireTo(newInstance,"inputs");   newInstance.WireTo(labelsConcatenatorConnector,"labelsCommaSeparated");  testCalculatorRows.Add((ITestCalculatorRow)newInstance); }, CrossWiringMethod = (instance1,instance2) => { instance2.WireFrom(instance1,"operands"); }, PostWiringInitializeMethod = delegate(object instance) {   _rows.AddRows();  ((CalculatorRow)instance).Initialize();}  };
                 Space id_68d3e779ba0d4f78ad48db2ed468608c = new Space() { InstanceName = "Default" };
                 StringConcat labelsConcatenator = new StringConcat() { InstanceName = "labelsConcatenator", Separator="," };
-                Text id_39a7a11c94da4b338a92b2235b8e96d1 = new Text("Units" ) { InstanceName = "Default", FontSize=25 };
-                Text id_6be1dbef5dd042ba88554b4482b16079 = new Text("Formula" ) { InstanceName = "Default", FontSize=25 };
-                Text id_93a237ff714b48748a4ba10ede42d2dc = new Text("Description" ) { InstanceName = "Default", FontSize=25 };
-                Text id_96b879e17b4346e4b98484224e65d582 = new Text("Label" ) { InstanceName = "Default", FontSize=25 };
-                Text id_a72464a6a1a8426887ca40b886b5567e = new Text("Text book" ) { InstanceName = "Default", FontSize=25 };
-                Text id_ccc54bcd38e14c10a5ba59d851191cc4 = new Text("Result" ) { InstanceName = "Default", FontSize=25 };
-                Text id_fc0b8f38b3c14f799f605cd54214b503 = new Text("Reactive Calculator" ) { InstanceName = "Default", FontSize=25 };
+                Text id_39a7a11c94da4b338a92b2235b8e96d1 = new Text("Units" ) { InstanceName = "Default", FontSize=FontSize };
+                Text id_6be1dbef5dd042ba88554b4482b16079 = new Text("Formula" ) { InstanceName = "Default", FontSize=FontSize };
+                Text id_93a237ff714b48748a4ba10ede42d2dc = new Text("Description" ) { InstanceName = "Default", FontSize=FontSize };
+                Text id_96b879e17b4346e4b98484224e65d582 = new Text("Label" ) { InstanceName = "Default", FontSize=FontSize };
+                Text id_a72464a6a1a8426887ca40b886b5567e = new Text("Textbook" ) { InstanceName = "Default", FontSize=FontSize };
+                Text id_ccc54bcd38e14c10a5ba59d851191cc4 = new Text("Result" ) { InstanceName = "Default", FontSize=FontSize };
+                Text id_f9b8d9329de5407b93a1834afeaf5de6 = new Text("Format" ) { InstanceName = "Default", FontSize=FontSize };
+                Text id_fc0b8f38b3c14f799f605cd54214b503 = new Text("Reactive Calculator" ) { InstanceName = "Default", FontSize=FontSize };
                 TextBox id_b84a8eee3a554afaad9fa90ac6b594f9 = new TextBox() { InstanceName = "Default", Text="Title your calculation here", FontSize=15 };
                 Vertical id_b02d2caea938499b997b9bfcb80fb0e9 = new Vertical() { InstanceName = "Default" };
                 Vertical rows = new Vertical() { InstanceName = "rows" };
@@ -98,6 +105,7 @@ namespace Application
                 id_24914ab245484fe1b70af8020ca2e831.WireTo(id_ccc54bcd38e14c10a5ba59d851191cc4, "children"); // (Horizontal (id_24914ab245484fe1b70af8020ca2e831).children) -- [List<IUI>] --> (Text (id_ccc54bcd38e14c10a5ba59d851191cc4).child)
                 id_24914ab245484fe1b70af8020ca2e831.WireTo(id_39a7a11c94da4b338a92b2235b8e96d1, "children"); // (Horizontal (id_24914ab245484fe1b70af8020ca2e831).children) -- [List<IUI>] --> (Text (id_39a7a11c94da4b338a92b2235b8e96d1).child)
                 id_24914ab245484fe1b70af8020ca2e831.WireTo(id_93a237ff714b48748a4ba10ede42d2dc, "children"); // (Horizontal (id_24914ab245484fe1b70af8020ca2e831).children) -- [List<IUI>] --> (Text (id_93a237ff714b48748a4ba10ede42d2dc).child)
+                id_24914ab245484fe1b70af8020ca2e831.WireTo(id_f9b8d9329de5407b93a1834afeaf5de6, "children"); // (Horizontal (id_24914ab245484fe1b70af8020ca2e831).children) -- [List<IUI>] --> (Text (id_f9b8d9329de5407b93a1834afeaf5de6).child)
                 id_aa2f23f75c79479e88ccf7ed0ed6c2cc.WireTo(id_803db86064414b379608f65bc07098bc, "children"); // (Horizontal (id_aa2f23f75c79479e88ccf7ed0ed6c2cc).children) -- [List<IUI>] --> (Button (id_803db86064414b379608f65bc07098bc).child)
                 id_aa2f23f75c79479e88ccf7ed0ed6c2cc.WireTo(id_68d3e779ba0d4f78ad48db2ed468608c, "children"); // (Horizontal (id_aa2f23f75c79479e88ccf7ed0ed6c2cc).children) -- [List<IUI>] --> (Space (id_68d3e779ba0d4f78ad48db2ed468608c).child)
                 id_803db86064414b379608f65bc07098bc.WireTo(MultipleRow, "eventButtonClicked"); // (Button (id_803db86064414b379608f65bc07098bc).eventButtonClicked) -- [IEvent] --> (Multiple (MultipleRow).addRow)
@@ -788,7 +796,7 @@ namespace Application
             mainWindow
                 .WireTo(new Vertical()
                     .WireTo(new TextBox() { FontSize = 50 }
-                        .WireTo(new StringToNumber()
+                        .WireTo(new StringToNumber<double>()
                             .WireTo(new DataFlowConnector<double>()
                                 .WireFrom(Formula1
                                     .WireTo(new StringFormat<double>("Ans={0}")
@@ -799,7 +807,7 @@ namespace Application
                         )
                     )
                     .WireTo(new TextBox() { FontSize = 50 }
-                        .WireTo(new StringToNumber()
+                        .WireTo(new StringToNumber<double>()
                             .WireTo(new DataFlowConnector<double>()
                                 .WireFrom(Formula1)
                             )
