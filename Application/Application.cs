@@ -37,7 +37,8 @@ namespace Application
             // mainWindow = CalculatorBasic();
             // mainWindow = CalculatorBasicHandWired(); // fails
             // mainWindow = HelloWorld();
-            //            new TransformOperator("^", "Pow", rightAssociative: true); // testing only
+            // new TransformOperator("^", "Pow", rightAssociative: true); // testing only
+            new NumberFormatting(); // Testing only
         }
 
         private Application Initialize()

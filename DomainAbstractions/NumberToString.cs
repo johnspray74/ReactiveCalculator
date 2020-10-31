@@ -20,7 +20,7 @@ namespace DomainAbstractions
         private IDataFlow<string> output;
 
         /// <summary>
-        /// Converts any kind of IDataFlow to an IEvent.
+        /// Converts double to string (null string if Nan)
         /// </summary>
         public NumberToString() { }
 

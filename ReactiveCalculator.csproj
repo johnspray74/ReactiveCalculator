@@ -150,6 +150,7 @@
     <Compile Include="DomainAbstractions\IfElse.cs" />
     <Compile Include="DomainAbstractions\Formula.cs" />
     <Compile Include="DomainAbstractions\MainWindow.cs" />
+    <Compile Include="DomainAbstractions\NumberFormatting.cs" />
     <Compile Include="DomainAbstractions\NumberToString.cs" />
     <Compile Include="DomainAbstractions\Operation.cs" />
     <Compile Include="DomainAbstractions\RegexReplace.cs" />
