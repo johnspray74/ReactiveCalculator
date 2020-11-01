@@ -19,6 +19,11 @@ namespace DomainAbstractions
 
         public double FontSize { set => formulaControl.FontSize = value; }
 
+
+        public double margin { set => formulaControl.Margin = new Thickness(value, value, value, value); }
+
+
+
         // private fields
         private UIElement wpfElement;
         private WpfMath.Controls.FormulaControl formulaControl = new WpfMath.Controls.FormulaControl();
@@ -46,6 +51,7 @@ namespace DomainAbstractions
             formulaControl.HorizontalAlignment = HorizontalAlignment.Stretch;
             formulaControl.VerticalAlignment = VerticalAlignment.Stretch;
             formulaControl.SnapsToDevicePixels = true;
+            margin = 5;
             return wpfElement;
         }
 

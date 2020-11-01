@@ -154,6 +154,7 @@
     <Compile Include="DomainAbstractions\NumberToString.cs" />
     <Compile Include="DomainAbstractions\Operation.cs" />
     <Compile Include="DomainAbstractions\RegexReplace.cs" />
+    <Compile Include="DomainAbstractions\SelectionBox.cs" />
     <Compile Include="DomainAbstractions\Space.cs" />
     <Compile Include="DomainAbstractions\StringConcat.cs" />
     <Compile Include="DomainAbstractions\StringFormat.cs" />
@@ -165,6 +166,7 @@
     <Compile Include="DomainAbstractions\TransformOperator.cs" />
     <Compile Include="DomainAbstractions\Vertical.cs" />
     <Compile Include="Libraries\Wiring.cs" />
+    <Compile Include="Libraries\ConstructorCallbackDelegate.cs" />
     <Compile Include="ProgrammingParadigms\DataFlow.cs" />
     <Compile Include="ProgrammingParadigms\Event.cs" />
     <Compile Include="ProgrammingParadigms\IFactoryMethod.cs" />

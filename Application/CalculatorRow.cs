@@ -136,6 +136,7 @@ namespace Application
 
         private void WireInternals()
         {
+
             // Note WireInternals has been designed to be tolerant of when it is called relative to the when the external wiring is done. It can be called from the constructor, or even at runtime.
             if (internalWiringDone) throw new Exception("Please don't call WireInternals more than once");
 
@@ -151,16 +152,18 @@ namespace Application
             NumberToString id_4c9cb86bce4544fe90c628e9eaecbcec = new NumberToString() { InstanceName = "Default" };
             RegexReplace id_6008429a36ce435da09c8f7c5534800c = new RegexReplace("Sqrt","\u221A" ) { InstanceName = "Default" };
             RegexReplace id_8537240f2a654a788fbc6103c2e3a45f = new RegexReplace(@"\s","" ) { InstanceName = "Default" };
+            SelectionBox<FormatModes> format = new SelectionBox<FormatModes>() { InstanceName = "format", Margins = new Thickness(5,5,5,0) };
             StringFormat<string> sf1 = new StringFormat<string>("({1})=>{0}" ) { InstanceName = "sf1" };
             StringToNumber<int> id_ccfb4bf2e9df48e3a9c4d7f0f34d2d3a = new StringToNumber<int>() { InstanceName = "Default" };
             Text resultText = new Text() { InstanceName = "resultText", FontSize=FontSize };
-            TextBox descriptionText = new TextBox() { InstanceName = "descriptionText", FontSize=FontSize };
-            TextBox digitsText = new TextBox() { InstanceName = "digitsText", FontSize=10 };
+            TextBox descriptionText = new TextBox() { InstanceName = "descriptionText", FontSize=15, Multiline = true };
+            TextBox digitsText = new TextBox() { InstanceName = "digitsText", FontSize=15, Margins = new Thickness(5,0,5,5), Text = "3" };
             TextBox formulaText = new TextBox() { InstanceName = "formulaText", FontSize=FontSize };
             TextBox labelText = new TextBox() { InstanceName = "labelText", FontSize=FontSize };
             TextBox unitsText = new TextBox() { InstanceName = "unitsText", FontSize=FontSize };
             TransformOperator id_3d142790cd894fffbe31c6a9936a40f9 = new TransformOperator("^","Pow",rightAssociative:true ) { InstanceName = "Default" };
             TransformOperator id_ba99ef2eb1eb4ab7adfeab8d1b9bfb2b = new TransformOperator("!","Fact",unary:true ) { InstanceName = "Default" };
+            Vertical id_6448e518651246a3af0d4f7d49c13077 = new Vertical() { InstanceName = "Default" };
             // END AUTO-GENERATED INSTANTIATIONS FOR CalculatorRow.xmind
 
 
@@ -185,7 +188,7 @@ namespace Application
             id_6fe26e8021c64d8dad4e5b6016f7b659.WireTo(resultText, "children"); // (Horizontal (id_6fe26e8021c64d8dad4e5b6016f7b659).children) -- [List<IUI>] --> (Text (resultText).child)
             id_6fe26e8021c64d8dad4e5b6016f7b659.WireTo(unitsText, "children"); // (Horizontal (id_6fe26e8021c64d8dad4e5b6016f7b659).children) -- [List<IUI>] --> (TextBox (unitsText).child)
             id_6fe26e8021c64d8dad4e5b6016f7b659.WireTo(descriptionText, "children"); // (Horizontal (id_6fe26e8021c64d8dad4e5b6016f7b659).children) -- [List<IUI>] --> (TextBox (descriptionText).child)
-            id_6fe26e8021c64d8dad4e5b6016f7b659.WireTo(digitsText, "children"); // (Horizontal (id_6fe26e8021c64d8dad4e5b6016f7b659).children) -- [List<IUI>] --> (TextBox (digitsText).child)
+            id_6fe26e8021c64d8dad4e5b6016f7b659.WireTo(id_6448e518651246a3af0d4f7d49c13077, "children"); // (Horizontal (id_6fe26e8021c64d8dad4e5b6016f7b659).children) -- [List<IUI>] --> (Vertical (id_6448e518651246a3af0d4f7d49c13077).Child)
             labelText.WireTo(id_65f22d8aa160470e8da02d0fce01edca, "textOutput"); // (TextBox (labelText).textOutput) -- [IDataFlow<string>] --> (DataFlowConnector<string> (id_65f22d8aa160470e8da02d0fce01edca).input)
             formulaText.WireTo(id_2ce385f7abc549b98a72fc2c4dd709fd, "textOutput"); // (TextBox (formulaText).textOutput) -- [IDataFlow<string>] --> (DataFlowConnector<string> (id_2ce385f7abc549b98a72fc2c4dd709fd).input)
             id_2ce385f7abc549b98a72fc2c4dd709fd.WireTo(id_3d142790cd894fffbe31c6a9936a40f9, "outputs"); // (DataFlowConnector<string> (id_2ce385f7abc549b98a72fc2c4dd709fd).outputs) -- [IDataFlow<string>] --> (TransformOperator (id_3d142790cd894fffbe31c6a9936a40f9).input)
@@ -200,6 +203,9 @@ namespace Application
             id_6008429a36ce435da09c8f7c5534800c.WireTo(id_8537240f2a654a788fbc6103c2e3a45f, "output"); // (RegexReplace (id_6008429a36ce435da09c8f7c5534800c).output) -- [IDataFlow<string>] --> (RegexReplace (id_8537240f2a654a788fbc6103c2e3a45f).input)
             id_8537240f2a654a788fbc6103c2e3a45f.WireTo(formulaRender, "output"); // (RegexReplace (id_8537240f2a654a788fbc6103c2e3a45f).output) -- [IDataFlow<string>] --> (FormulaRender (formulaRender).input)
             id_bab796380f6d4c4eb93428662ce78dc2.WireTo(resultText, "output"); // (NumberFormatting (id_bab796380f6d4c4eb93428662ce78dc2).output) -- [IDataFlow<string>] --> (Text (resultText).textInput)
+            id_6448e518651246a3af0d4f7d49c13077.WireTo(format, "children"); // (Vertical (id_6448e518651246a3af0d4f7d49c13077).children) -- [List<IUI>] --> (SelectionBox<FormatModes> (format).child)
+            id_6448e518651246a3af0d4f7d49c13077.WireTo(digitsText, "children"); // (Vertical (id_6448e518651246a3af0d4f7d49c13077).children) -- [List<IUI>] --> (TextBox (digitsText).child)
+            format.WireTo(id_bab796380f6d4c4eb93428662ce78dc2, "output"); // (SelectionBox<FormatModes> (format).output) -- [IDataFlow<FormatModes>] --> (NumberFormatting (id_bab796380f6d4c4eb93428662ce78dc2).FormatModes>)
             digitsText.WireTo(id_ccfb4bf2e9df48e3a9c4d7f0f34d2d3a, "textOutput"); // (TextBox (digitsText).textOutput) -- [IDataFlow<string>] --> (StringToNumber<int> (id_ccfb4bf2e9df48e3a9c4d7f0f34d2d3a).input)
             id_ccfb4bf2e9df48e3a9c4d7f0f34d2d3a.WireTo(id_bab796380f6d4c4eb93428662ce78dc2, "output"); // (StringToNumber<int> (id_ccfb4bf2e9df48e3a9c4d7f0f34d2d3a).output) -- [IDataFlow<T>] --> (NumberFormatting (id_bab796380f6d4c4eb93428662ce78dc2).digits)
             // END AUTO-GENERATED WIRING FOR CalculatorRow.xmind
@@ -210,7 +216,8 @@ namespace Application
 
             // id_b9e566abb4cc42d1a7d3927615231c50.WireTo(labelsCommaSeparatedInternalConnector);  // method 1
             labelsCommaSeparatedInternal = id_b9e566abb4cc42d1a7d3927615231c50; // method 2
-            label1 = labelText;
+            // The CalculatorRow label is a border port that is internally wired to the labels DataFlowConnector IDataFlowB allowing it to fan out
+            label1 = id_65f22d8aa160470e8da02d0fce01edca;  // Dataflow connector on the label
             internalFormula = formula;
             internalResult = dfc1;
 

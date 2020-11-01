@@ -15,10 +15,10 @@ namespace DomainAbstractions
     /// 
 
 
-    enum FormatMode { Sig, Fix, Sci, Eng }
+    enum FormatModes { Sig, Fix, Sci, Eng }
 
 
-    public class NumberFormatting : IDataFlow<string>, IDataFlow<int>, IDataFlow<FormatMode>
+    public class NumberFormatting : IDataFlow<string>, IDataFlow<int>, IDataFlow<FormatModes>
     {
         // Properties
         public string InstanceName { get; set; } = "Default";
@@ -41,7 +41,7 @@ namespace DomainAbstractions
 
         // Private fields
         private string input = default;
-        private FormatMode mode = FormatMode.Sig;
+        private FormatModes mode = FormatModes.Sig;
         private int digits = 3;
 
 
@@ -58,7 +58,7 @@ namespace DomainAbstractions
 
 
 
-        FormatMode IDataFlow<FormatMode>.Data { get => mode; set { mode = value; SomethingChanged();  } }
+        FormatModes IDataFlow<FormatModes>.Data { get => mode; set { mode = value; SomethingChanged();  } }
 
 
 
@@ -70,20 +70,23 @@ namespace DomainAbstractions
 
         private void SomethingChanged()
         {
-            switch (mode)
+            if (input != null)
             {
-                case FormatMode.Sig:
-                    output.Data = FormatSignificantDigits(input, digits);
-                    break;
-                case FormatMode.Fix:
-                    output.Data = FormatFixedPoint(input, digits);
-                    break;
-                case FormatMode.Sci:
-                    output.Data = FormatScientific(input, digits);
-                    break;
-                case FormatMode.Eng:
-                    output.Data = FormatScientific(input, digits, 3);
-                    break;
+                switch (mode)
+                {
+                    case FormatModes.Sig:
+                        output.Data = FormatSignificantDigits(input, digits);
+                        break;
+                    case FormatModes.Fix:
+                        output.Data = FormatFixedPoint(input, digits);
+                        break;
+                    case FormatModes.Sci:
+                        output.Data = FormatScientific(input, digits);
+                        break;
+                    case FormatModes.Eng:
+                        output.Data = FormatScientific(input, digits, 3);
+                        break;
+                }
             }
         }
 
@@ -420,6 +423,7 @@ namespace DomainAbstractions
         {
             bool minus = false;
             if (digits < 0) goto done;  // digits < 0 signals us to do no formatting
+            if (input.Length == 0) goto done;
             // simplify out negative numbers
             if (input[0] == '-')
             {

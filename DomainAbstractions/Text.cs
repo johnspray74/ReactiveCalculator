@@ -30,6 +30,7 @@ namespace DomainAbstractions
         public FontStyle FontStyle { set => textBlock.FontStyle = value; }
         public double FontSize { set => textBlock.FontSize = value; }
 
+
         // private fields
         private UIElement wpfElement;
         private TextBlock textBlock = new TextBlock();

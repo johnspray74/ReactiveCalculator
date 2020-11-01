@@ -64,8 +64,8 @@ namespace Application
             {
                 // These Ratios and MinWidths are for the columns of the calculator
                 // Label, Formula, TextBook, Result, Units, Description, Format, Digits
-                int[] Ratios = new int[] { 1, 2, 2, 2, 1, 2, 1 };
-                int[] MinWidths = new int[] { 50, 100, 100, 100, 50, 50, 50 };
+                int[] Ratios = new int[] { 4, 8, 8, 8, 4, 8, 1 };
+                int[] MinWidths = new int[] { 50, 100, 100, 100, 50, 50, 57 };  // 57 is just big enough to show the Fmt enum selections
                 int FontSize = 25;
 
                 // BEGIN AUTO-GENERATED INSTANTIATIONS FOR CalculatorNRows.xmind
@@ -84,7 +84,7 @@ namespace Application
                 Text id_96b879e17b4346e4b98484224e65d582 = new Text("Label" ) { InstanceName = "Default", FontSize=FontSize };
                 Text id_a72464a6a1a8426887ca40b886b5567e = new Text("Textbook" ) { InstanceName = "Default", FontSize=FontSize };
                 Text id_ccc54bcd38e14c10a5ba59d851191cc4 = new Text("Result" ) { InstanceName = "Default", FontSize=FontSize };
-                Text id_f9b8d9329de5407b93a1834afeaf5de6 = new Text("Format" ) { InstanceName = "Default", FontSize=FontSize };
+                Text id_f9b8d9329de5407b93a1834afeaf5de6 = new Text("Fmt" ) { InstanceName = "Default", FontSize=FontSize };
                 Text id_fc0b8f38b3c14f799f605cd54214b503 = new Text("Reactive Calculator" ) { InstanceName = "Default", FontSize=FontSize };
                 TextBox id_b84a8eee3a554afaad9fa90ac6b594f9 = new TextBox() { InstanceName = "Default", Text="Title your calculation here", FontSize=15 };
                 Vertical id_b02d2caea938499b997b9bfcb80fb0e9 = new Vertical() { InstanceName = "Default" };
