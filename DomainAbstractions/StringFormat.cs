@@ -13,14 +13,14 @@ namespace DomainAbstractions
     /// according to their index numbers, so the ordering of the connections shown in the diagram are important.
     /// Note the inputs have two ports. One is the implemeted port. Use {0} to get that input. The other is inputs. use {1}. {2} etc to get those.
     /// </summary>
-    public class StringFormat<T> : IDataFlow<T>
+    public class StringFormat<T,U> : IDataFlow<T>
     {
         // properties
         public string InstanceName { get; set; } = "Default";
 
         // ports
         // The IDataFlow implemented interface is input0
-        private List<IDataFlowB<T>> inputs = new List<IDataFlowB<T>>();
+        private List<IDataFlowB<U>> inputs = new List<IDataFlowB<U>>();
         private IDataFlow<string> output;
 
         // private fields

@@ -465,7 +465,7 @@ namespace Application
                     )
                 )
                 .WireTo(new TextBox()
-                    .WireTo(new StringFormat<string>("({1})=>{0}")
+                    .WireTo(new StringFormat<string,string>("({1})=>{0}")
                         .WireTo(stringConcatConnector, "inputs")
                         .WireTo(formula
                             .WireTo(new DataFlowConnector<double>()
@@ -501,7 +501,7 @@ namespace Application
                         .WireTo(new StringToNumber<double>()
                             .WireTo(new DataFlowConnector<double>()
                                 .WireFrom(Formula1
-                                    .WireTo(new StringFormat<double>("Ans={0}")
+                                    .WireTo(new StringFormat<double,double>("Ans={0}")
                                         .WireTo(Result1)
                                     )
                                 )

@@ -266,7 +266,7 @@ namespace DomainAbstractions
         /// <summary>
         /// Replace Parameter Labels With Array elements
         /// For example input lambda expression is "(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x) => c*e" 
-        /// This function returns, for the above example, "(P) => P[2]*P4]" 
+        /// This function returns, for the above example, "(P)=>P[2]*P[4]" 
         /// The paremeters used by the expressions, c & e are the number 2 and number 4 inputs
         /// This function allows us to match the resulting lambda to Func(double[],double)
         /// </summary>

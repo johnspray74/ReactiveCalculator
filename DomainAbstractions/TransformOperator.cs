@@ -236,11 +236,25 @@ namespace DomainAbstractions
                 // TBD remove () that may be around the operand - not needed inside the Pow(,)
                 if (unary)
                 {
-                    rv = regex.Replace(rv, functionName + "(" + match.Groups["firstOperand"].Value + ")", 1);
+                    if (functionName == "()")
+                    {
+                        rv = regex.Replace(rv, "(" + match.Groups["firstOperand"].Value + op + ")", 1);
+                    }
+                    else
+                    {
+                        rv = regex.Replace(rv, functionName + "(" + match.Groups["firstOperand"].Value + ")", 1);
+                    }
                 }
                 else
                 {
-                    rv = regex.Replace(rv, functionName + "(" + match.Groups["firstOperand"].Value + "," + match.Groups["secondOperand"].Value + ")", 1);
+                    if (functionName == "()")
+                    {
+                        rv = regex.Replace(rv, "(" + match.Groups["firstOperand"].Value + op + match.Groups["secondOperand"].Value + ")", 1);
+                    }
+                    else
+                    {
+                        rv = regex.Replace(rv, functionName + "(" + match.Groups["firstOperand"].Value + "," + match.Groups["secondOperand"].Value + ")", 1);
+                    }
                 }
                 safety--;
             }
