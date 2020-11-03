@@ -27,15 +27,13 @@ namespace DomainAbstractions
     /// <para>2. List&lt;IDataFlowB&lt;double&gt;&gt; operands: Where the input data comes from for the operands of the formula.</para>
     /// <para>3. IDataFlow&lt;double&gt; Result: The output from evaluation of the lambda.</para>
     /// </summary>
-    public class Formula : IDataFlow<string>
+    public class Formula : IDataFlow<string> 
     {
-
-
 
 
         // Properties
         public string InstanceName { get; set; } = "Default";
-        // public delegate double LambdaDelegate(List<double> operands);
+        // public delegate double LambdaDelegate(double?[] operands);
         // public LambdaDelegate Lambda; // optional
 
 
@@ -50,11 +48,13 @@ namespace DomainAbstractions
 
         // Ports
         // The IDatFlow<string> implemented interface is the formulaText where the formula can be passed in at runtime (optional)
-        private List<IDataFlowB<double>> operands;
-        private IDataFlow<double> result;
+
+        private List<IDataFlowB<double?>> operands;
+        
+        private IDataFlow<double?> result;
 
         /// <summary>
-        /// <para>Evaluates a formula (described by a lambda string) using a list of inputs of type double and gives the result to the output of type double</para>
+        /// <para>Evaluates a formula (described by a lambda string) using a list of inputs of type double? and gives the result to the output of type double?</para>
         /// </summary>
         public Formula()
         {
@@ -67,7 +67,7 @@ namespace DomainAbstractions
         // These operandShadows have two uses:
         // 1 we use them as shadow copies of the last value we had on our operand input to see if they have actually changed
         // 2 we copy the IDataFlowB operands into them for easier access
-        private List<double> operandShadows = new List<double>();
+        private List<double?> operandShadows = new List<double?>();
 
         // This list maps the reduced lambda parameters to the input lambda parameters. For example input lambda expression is "(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x) => c*e"  reduced lambda expression is "(c,e) => e*c" and mapping is { 2, 4 }
         private List<int> reducedInputsMapping = new List<int>();
@@ -87,11 +87,11 @@ namespace DomainAbstractions
             if (operands == null) return;
             bool change = false;
             int index = 0;
-            foreach (IDataFlowB<double> operand in operands)
+            foreach (IDataFlowB<double?> operand in operands)
             {
                 // if we have had new operands wired to us, increase the number of shadows
-                if (operandShadows.Count < index + 1) operandShadows.Add(double.NaN);
-                if (DoubleEq(operand.Data, operandShadows[index])) { change = true; }
+                if (operandShadows.Count < index + 1) operandShadows.Add(null);
+                if (!decimalEq(operand.Data, operandShadows[index])) { change = true; }
                 operandShadows[index] = operand.Data;
                 index++;
             }
@@ -129,35 +129,45 @@ namespace DomainAbstractions
 
         private void SomethingChanged()
         {
-            double output;
+            bool nullInput = false;
+            double? output;
             if (Lambda != null)
             {
                 // At this point the inputs list may have less than the 6 parameters required by the lambda. Also the reducedInputsMappings may have less than the required number of mappings to those inputs
                 // Tidy all that up first
-                double[] values = new double[MaxLambdaDelegateParameters];
+                double[] unboxedOperands = new double[MaxLambdaDelegateParameters];
                 for (int i = 0; i < MaxLambdaDelegateParameters; i++)
                 {
                     if (i<reducedInputsMapping.Count)
                     {
-                        values[i] = operandShadows[reducedInputsMapping[i]];
+                        if (operandShadows[reducedInputsMapping[i]].HasValue)
+                        {
+                            unboxedOperands[i] = operandShadows[reducedInputsMapping[i]].Value;
+                        }
+                        else
+                        {
+                            nullInput = true;
+                        }
                     }
-                    else  // no mapping so just use the inputs directly
-                    if (i < operandShadows.Count)
+                    else  // no mapping means no more lambda parameters are used by the expression - just pass in zero
                     {
-                        values[i] = operandShadows[i];
-                    }
-                    else
-                    {
-                        values[i] = double.NaN;
+                            unboxedOperands[i] = 0;
                     }
                 }
-                output = Lambda(values[0], values[1], values[2], values[3], values[4], values[5]);
+                if (nullInput)
+                {
+                    output = null;
+                }
+                else
+                { 
+                    output = Lambda(unboxedOperands[0], unboxedOperands[1], unboxedOperands[2], unboxedOperands[3], unboxedOperands[4], unboxedOperands[5]);
+                }
             }
             else
             {
-                output = double.NaN;
+                output = null;
             }
-            if (!DoubleEq(result.Data, output)) result.Data = output;
+            if (!decimalEq(result.Data, output)) result.Data = output;
         }
 
 
@@ -167,7 +177,6 @@ namespace DomainAbstractions
 
         private async void Compile(string formula)
         {
-            // double x = Sin(1.0);
             if (formula.IndexOf("=>") == formula.Length - 2)
             {
                 Lambda = null;
@@ -189,9 +198,9 @@ namespace DomainAbstractions
 
 
 
-        private bool DoubleEq(double a, double b)
+        private bool decimalEq(double? a, double? b)
         {
-            if (double.IsNaN(a) && double.IsNaN(b)) return true;
+            if (!a.HasValue && !b.HasValue) return true;
             return a == b;
         }
 

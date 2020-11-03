@@ -2,9 +2,10 @@
 
 namespace DomainAbstractions
 {
+    /// TBD T should be Nullable and we should pass out null if there is a exception during the conversion
     /// <summary>
     /// Converts string to number of type int or double. 
-    /// The Generic Type 'T' should be specified to define the output port type.
+    /// The Generic Type 'T' should be specified to define the output port type and should be a numeris ValueType.
     /// ------------------------------------------------------------------------------------------------------------------
     /// Ports:
     /// 1. IDataFlow<string> input: input 

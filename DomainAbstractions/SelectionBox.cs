@@ -1,4 +1,5 @@
 ﻿using ProgrammingParadigms;
+using System;
 using System.Linq;
 using System.Windows;
 
@@ -10,7 +11,7 @@ namespace DomainAbstractions
     /// <para>1. IUI wpfElement: returns the contained comboBox</para>
     /// <para>5. IDataFlow&lt;string&gt; textOutput: outputs the enum of type T when the user selects a value</para>
     /// </summary>
-    public class SelectionBox<T> : IUI
+    public class SelectionBox<T> : IUI where T : Enum
     {
         // properties
         public string InstanceName { get; set; } = "Default";
@@ -22,7 +23,7 @@ namespace DomainAbstractions
         // public double MinWidth { set => comboBox.MinWidth = value; }
         public double FontSize { set => comboBox.FontSize = value; }
 
-
+        public T Value { get => (T)System.Enum.ToObject(typeof(T), comboBox.SelectedIndex); set => comboBox.SelectedIndex = (int)(object)value; }
 
 
         // ports
@@ -63,19 +64,19 @@ namespace DomainAbstractions
             if (output != null) output.Data = (T)System.Enum.ToObject(typeof(T), comboBox.SelectedIndex);
         }
 
+
+        /*
         private T ConvertValue<T, U>(U value) where U : System.IConvertible
         {
             return (T)System.Convert.ChangeType(value, typeof(T));
         }
-
+        */
 
         // IUI implementation
         System.Windows.UIElement IUI.GetWPFElement()
         {
             return comboBox;
         }
-
-
 
     }
 }
