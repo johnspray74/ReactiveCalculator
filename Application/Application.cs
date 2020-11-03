@@ -493,7 +493,7 @@ namespace Application
         {
             MainWindow mainWindow = new MainWindow("Calculator");
             var Result1 = new Text() { FontSize = 50 };
-            var Formula1 = new Formula() { Lambda = (x, y, P2, P3, P4, P5) => x + y };
+            var Formula1 = new Formula() { Lambda2 = (x, y) => x + y };            
 
             mainWindow
                 .WireTo(new Vertical()
