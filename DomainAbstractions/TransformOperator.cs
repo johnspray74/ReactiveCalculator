@@ -14,9 +14,9 @@ namespace DomainAbstractions
         // e.g. "3^2" => "Pow(3,2)"
         // It tries to do it on the cheap, i.e. not fully parsing the expression. So we make as few assumptions about the syntax of the expression as possible.
         // We assume the operator being replaced has equal highest precedence. 
-        // if the operator is binary, we assume, for the moment, that it is right associative
         // if the operator is unary, we assume, for the moment, that it takes its operand from the left
-        // We assume alphas, numbers, decimal point, curly braces and their content, '+' and '-' that are unary operators, and '+' & '-' that are part of a scientific number make up an operand.
+        // We assume alphas, numbers, decimal point, curly braces and their content, and '+' & '-' that are part of a scientific number make up an operand.
+        // Unary operators are not included in the operand so would be applied to the result instead.
 
 
 
@@ -70,35 +70,62 @@ namespace DomainAbstractions
         }
 
 
-        private void TestTransform()
+        private void TestTransformPow()
         {
             assertStringEq(Transform("3+2"), "3+2");
             assertStringEq(Transform("2^3"), "Pow(2,3)");
+            assertStringEq(Transform("2^-3"), "Pow(2,-3)");
+            assertStringEq(Transform("-2^-3"), "-Pow(2,-3)");
             assertStringEq(Transform("a^b"), "Pow(a,b)");
+            assertStringEq(Transform("a^-b"), "Pow(a,-b)");
+            assertStringEq(Transform("-a^b"), "-Pow(a,b)");
             assertStringEq(Transform("2+3^4+5"), "2+Pow(3,4)+5");
+            assertStringEq(Transform("2+3^-4+5"), "2+Pow(3,-4)+5");
             assertStringEq(Transform("(2+3)^(4+5)"), "Pow((2+3),(4+5))");
+            assertStringEq(Transform("(2+3)^-(4+5)"), "Pow((2+3),-(4+5))");
             assertStringEq(Transform("Sin(2)^Sqrt(3)"), "Pow(Sin(2),Sqrt(3))");
+            assertStringEq(Transform("Sin(2)^-Sqrt(3)"), "Pow(Sin(2),-Sqrt(3))");
             assertStringEq(Transform("2^3^4"), "Pow(2,Pow(3,4))");
+            assertStringEq(Transform("2^-3^4"), "Pow(2,-Pow(3,4))");
+            assertStringEq(Transform("-2^3^-4"), "-Pow(2,Pow(3,-4))");
             assertStringEq(Transform("(2^3)^4"), "Pow((Pow(2,3)),4)");
             assertStringEq(Transform("((2+3)^4)^5"), "Pow((Pow((2+3),4)),5)");
+            assertStringEq(Transform("((2+3)^-4)^5"), "Pow((Pow((2+3),-4)),5)");
+            assertStringEq(Transform("((2+3)^4)^-5"), "Pow((Pow((2+3),4)),-5)");
             assertStringEq(Transform("2^(3^4)^(5^6)^7"), "Pow(2,Pow((Pow(3,4)),Pow((Pow(5,6)),7)))");
+            assertStringEq(Transform("-2^-(3^-4)^-(5^-6)^-7"), "-Pow(2,-Pow((Pow(3,-4)),-Pow((Pow(5,-6)),-7)))");
             assertStringEq(Transform("(2^3)"), "(Pow(2,3))");
+            assertStringEq(Transform("(2^-3)"), "(Pow(2,-3))");
+            assertStringEq(Transform("(2)^3"), "Pow((2),3)");
+            assertStringEq(Transform("(-2)^3"), "Pow((-2),3)");
             assertStringEq(Transform("(2+3)^(4*5)"), "Pow((2+3),(4*5))");
-            assertStringEq(Transform("2^3^4"), "Pow(2,Pow(3,4))");
+            assertStringEq(Transform("(2+3)^-(4*5)"), "Pow((2+3),-(4*5))");
             assertStringEq(Transform("2^(3*(4+5)+6)^(7+8)"), "Pow(2,Pow((3*(4+5)+6),(7+8)))");
+            assertStringEq(Transform("2^-(3*(4+5)+6)^-(7+8)"), "Pow(2,-Pow((3*(4+5)+6),-(7+8)))");
             assertStringEq(Transform("a^bb^c1"), "Pow(a,Pow(bb,c1))");
+            assertStringEq(Transform("a^-bb^-c1"), "Pow(a,-Pow(bb,-c1))");
             assertStringEq(Transform("Pow(2,3)^Pow(4,5)^Pow(6,7)"), "Pow(Pow(2,3),Pow(Pow(4,5),Pow(6,7)))");
+            assertStringEq(Transform("Pow(2,3)^-Pow(4,5)^-Pow(6,7)"), "Pow(Pow(2,3),-Pow(Pow(4,5),-Pow(6,7)))");
             assertStringEq(Transform("((2))^((3))^((4))"), "Pow(((2)),Pow(((3)),((4))))");
+            assertStringEq(Transform("((2))^-((3))^-((4))"), "Pow(((2)),-Pow(((3)),-((4))))");
             assertStringEq(Transform("2^3 + 4^5 - 6^7 * 8^9 / 10^11"), "Pow(2,3)+Pow(4,5)-Pow(6,7)*Pow(8,9)/Pow(10,11)");
+            assertStringEq(Transform("2^-3 + 4^-5 - 6^-7 * 8^-9 / 10^-11"), "Pow(2,-3)+Pow(4,-5)-Pow(6,-7)*Pow(8,-9)/Pow(10,-11)");
             assertStringEq(Transform("2 ^ ( 3 + 4 ) ^ ( 5 - 6 ) ^ ( 7 * 8 ) ^ ( 9 / 10 ) ^ 11"), "Pow(2,Pow((3+4),Pow((5-6),Pow((7*8),Pow((9/10),11)))))");
-
+            assertStringEq(Transform("2 ^ -( 3 + 4 ) ^- ( 5 - 6 ) ^ -( 7 * 8 ) ^- ( 9 / 10 ) ^ -11"), "Pow(2,-Pow((3+4),-Pow((5-6),-Pow((7*8),-Pow((9/10),-11)))))");
         }
 
-/*
-        private void TestTransform()
+
+
+        private void TestTransformFact()
         {
+            assertStringEq(Transform("3+2"), "3+2");
+            assertStringEq(Transform("2!"), "Fact(2)");
+            assertStringEq(Transform("-2!"), "-Fact(2)");
+            assertStringEq(Transform("2!!"), "Fact(Fact(2))");
+            assertStringEq(Transform("a!"), "Fact(a)");
+            assertStringEq(Transform("2+3!+4"), "2+Fact(3)+4");
+            assertStringEq(Transform("Sin(2)!"), "Fact(Sin(2))");
         }
-*/
 
 
 
@@ -207,7 +234,7 @@ namespace DomainAbstractions
             pattern = @"(?<firstOperand>((\d+(\.\d*)?([eE][-\+]?\d+)?)|(\w+\d*)|(\(.*\))|(\{\d*\})|\s)+)\" + op;
             if (!unary)
             {
-                pattern += @"(?<secondOperand>((\d+(\.\d*)?([eE][-\+]?\d+)?)|(\w+\d*)|(\(.*\))|(\{\d*\})|\s)+)";
+                pattern += @"(?<secondOperand>[-\+]?((\d+(\.\d*)?([eE][-\+]?\d+)?)|(\w+\d*)|(\(.*\))|(\{\d*\})|\s)+)";
             }
             // This regular expression will find operand^operand where operand can be any of: number, label, {i}, function(...), function{i}, with whitespace 
             // ?<firstOperand> label a group
@@ -236,40 +263,15 @@ namespace DomainAbstractions
                 // TBD remove () that may be around the operand - not needed inside the Pow(,)
                 if (unary)
                 {
-                    if (functionName == "()")
-                    {
-                        rv = regex.Replace(rv, "(" + match.Groups["firstOperand"].Value + op + ")", 1);
-                    }
-                    else
-                    {
-                        rv = regex.Replace(rv, functionName + "(" + match.Groups["firstOperand"].Value + ")", 1);
-                    }
+                    rv = regex.Replace(rv, functionName + "(" + match.Groups["firstOperand"].Value + ")", 1);
                 }
                 else
                 {
-                    if (functionName == "()")
-                    {
-                        rv = regex.Replace(rv, "(" + match.Groups["firstOperand"].Value + op + match.Groups["secondOperand"].Value + ")", 1);
-                    }
-                    else
-                    {
-                        rv = regex.Replace(rv, functionName + "(" + match.Groups["firstOperand"].Value + "," + match.Groups["secondOperand"].Value + ")", 1);
-                    }
+                    rv = regex.Replace(rv, functionName + "(" + match.Groups["firstOperand"].Value + "," + match.Groups["secondOperand"].Value + ")", 1);
                 }
                 safety--;
             }
             return rv;
-
-            /*
-            int operatorIndex = subexpr.LastIndexOf(op);
-            if (operatorIndex > 0 & operatorIndex < subexpr.Length - 1)
-            {
-                int scanLeftIndex = operatorIndex - 1;
-                int scanRightIndex = operatorIndex + 1;
-                while (char.IsLetterOrDigit(subexpr[scanLeftIndex] || )
-
-            }
-            */
         }
 
 
@@ -278,16 +280,27 @@ namespace DomainAbstractions
         private void TestReplaceOperator()
         {
             assertStringEq(ReplaceOperator("2^3","^","Pow", false, true), "Pow(2,3)");
+            assertStringEq(ReplaceOperator("2^-3", "^", "Pow", false, true), "Pow(2,-3)");
             assertStringEq(ReplaceOperator("2+3^4+5", "^", "Pow", false, true), "2+Pow(3,4)+5");
+            assertStringEq(ReplaceOperator("2+3^-4+5", "^", "Pow", false, true), "2+Pow(3,-4)+5");
             assertStringEq(ReplaceOperator("2^3^4", "^", "Pow", false, true), "Pow(2,Pow(3,4))");
+            assertStringEq(ReplaceOperator("2^-3^4", "^", "Pow", false, true), "Pow(2,-Pow(3,4))");
+            assertStringEq(ReplaceOperator("2^3^-4", "^", "Pow", false, true), "Pow(2,Pow(3,-4))");
             assertStringEq(ReplaceOperator("11^1.1^1.e-1^22.22E+22^3.3e333", "^", "Pow", false, true), "Pow(11,Pow(1.1,Pow(1.e-1,Pow(22.22E+22,3.3e333))))");
+            assertStringEq(ReplaceOperator("11^-1.1^-1.e-1^-22.22E+22^-3.3e333", "^", "Pow", false, true), "Pow(11,-Pow(1.1,-Pow(1.e-1,-Pow(22.22E+22,-3.3e333))))");
             assertStringEq(ReplaceOperator("(2+2)^(3+3)", "^", "Pow", false, true), "Pow((2+2),(3+3))");
+            assertStringEq(ReplaceOperator("(2+2)^-(3+3)", "^", "Pow", false, true), "Pow((2+2),-(3+3))");
             assertStringEq(ReplaceOperator("{1}^{22}", "^", "Pow", false, true), "Pow({1},{22})");
+            assertStringEq(ReplaceOperator("{1}^-{22}", "^", "Pow", false, true), "Pow({1},-{22})");
             assertStringEq(ReplaceOperator("a^bb12", "^", "Pow", false, true), "Pow(a,bb12)");
+            assertStringEq(ReplaceOperator("a^-bb12", "^", "Pow", false, true), "Pow(a,-bb12)");
             assertStringEq(ReplaceOperator("Pow(2,3)^Pow(4,5)", "^", "Pow", false, true), "Pow(Pow(2,3),Pow(4,5))");
+            assertStringEq(ReplaceOperator("Pow(2,3)^-Pow(4,5)", "^", "Pow", false, true), "Pow(Pow(2,3),-Pow(4,5))");
             assertStringEq(ReplaceOperator("Pow{2}^Pow{3}", "^", "Pow", false, true), "Pow(Pow{2},Pow{3})");
+            assertStringEq(ReplaceOperator("Pow{2}^-Pow{3}", "^", "Pow", false, true), "Pow(Pow{2},-Pow{3})");
             assertStringEq(ReplaceOperator(" 2 ^ 3 ", "^", "Pow", false, true), "Pow( 2 , 3 )");
-
+            assertStringEq(ReplaceOperator(" 2 ^- 3 ", "^", "Pow", false, true), "Pow( 2 ,- 3 )");
+            // assertStringEq(ReplaceOperator(" 2 ^ -3 ", "^", "Pow", false, true), "Pow( 2 , -3 )");
         }
 
 
@@ -305,11 +318,9 @@ namespace DomainAbstractions
         {
             Debug.WriteLine("Running TestTransformOperator");
             TestReplaceOperator();
-            // Debug.WriteLine("Running TestTransform"); // TBD These tests need to instantiate their own TransformOperator and be run from the application with a set of DomainAbstraction tests
-            // TestTransform();
-
-
-
+            Debug.WriteLine("Running TestTransform"); // TBD These tests need to instantiate their own TransformOperator and be run from the application with a set of DomainAbstraction tests
+            if (mathFunction=="Pow") TestTransformPow();
+            if (mathFunction == "Fact") TestTransformFact();
         }
     }
 }

@@ -145,6 +145,7 @@
     <Compile Include="DomainAbstractions\Data.cs" />
     <Compile Include="DomainAbstractions\DataFlowBNull.cs" />
     <Compile Include="DomainAbstractions\FileReaderWriter.cs" />
+    <Compile Include="DomainAbstractions\ForceAssociativity.cs" />
     <Compile Include="DomainAbstractions\FormulaRender.cs" />
     <Compile Include="DomainAbstractions\Horizontal.cs" />
     <Compile Include="DomainAbstractions\IfElse.cs" />
@@ -164,6 +165,7 @@
     <Compile Include="DomainAbstractions\Text.cs" />
     <Compile Include="DomainAbstractions\TextBox.cs" />
     <Compile Include="DomainAbstractions\TransformOperator.cs" />
+    <Compile Include="DomainAbstractions\TransformPostfixToInfix.cs" />
     <Compile Include="DomainAbstractions\Vertical.cs" />
     <Compile Include="Libraries\Wiring.cs" />
     <Compile Include="Libraries\ConstructorCallbackDelegate.cs" />

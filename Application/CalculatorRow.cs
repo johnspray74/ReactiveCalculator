@@ -145,6 +145,7 @@ namespace Application
             DataFlowConnector<double?> dfc1 = new DataFlowConnector<double?>() { InstanceName = "dfc1" };
             DataFlowConnector<string> id_2ce385f7abc549b98a72fc2c4dd709fd = new DataFlowConnector<string>() { InstanceName = "Default" };
             DataFlowConnector<string> id_65f22d8aa160470e8da02d0fce01edca = new DataFlowConnector<string>() { InstanceName = "Default" };
+            ForceAssociativity id_02f042986f3242648a019c5fbf7c8752 = new ForceAssociativity("^",rightAssociative:true ) { InstanceName = "Default" };
             Formula formula = new Formula() { InstanceName = "formula" };
             FormulaRender formulaRender = new FormulaRender() { InstanceName = "formulaRender" };
             Horizontal id_6fe26e8021c64d8dad4e5b6016f7b659 = new Horizontal() { InstanceName = "Default", Ratios = Ratios, MinWidths = MinWidths };
@@ -161,7 +162,6 @@ namespace Application
             TextBox formulaText = new TextBox() { InstanceName = "formulaText", FontSize=FontSize };
             TextBox labelText = new TextBox() { InstanceName = "labelText", FontSize=FontSize };
             TextBox unitsText = new TextBox() { InstanceName = "unitsText", FontSize=FontSize };
-            TransformOperator id_02f042986f3242648a019c5fbf7c8752 = new TransformOperator("^","()",rightAssociative:true ) { InstanceName = "Default" };
             TransformOperator id_3d142790cd894fffbe31c6a9936a40f9 = new TransformOperator("^","Pow",rightAssociative:true ) { InstanceName = "Default" };
             TransformOperator id_ba99ef2eb1eb4ab7adfeab8d1b9bfb2b = new TransformOperator("!","Fact",unary:true ) { InstanceName = "Default" };
             Vertical id_6448e518651246a3af0d4f7d49c13077 = new Vertical() { InstanceName = "Default" };
@@ -202,8 +202,8 @@ namespace Application
             dfc1.WireTo(id_4c9cb86bce4544fe90c628e9eaecbcec, "outputs"); // (DataFlowConnector<double?> (dfc1).outputs) -- [IDataFlow<T>] --> (NumberToString<double?> (id_4c9cb86bce4544fe90c628e9eaecbcec).input)
             id_4c9cb86bce4544fe90c628e9eaecbcec.WireTo(id_bab796380f6d4c4eb93428662ce78dc2, "output"); // (NumberToString<double?> (id_4c9cb86bce4544fe90c628e9eaecbcec).output) -- [IDataFlow<string>] --> (NumberFormatting (id_bab796380f6d4c4eb93428662ce78dc2).input)
             id_6008429a36ce435da09c8f7c5534800c.WireTo(id_8537240f2a654a788fbc6103c2e3a45f, "output"); // (RegexReplace (id_6008429a36ce435da09c8f7c5534800c).output) -- [IDataFlow<string>] --> (RegexReplace (id_8537240f2a654a788fbc6103c2e3a45f).input)
-            id_8537240f2a654a788fbc6103c2e3a45f.WireTo(id_02f042986f3242648a019c5fbf7c8752, "output"); // (RegexReplace (id_8537240f2a654a788fbc6103c2e3a45f).output) -- [IDataFlow<string>] --> (TransformOperator (id_02f042986f3242648a019c5fbf7c8752).input)
-            id_02f042986f3242648a019c5fbf7c8752.WireTo(formulaRender, "output"); // (TransformOperator (id_02f042986f3242648a019c5fbf7c8752).output) -- [IDataFlow<string>] --> (FormulaRender (formulaRender).input)
+            id_8537240f2a654a788fbc6103c2e3a45f.WireTo(id_02f042986f3242648a019c5fbf7c8752, "output"); // (RegexReplace (id_8537240f2a654a788fbc6103c2e3a45f).output) -- [IDataFlow<string>] --> (ForceAssociativity (id_02f042986f3242648a019c5fbf7c8752).input)
+            id_02f042986f3242648a019c5fbf7c8752.WireTo(formulaRender, "output"); // (ForceAssociativity (id_02f042986f3242648a019c5fbf7c8752).output) -- [IDataFlow<string>] --> (FormulaRender (formulaRender).input)
             id_bab796380f6d4c4eb93428662ce78dc2.WireTo(resultText, "output"); // (NumberFormatting (id_bab796380f6d4c4eb93428662ce78dc2).output) -- [IDataFlow<string>] --> (Text (resultText).textInput)
             id_6448e518651246a3af0d4f7d49c13077.WireTo(format, "children"); // (Vertical (id_6448e518651246a3af0d4f7d49c13077).children) -- [List<IUI>] --> (SelectionBox<FormatModes> (format).child)
             id_6448e518651246a3af0d4f7d49c13077.WireTo(digitsText, "children"); // (Vertical (id_6448e518651246a3af0d4f7d49c13077).children) -- [List<IUI>] --> (TextBox (digitsText).child)
