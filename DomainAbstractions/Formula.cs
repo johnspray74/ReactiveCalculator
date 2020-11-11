@@ -154,7 +154,8 @@ namespace DomainAbstractions
             {
                 for (int i = 0; i < operandShadows.Count; i++)
                 {
-                    if (operandsUsed[i])
+                    // Note its is posible for the operandsused list to be empty if no labels are ever entered
+                    if (i<operandsUsed.Count && operandsUsed[i])
                     {
                         if (operandShadows[i].HasValue)
                         {

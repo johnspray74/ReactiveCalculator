@@ -18,7 +18,7 @@ namespace Application
         {
             Application app = new Application();
             app.Initialize();
-            app.mainWindow.WireTo(app.testCalculator, "appStart");   // This is just for running the tests. They dont run yet - they use appStart IEvent which is an output port of MainWindow when the window is loaded
+            // app.mainWindow.WireTo(app.testCalculator, "appStart");   // This is just for running the tests. They dont run yet - they use appStart IEvent which is an output port of MainWindow when the window is loaded
             app.mainWindow.Run();
         }
 

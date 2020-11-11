@@ -165,7 +165,6 @@
     <Compile Include="DomainAbstractions\Text.cs" />
     <Compile Include="DomainAbstractions\TextBox.cs" />
     <Compile Include="DomainAbstractions\TransformOperator.cs" />
-    <Compile Include="DomainAbstractions\TransformPostfixToInfix.cs" />
     <Compile Include="DomainAbstractions\Vertical.cs" />
     <Compile Include="Libraries\Wiring.cs" />
     <Compile Include="Libraries\ConstructorCallbackDelegate.cs" />
