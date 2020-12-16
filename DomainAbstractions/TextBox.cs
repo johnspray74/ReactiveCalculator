@@ -1,18 +1,13 @@
-﻿using ProgrammingParadigms;
+﻿using Newtonsoft.Json;
+using ProgrammingParadigms;
 using System.Windows;
 
 namespace DomainAbstractions
 {
     /// <summary>
-    /// <para>Contains a WPF TextBox and both implements and provides ports for setting/getting the text inside.</para>
-    /// <para>Ports:</para>
-    /// <para>1. IUI wpfElement: returns the contained TextBox</para>
-    /// <para>2. IDataFlow&lt;string&gt; content: The string contained in the TextBox</para>
-    /// <para>3. IDataFlowB&lt;string&gt; returnContent: returns the string contained in the TextBox</para>
-    /// <para>4. IEvent clear: clears the text content inside the TextBox</para>
-    /// <para>5. IDataFlow&lt;string&gt; textOutput: outputs the string contained in the TextBox</para>
+    /// <para>Contains a WPF TextBox</para>
     /// </summary>
-    public class TextBox : IUI, IEvent // IDataFlow<string>, IDataFlowB<string>
+    public class TextBox : IUI, IEvent, IBidirectionalDataflow<string>
     {
         // properties
         public string InstanceName { get; set; } = "Default";
@@ -32,6 +27,9 @@ namespace DomainAbstractions
         }
 
         // ports
+        // IUI Parent : The UI element that contains this TextBox
+        // IEvent Clear : Make the TextBox blank
+        // IBidirectionalDataflow<string> Persistence : Push persistence data each time TextBox changes, receive persistence data at start of program running
         private IDataFlow<string> textOutput;
 
 
@@ -50,7 +48,7 @@ namespace DomainAbstractions
         /// </summary>
         public TextBox(bool readOnly = false)
         {
-            textBox.TextChanged += (object sender, System.Windows.Controls.TextChangedEventArgs e) => TextBox_TextChanged();
+            textBox.TextChanged += (object sender, System.Windows.Controls.TextChangedEventArgs e) => TextChanged();
             //DataChanged = TextBox_TextChanged;
             textBox.HorizontalScrollBarVisibility = System.Windows.Controls.ScrollBarVisibility.Auto;
             textBox.VerticalScrollBarVisibility = System.Windows.Controls.ScrollBarVisibility.Auto;
@@ -58,10 +56,11 @@ namespace DomainAbstractions
             Margin = 5;
         }
 
-        private void TextBox_TextChanged()
+        private void TextChanged()
         {
             if (textOutput != null) textOutput.Data = textBox.Text;
-            // DataChanged?.Invoke();
+            if (!suppressLoop) BPushToA?.Invoke(this, $"\"{InstanceName}\":\"{textBox.Text}\""); // output Json for persistence
+            suppressLoop = false;
         }
 
         // IUI implementation
@@ -70,34 +69,42 @@ namespace DomainAbstractions
             return textBox;
         }
 
-        /*
-        // IDataFlow<string> implementation
-        string IDataFlow<string>.Data
-        {
-            get => textBox.Text;
-            set
-            {
-                textBox.Dispatcher.Invoke(() =>
-                {
-                    textBox.Text = value;
-                });
-            }
-        }
-
-        // IDataFlowB<string> implementation
-        public event DataChangedDelegate DataChanged;
-
-        string IDataFlowB<string>.Data
-        {
-            get => textBox.Text;
-        }
-        */
 
         // IEvent implementation
         void IEvent.Execute()
         {
             textBox.Clear();
         }
+
+
+
+
+
+        // implement the IBidirectionalDataflow interface. We are the B side. We need to support push in both directions but not Pull
+
+        private event PutData<string> BPushToA;
+        event PutData<string> IBidirectionalDataflow<string>.BPushToA { add { BPushToA += value; } remove { BPushToA -= value; } }
+
+
+        void IBidirectionalDataflow<string>.APushToB(string data)
+        {
+            if (data.Length > 0) // we will get null string here if nothing was ever enetered in the field
+            {
+                char[] separators = { ':', '"' };
+                string[] strs = data.Split(separators, System.StringSplitOptions.RemoveEmptyEntries);
+                if (strs[0] == InstanceName)
+                {
+                    suppressLoop = true;
+                    textBox.Text = strs[1];
+                }
+                else
+                {
+                    throw new System.Exception("Wrong Json name");
+                }
+            }
+        }
+
+        private bool suppressLoop = false;
 
     }
 }

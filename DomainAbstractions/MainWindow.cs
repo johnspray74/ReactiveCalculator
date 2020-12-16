@@ -10,15 +10,15 @@ using ProgrammingParadigms;
 namespace DomainAbstractions
 {
     /// <summary>
-    /// This is the main window of the application. The output IUI in it takes the responsibility of getting the WPF UIElements 
-    /// in a hierarchical calling order as it goes deeper in the abstractions wired to it. The output IEvent starts to execute once 
-    /// the app starts running, which informs the abstraction who implements it to do the things it wants.
+    /// This is the main window of an application.
+    /// The output IUI, child, wires to any UI element that is to be contained inside the window (usually would be Vertical or Horizontal). 
+    /// The output IEvent fires once once the app starts running - it may be used optionally to start any non-UI driven activities.
     /// ------------------------------------------------------------------------------------------------------------------
     /// Ports:
-    /// 1. IEvent shutdown: input for close the window (exits the application)
-    /// 2. IDataFlow<bool> visible: to enable(true) or disable(false, grey out) the UI
-    /// 3. IUI iuiStructure: all the IUI contained within the MainWindow
-    /// 4. IEvent appStart: IEvent that is pushed out once window has been loaded
+    /// 1. IEvent shutdown input: closes the window (exits the application)
+    /// 2. IDataFlow<bool> visible input: to enable(true) or disable(false, grey out) the UI
+    /// 3. IUI children output: multiple UI elements that implement IUI to be contained within the MainWindow
+    /// 4. IEvent appStart output: IEvent that fires once window has been loaded and the application UI is already running
     /// <summary>
 
     public class MainWindow : IEvent, IDataFlow<bool>
@@ -30,7 +30,7 @@ namespace DomainAbstractions
 
 
         // Ports -----------------------------------------------------------------
-        private IUI iuiStructure;
+        private IUI child;
         private IEvent appStart;
 
 
@@ -78,7 +78,7 @@ namespace DomainAbstractions
 
         public void Run()
         {
-            window.Content = iuiStructure?.GetWPFElement();
+            window.Content = child?.GetWPFElement();
             System.Windows.Application app = new System.Windows.Application();
             app.Run(window);
         }

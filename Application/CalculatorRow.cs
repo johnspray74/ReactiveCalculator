@@ -21,7 +21,7 @@ namespace Application
     /// The user enters a formula e.g. 2+3 e.g. velocity*time consisting of literal values, the labels (of other rows) and operators, including C# math library operators e.g. Sqrt(velocity)
     /// The input operands is a list of inputs which should have the results of all other rows wired to it in the order of the labels in the labelsCommaSeparated.
     /// </summary>
-    class CalculatorRow : IUI, IDataFlowB<string>, IDataFlowB<double?>, ITestCalculatorRow
+    class CalculatorRow : IUI, IDataFlowB<string>, IDataFlowB<double?>, IBidirectionalDataflow<string>, ITestCalculatorRow // parent, label, result, peristence
     {
         // properties
         public string InstanceName { get; set; }
@@ -30,9 +30,10 @@ namespace Application
 
 
         // Ports
-        // (implemented) IUI parent out parent UI instance
-        // (implemented) IDataFlowB<string> label (output) the value the user enters into the label field
-        // (implemented) IDataFlowB<double?> result (output) the result of the calculation
+        // IUI parent 
+        // IDataFlowB<string> label : outputs the value the user enters into the label TextBox
+        // IDataFlowB<double?> result : outputs the result of the calculation
+        // IBidirectionalDataflow<string> persistence : for persistence of the calculator row label and formula
         List<IDataFlowB<double?>> operands;
         IDataFlowB<string> labelsCommaSeparated; // (input) a comma separated list of all the labels corresponding one-to-one with the operands inputs
 
@@ -47,7 +48,7 @@ namespace Application
         /// </summary>
         public CalculatorRow(ConstructorCallbackDelegate ConstructorCallbackMethod = null)
         {
-            // This pattern allow the constructor to get its necessary properties set before the rest of the construction takes place
+            // This pattern allows the constructor to get its necessary properties set before the rest of the construction takes place
             ConstructorCallbackMethod?.Invoke(this);
 
             WireInternals();
@@ -73,7 +74,7 @@ namespace Application
         // port IDataFlowB<string> label implementation
         private IDataFlowB<string> labeldfc; // This is the label textbox in the internal wiring that implements IDataFlowB. To get its data use labeldfc.Data. To know when there is a new label, attach a handler to labeldcf.DataChanged
         event DataChangedDelegate labelChangedEvent;
-        event DataChangedDelegate IDataFlowB<string>.DataChanged { add { labelChangedEvent += value; } remove { labelChangedEvent += value; } }
+        event DataChangedDelegate IDataFlowB<string>.DataChanged { add { labelChangedEvent += value; } remove { labelChangedEvent -= value; } }
         // implement the get of our border interface through to the internal textBox for the label
         string IDataFlowB<string>.Data { get => labeldfc.Data; }
         // implement the handler that is registered to the internal label textbox output and then invokes our external output. Note the registering to this handler is done in PostWiringInitialize below.
@@ -91,7 +92,8 @@ namespace Application
         // Implementing an IDataFlowB always involves a get and an event. The get is for the outside world to get our result. The event allows us to tell the outside world there is a new result
         // implement the event in the interface (standard explicit implementation of an Interface event)
         event DataChangedDelegate resultChangedEvent;
-        event DataChangedDelegate IDataFlowB<double?>.DataChanged { add { resultChangedEvent += value; } remove { resultChangedEvent += value; } }
+        event DataChangedDelegate IDataFlowB<double?>.DataChanged { add { resultChangedEvent += value; } remove { resultChangedEvent -= value; } }
+
         // implement the get
         // The internal wiring implements IDataFlowB, which is an output. 
         private DataFlowConnector<double?> internalResult;  // This is the object in the internal wiring that implements IDataFlowB. To get its data use resultConnector.Data. To know when there is a new result, attach a handler to resultConnector.DataChanged
@@ -112,6 +114,7 @@ namespace Application
 
 
 
+        // ---------------------------------------------------------------------------------------------------------------------------------------------------------
         // port IDataFlowB<string> labelsCommaSeparated
         // Wire our outer boundary, to the inner wiring. 
         // direction of dataflow is from the outside world into the internal wiring.
@@ -133,7 +136,33 @@ namespace Application
 
 
 
+        // ---------------------------------------------------------------------------------------------------------------------------------------------------------
+        // port IBidirectionalDataflow<string> persistence
+        // IBidirectionalDataflow<string> peristence implementation 
+        // This interface supports persistence of the label and formula etc in the row
 
+        // implement the push in to us
+        void IBidirectionalDataflow<string>.APushToB(string data)
+        {
+            internalJasonCombine.APushToB(data);
+        }
+
+        event PutData<string> BPushToA;
+        event PutData<string> IBidirectionalDataflow<string>.BPushToA { add { BPushToA += value; } remove { BPushToA -= value; } }
+
+        private IBidirectionalDataflow<string> internalJasonCombine;  // This is the object in the internal wiring that implements IdidirectionalDataflow. 
+
+
+        private void internalJasonCombineChangedHandler(object sender, string data)
+        {
+            // pass event from internaljasonCombine to border port
+            BPushToA?.Invoke(this, data);
+        }
+
+
+
+
+        // ---------------------------------------------------------------------------------------------------------------------------------------------------------
         private void WireInternals()
         {
 
@@ -141,31 +170,38 @@ namespace Application
             if (internalWiringDone) throw new Exception("Please don't call WireInternals more than once");
 
             // BEGIN AUTO-GENERATED INSTANTIATIONS FOR CalculatorRow.xmind
-            DataFlowBNull<string> id_b9e566abb4cc42d1a7d3927615231c50 = new DataFlowBNull<string>() { InstanceName = "Default" };
-            DataFlowConnector<double?> dfc1 = new DataFlowConnector<double?>() { InstanceName = "dfc1" };
-            DataFlowConnector<string> id_2ce385f7abc549b98a72fc2c4dd709fd = new DataFlowConnector<string>() { InstanceName = "Default" };
-            DataFlowConnector<string> id_65f22d8aa160470e8da02d0fce01edca = new DataFlowConnector<string>() { InstanceName = "Default" };
-            ForceAssociativity id_02f042986f3242648a019c5fbf7c8752 = new ForceAssociativity("^",rightAssociative:true ) { InstanceName = "Default" };
-            Formula formula = new Formula() { InstanceName = "formula" };
-            FormulaRender formulaRender = new FormulaRender() { InstanceName = "formulaRender" };
-            Horizontal id_6fe26e8021c64d8dad4e5b6016f7b659 = new Horizontal() { InstanceName = "Default", Ratios = Ratios, MinWidths = MinWidths };
-            NumberFormatting id_bab796380f6d4c4eb93428662ce78dc2 = new NumberFormatting() { InstanceName = "Default" };
-            NumberToString<double?> id_4c9cb86bce4544fe90c628e9eaecbcec = new NumberToString<double?>() { InstanceName = "Default" };
-            RegexReplace id_6008429a36ce435da09c8f7c5534800c = new RegexReplace("Sqrt","\u221A" ) { InstanceName = "Default" };
-            RegexReplace id_8537240f2a654a788fbc6103c2e3a45f = new RegexReplace(@"\s","" ) { InstanceName = "Default" };
-            SelectionBox<FormatModes> format = new SelectionBox<FormatModes>() { InstanceName = "format", Margins = new Thickness(5,5,5,0) };
-            StringFormat<string,string> sf1 = new StringFormat<string,string>("({1})=>{0}" ) { InstanceName = "sf1" };
-            StringToNumber<int> id_ccfb4bf2e9df48e3a9c4d7f0f34d2d3a = new StringToNumber<int>() { InstanceName = "Default" };
-            Text resultText = new Text() { InstanceName = "resultText", FontSize=FontSize };
-            TextBox descriptionText = new TextBox() { InstanceName = "descriptionText", FontSize=15, Multiline = true };
-            TextBox digitsText = new TextBox() { InstanceName = "digitsText", FontSize=15, Margins = new Thickness(5,0,5,5), Text = "3" };
-            TextBox formulaText = new TextBox() { InstanceName = "formulaText", FontSize=FontSize };
-            TextBox labelText = new TextBox() { InstanceName = "labelText", FontSize=FontSize };
-            TextBox unitsText = new TextBox() { InstanceName = "unitsText", FontSize=FontSize };
-            TransformOperator id_3d142790cd894fffbe31c6a9936a40f9 = new TransformOperator("^","Pow",rightAssociative:true ) { InstanceName = "Default" };
-            TransformOperator id_ba99ef2eb1eb4ab7adfeab8d1b9bfb2b = new TransformOperator("!","Fact",unary:true ) { InstanceName = "Default" };
-            Vertical id_6448e518651246a3af0d4f7d49c13077 = new Vertical() { InstanceName = "Default" };
+            var id_b9e566abb4cc42d1a7d3927615231c50 = new DataFlowBNull<string>() {InstanceName="Default"}; /*  */
+            var dfc1 = new DataFlowConnector<double?>() {InstanceName="dfc1"}; /*  */
+            var id_2ce385f7abc549b98a72fc2c4dd709fd = new DataFlowConnector<string>() {InstanceName="Default"}; /*  */
+            var id_65f22d8aa160470e8da02d0fce01edca = new DataFlowConnector<string>() {InstanceName="Default"}; /*  */
+            var id_02f042986f3242648a019c5fbf7c8752 = new ForceAssociativity("^",rightAssociative:true) {InstanceName="Default"}; /*  */
+            var formula = new Formula() {InstanceName="formula"}; /*  */
+            var formulaRender = new FormulaRender() {InstanceName="formulaRender"}; /*  */
+            var id_6fe26e8021c64d8dad4e5b6016f7b659 = new Horizontal() {InstanceName="Default",Ratios=Ratios,MinWidths=MinWidths}; /*  */
+            var id_bab796380f6d4c4eb93428662ce78dc2 = new NumberFormatting() {InstanceName="Default"}; /*  */
+            var id_4c9cb86bce4544fe90c628e9eaecbcec = new NumberToString<double?>() {InstanceName="Default"}; /*  */
+            var id_6008429a36ce435da09c8f7c5534800c = new RegexReplace("Sqrt","\u221A") {InstanceName="Default"}; /*  */
+            var id_8537240f2a654a788fbc6103c2e3a45f = new RegexReplace(@"\s","") {InstanceName="Default"}; /*  */
+            var format = new SelectionBox<FormatModes>() {InstanceName="format",Margins=new Thickness(5, 5, 5, 0)}; /*  */
+            var sf1 = new StringFormat<string, string>("({1})=>{0}") {InstanceName="sf1"}; /*  */
+            var id_ccfb4bf2e9df48e3a9c4d7f0f34d2d3a = new StringToNumber<int>() {InstanceName="Default"}; /*  */
+            var resultText = new Text() {InstanceName="resultText",FontSize=FontSize}; /*  */
+            var descriptionText = new TextBox() {InstanceName="descriptionText",FontSize=15,Multiline=true}; /*  */
+            var digitsText = new TextBox() {InstanceName="digitsText",Margins=new Thickness(5, 0, 5, 5),FontSize=15,Text="3"}; /*  */
+            var formulaText = new TextBox() {InstanceName="formulaText",FontSize=FontSize}; /*  */
+            var labelText = new TextBox() {InstanceName="labelText",FontSize=FontSize}; /*  */
+            var unitsText = new TextBox() {InstanceName="unitsText",FontSize=FontSize}; /*  */
+            var id_3d142790cd894fffbe31c6a9936a40f9 = new TransformOperator("^","Pow",rightAssociative:true) {InstanceName="Default"}; /*  */
+            var id_ba99ef2eb1eb4ab7adfeab8d1b9bfb2b = new TransformOperator("!","Fact",unary:true) {InstanceName="Default"}; /*  */
+            var id_6448e518651246a3af0d4f7d49c13077 = new Vertical() {InstanceName="Default"}; /*  */
+            var jsonCombine = new JsonCombine(true) {InstanceName="jsonCombine"}; /*  */
             // END AUTO-GENERATED INSTANTIATIONS FOR CalculatorRow.xmind
+
+
+            // var id_02f042986f3242648a019c5fbf7c8752 = new ForceAssociativity("^", rightAssociative: true) { InstanceName = "Default" };
+            // var id_3d142790cd894fffbe31c6a9936a40f9 = new TransformOperator("^", "Pow", rightAssociative: true) { InstanceName = "Default" };
+            // var id_ba99ef2eb1eb4ab7adfeab8d1b9bfb2b = new TransformOperator("!", "Fact", rightAssociative: true) { InstanceName = "Default" };
+
 
 
             dfc1.InstanceName = $"{InstanceName}_{dfc1.InstanceName}";
@@ -183,33 +219,38 @@ namespace Application
             unitsText.InstanceName = $"{InstanceName}_{unitsText.InstanceName}";
 
             // BEGIN AUTO-GENERATED WIRING FOR CalculatorRow.xmind
-            id_6fe26e8021c64d8dad4e5b6016f7b659.WireTo(labelText, "children"); // (Horizontal (id_6fe26e8021c64d8dad4e5b6016f7b659).children) -- [List<IUI>] --> (TextBox (labelText).child)
-            id_6fe26e8021c64d8dad4e5b6016f7b659.WireTo(formulaText, "children"); // (Horizontal (id_6fe26e8021c64d8dad4e5b6016f7b659).children) -- [List<IUI>] --> (TextBox (formulaText).child)
-            id_6fe26e8021c64d8dad4e5b6016f7b659.WireTo(formulaRender, "children"); // (Horizontal (id_6fe26e8021c64d8dad4e5b6016f7b659).children) -- [List<IUI>] --> (FormulaRender (formulaRender).child)
-            id_6fe26e8021c64d8dad4e5b6016f7b659.WireTo(resultText, "children"); // (Horizontal (id_6fe26e8021c64d8dad4e5b6016f7b659).children) -- [List<IUI>] --> (Text (resultText).child)
-            id_6fe26e8021c64d8dad4e5b6016f7b659.WireTo(unitsText, "children"); // (Horizontal (id_6fe26e8021c64d8dad4e5b6016f7b659).children) -- [List<IUI>] --> (TextBox (unitsText).child)
-            id_6fe26e8021c64d8dad4e5b6016f7b659.WireTo(descriptionText, "children"); // (Horizontal (id_6fe26e8021c64d8dad4e5b6016f7b659).children) -- [List<IUI>] --> (TextBox (descriptionText).child)
-            id_6fe26e8021c64d8dad4e5b6016f7b659.WireTo(id_6448e518651246a3af0d4f7d49c13077, "children"); // (Horizontal (id_6fe26e8021c64d8dad4e5b6016f7b659).children) -- [List<IUI>] --> (Vertical (id_6448e518651246a3af0d4f7d49c13077).Child)
-            labelText.WireTo(id_65f22d8aa160470e8da02d0fce01edca, "textOutput"); // (TextBox (labelText).textOutput) -- [IDataFlow<string>] --> (DataFlowConnector<string> (id_65f22d8aa160470e8da02d0fce01edca).input)
-            formulaText.WireTo(id_2ce385f7abc549b98a72fc2c4dd709fd, "textOutput"); // (TextBox (formulaText).textOutput) -- [IDataFlow<string>] --> (DataFlowConnector<string> (id_2ce385f7abc549b98a72fc2c4dd709fd).input)
-            id_2ce385f7abc549b98a72fc2c4dd709fd.WireTo(id_3d142790cd894fffbe31c6a9936a40f9, "outputs"); // (DataFlowConnector<string> (id_2ce385f7abc549b98a72fc2c4dd709fd).outputs) -- [IDataFlow<string>] --> (TransformOperator (id_3d142790cd894fffbe31c6a9936a40f9).input)
-            id_2ce385f7abc549b98a72fc2c4dd709fd.WireTo(id_6008429a36ce435da09c8f7c5534800c, "outputs"); // (DataFlowConnector<string> (id_2ce385f7abc549b98a72fc2c4dd709fd).outputs) -- [IDataFlow<string>] --> (RegexReplace (id_6008429a36ce435da09c8f7c5534800c).input)
-            id_3d142790cd894fffbe31c6a9936a40f9.WireTo(id_ba99ef2eb1eb4ab7adfeab8d1b9bfb2b, "output"); // (TransformOperator (id_3d142790cd894fffbe31c6a9936a40f9).output) -- [IDataFlow<string>] --> (TransformOperator (id_ba99ef2eb1eb4ab7adfeab8d1b9bfb2b).input)
-            id_ba99ef2eb1eb4ab7adfeab8d1b9bfb2b.WireTo(sf1, "output"); // (TransformOperator (id_ba99ef2eb1eb4ab7adfeab8d1b9bfb2b).output) -- [IDataFlow<string>] --> (StringFormat<string,string> (sf1).input0)
-            sf1.WireTo(id_b9e566abb4cc42d1a7d3927615231c50, "inputs"); // (StringFormat<string,string> (sf1).inputs) -- [IDataFlowB<string>] --> (DataFlowBNull<string> (id_b9e566abb4cc42d1a7d3927615231c50).output)
-            sf1.WireTo(formula, "output"); // (StringFormat<string,string> (sf1).output) -- [IDataFlow<string>] --> (Formula (formula).formula)
-            formula.WireTo(dfc1, "result"); // (Formula (formula).result) -- [IDataFlow<double?>] --> (DataFlowConnector<double?> (dfc1).input)
-            dfc1.WireTo(id_4c9cb86bce4544fe90c628e9eaecbcec, "outputs"); // (DataFlowConnector<double?> (dfc1).outputs) -- [IDataFlow<T>] --> (NumberToString<double?> (id_4c9cb86bce4544fe90c628e9eaecbcec).input)
-            id_4c9cb86bce4544fe90c628e9eaecbcec.WireTo(id_bab796380f6d4c4eb93428662ce78dc2, "output"); // (NumberToString<double?> (id_4c9cb86bce4544fe90c628e9eaecbcec).output) -- [IDataFlow<string>] --> (NumberFormatting (id_bab796380f6d4c4eb93428662ce78dc2).input)
-            id_6008429a36ce435da09c8f7c5534800c.WireTo(id_8537240f2a654a788fbc6103c2e3a45f, "output"); // (RegexReplace (id_6008429a36ce435da09c8f7c5534800c).output) -- [IDataFlow<string>] --> (RegexReplace (id_8537240f2a654a788fbc6103c2e3a45f).input)
-            id_8537240f2a654a788fbc6103c2e3a45f.WireTo(id_02f042986f3242648a019c5fbf7c8752, "output"); // (RegexReplace (id_8537240f2a654a788fbc6103c2e3a45f).output) -- [IDataFlow<string>] --> (ForceAssociativity (id_02f042986f3242648a019c5fbf7c8752).input)
-            id_02f042986f3242648a019c5fbf7c8752.WireTo(formulaRender, "output"); // (ForceAssociativity (id_02f042986f3242648a019c5fbf7c8752).output) -- [IDataFlow<string>] --> (FormulaRender (formulaRender).input)
-            id_bab796380f6d4c4eb93428662ce78dc2.WireTo(resultText, "output"); // (NumberFormatting (id_bab796380f6d4c4eb93428662ce78dc2).output) -- [IDataFlow<string>] --> (Text (resultText).textInput)
-            id_6448e518651246a3af0d4f7d49c13077.WireTo(format, "children"); // (Vertical (id_6448e518651246a3af0d4f7d49c13077).children) -- [List<IUI>] --> (SelectionBox<FormatModes> (format).child)
-            id_6448e518651246a3af0d4f7d49c13077.WireTo(digitsText, "children"); // (Vertical (id_6448e518651246a3af0d4f7d49c13077).children) -- [List<IUI>] --> (TextBox (digitsText).child)
-            format.WireTo(id_bab796380f6d4c4eb93428662ce78dc2, "output"); // (SelectionBox<FormatModes> (format).output) -- [IDataFlow<FormatModes>] --> (NumberFormatting (id_bab796380f6d4c4eb93428662ce78dc2).FormatModes>)
-            digitsText.WireTo(id_ccfb4bf2e9df48e3a9c4d7f0f34d2d3a, "textOutput"); // (TextBox (digitsText).textOutput) -- [IDataFlow<string>] --> (StringToNumber<int> (id_ccfb4bf2e9df48e3a9c4d7f0f34d2d3a).input)
-            id_ccfb4bf2e9df48e3a9c4d7f0f34d2d3a.WireTo(id_bab796380f6d4c4eb93428662ce78dc2, "output"); // (StringToNumber<int> (id_ccfb4bf2e9df48e3a9c4d7f0f34d2d3a).output) -- [IDataFlow<T>] --> (NumberFormatting (id_bab796380f6d4c4eb93428662ce78dc2).digits)
+            id_6fe26e8021c64d8dad4e5b6016f7b659.WireTo(labelText, "children"); /* {"SourceType":"Horizontal","SourceIsReference":false,"DestinationType":"TextBox","DestinationIsReference":false} */
+            id_6fe26e8021c64d8dad4e5b6016f7b659.WireTo(formulaText, "children"); /* {"SourceType":"Horizontal","SourceIsReference":false,"DestinationType":"TextBox","DestinationIsReference":false} */
+            id_6fe26e8021c64d8dad4e5b6016f7b659.WireTo(formulaRender, "children"); /* {"SourceType":"Horizontal","SourceIsReference":false,"DestinationType":"FormulaRender","DestinationIsReference":false} */
+            id_6fe26e8021c64d8dad4e5b6016f7b659.WireTo(resultText, "children"); /* {"SourceType":"Horizontal","SourceIsReference":false,"DestinationType":"Text","DestinationIsReference":false} */
+            id_6fe26e8021c64d8dad4e5b6016f7b659.WireTo(unitsText, "children"); /* {"SourceType":"Horizontal","SourceIsReference":false,"DestinationType":"TextBox","DestinationIsReference":false} */
+            id_6fe26e8021c64d8dad4e5b6016f7b659.WireTo(descriptionText, "children"); /* {"SourceType":"Horizontal","SourceIsReference":false,"DestinationType":"TextBox","DestinationIsReference":false} */
+            id_6fe26e8021c64d8dad4e5b6016f7b659.WireTo(id_6448e518651246a3af0d4f7d49c13077, "children"); /* {"SourceType":"Horizontal","SourceIsReference":false,"DestinationType":"Vertical","DestinationIsReference":false} */
+            labelText.WireTo(id_65f22d8aa160470e8da02d0fce01edca, "textOutput"); /* {"SourceType":"TextBox","SourceIsReference":false,"DestinationType":"DataFlowConnector","DestinationIsReference":false} */
+            formulaText.WireTo(id_2ce385f7abc549b98a72fc2c4dd709fd, "textOutput"); /* {"SourceType":"TextBox","SourceIsReference":false,"DestinationType":"DataFlowConnector","DestinationIsReference":false} */
+            id_2ce385f7abc549b98a72fc2c4dd709fd.WireTo(id_3d142790cd894fffbe31c6a9936a40f9, "outputs"); /* {"SourceType":"DataFlowConnector","SourceIsReference":false,"DestinationType":"TransformOperator","DestinationIsReference":false} */
+            id_2ce385f7abc549b98a72fc2c4dd709fd.WireTo(id_6008429a36ce435da09c8f7c5534800c, "outputs"); /* {"SourceType":"DataFlowConnector","SourceIsReference":false,"DestinationType":"RegexReplace","DestinationIsReference":false} */
+            id_3d142790cd894fffbe31c6a9936a40f9.WireTo(id_ba99ef2eb1eb4ab7adfeab8d1b9bfb2b, "output"); /* {"SourceType":"TransformOperator","SourceIsReference":false,"DestinationType":"TransformOperator","DestinationIsReference":false} */
+            id_ba99ef2eb1eb4ab7adfeab8d1b9bfb2b.WireTo(sf1, "output"); /* {"SourceType":"TransformOperator","SourceIsReference":false,"DestinationType":"StringFormat","DestinationIsReference":false} */
+            sf1.WireTo(id_b9e566abb4cc42d1a7d3927615231c50, "inputs"); /* {"SourceType":"StringFormat","SourceIsReference":false,"DestinationType":"DataFlowBNull","DestinationIsReference":false} */
+            sf1.WireTo(formula, "output"); /* {"SourceType":"StringFormat","SourceIsReference":false,"DestinationType":"Formula","DestinationIsReference":false} */
+            formula.WireTo(dfc1, "result"); /* {"SourceType":"Formula","SourceIsReference":false,"DestinationType":"DataFlowConnector","DestinationIsReference":false} */
+            dfc1.WireTo(id_4c9cb86bce4544fe90c628e9eaecbcec, "outputs"); /* {"SourceType":"DataFlowConnector","SourceIsReference":false,"DestinationType":"NumberToString","DestinationIsReference":false} */
+            id_4c9cb86bce4544fe90c628e9eaecbcec.WireTo(id_bab796380f6d4c4eb93428662ce78dc2, "output"); /* {"SourceType":"NumberToString","SourceIsReference":false,"DestinationType":"NumberFormatting","DestinationIsReference":false} */
+            id_6008429a36ce435da09c8f7c5534800c.WireTo(id_8537240f2a654a788fbc6103c2e3a45f, "output"); /* {"SourceType":"RegexReplace","SourceIsReference":false,"DestinationType":"RegexReplace","DestinationIsReference":false} */
+            id_8537240f2a654a788fbc6103c2e3a45f.WireTo(id_02f042986f3242648a019c5fbf7c8752, "output"); /* {"SourceType":"RegexReplace","SourceIsReference":false,"DestinationType":"ForceAssociativity","DestinationIsReference":false} */
+            id_02f042986f3242648a019c5fbf7c8752.WireTo(formulaRender, "output"); /* {"SourceType":"ForceAssociativity","SourceIsReference":false,"DestinationType":"FormulaRender","DestinationIsReference":false} */
+            id_bab796380f6d4c4eb93428662ce78dc2.WireTo(resultText, "output"); /* {"SourceType":"NumberFormatting","SourceIsReference":false,"DestinationType":"Text","DestinationIsReference":false} */
+            id_6448e518651246a3af0d4f7d49c13077.WireTo(format, "children"); /* {"SourceType":"Vertical","SourceIsReference":false,"DestinationType":"SelectionBox","DestinationIsReference":false} */
+            id_6448e518651246a3af0d4f7d49c13077.WireTo(digitsText, "children"); /* {"SourceType":"Vertical","SourceIsReference":false,"DestinationType":"TextBox","DestinationIsReference":false} */
+            format.WireTo(id_bab796380f6d4c4eb93428662ce78dc2, "output"); /* {"SourceType":"SelectionBox","SourceIsReference":false,"DestinationType":"NumberFormatting","DestinationIsReference":false} */
+            digitsText.WireTo(id_ccfb4bf2e9df48e3a9c4d7f0f34d2d3a, "textOutput"); /* {"SourceType":"TextBox","SourceIsReference":false,"DestinationType":"StringToNumber","DestinationIsReference":false} */
+            id_ccfb4bf2e9df48e3a9c4d7f0f34d2d3a.WireTo(id_bab796380f6d4c4eb93428662ce78dc2, "output"); /* {"SourceType":"StringToNumber","SourceIsReference":false,"DestinationType":"NumberFormatting","DestinationIsReference":false} */
+            jsonCombine.WireTo(labelText, "children"); /* {"SourceType":"JsonCombine","SourceIsReference":false,"DestinationType":"TextBox","DestinationIsReference":false} */
+            jsonCombine.WireTo(formulaText, "children"); /* {"SourceType":"JsonCombine","SourceIsReference":false,"DestinationType":"TextBox","DestinationIsReference":false} */
+            jsonCombine.WireTo(unitsText, "children"); /* {"SourceType":"JsonCombine","SourceIsReference":false,"DestinationType":"TextBox","DestinationIsReference":false} */
+            jsonCombine.WireTo(descriptionText, "children"); /* {"SourceType":"JsonCombine","SourceIsReference":false,"DestinationType":"TextBox","DestinationIsReference":false} */
+            jsonCombine.WireTo(digitsText, "children"); /* {"SourceType":"JsonCombine","SourceIsReference":false,"DestinationType":"TextBox","DestinationIsReference":false} */
             // END AUTO-GENERATED WIRING FOR CalculatorRow.xmind
 
 
@@ -243,6 +284,8 @@ namespace Application
             labelsCommaSeparatedPostWiringInitialize();  // Tolerate external wiring being done before or after internal wiring to remove temporal coupling
 
 
+            internalJasonCombine = jsonCombine;
+            internalJasonCombine.BPushToA += internalJasonCombineChangedHandler;
 
 
             internalLabel = labelText;  
@@ -305,8 +348,6 @@ namespace Application
 
 
 
-
-
         //  Testing interface implementation -------------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -357,10 +398,11 @@ namespace Application
         {
             ((TextBox)internalFormatDigits).Text = description;
         }
+
+
+
+
     }
-
-
-
 
 
 
@@ -379,9 +421,12 @@ namespace Application
 
         object IFactoryMethod.FactoryMethod(string InstanceName, ConstructorCallbackDelegate ConstructorCallbackMethod)
         {
-            return (object)new CalculatorRow(ConstructorCallbackMethod) { InstanceName = InstanceName  };
+            return (object)new CalculatorRow(ConstructorCallbackMethod) { InstanceName = InstanceName };
         }
     }
+
+
+
 
 
 
@@ -405,3 +450,7 @@ namespace Application
 
 
 }
+
+
+
+

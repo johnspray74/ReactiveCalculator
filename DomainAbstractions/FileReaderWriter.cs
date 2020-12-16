@@ -24,7 +24,10 @@ namespace DomainAbstractions
         }
 
         // Ports
-        private IDataFlow<string> textContentOutput;
+        // IDataFlow<string> input
+        // IEvent<string> clear
+        private IDataFlow<string> output;
+        private IBidirectionalDataflow<string> inputOutput;
 
         // Private fields
         private string fullPath = "";
@@ -40,18 +43,7 @@ namespace DomainAbstractions
             watcher.Filter = Path.GetFileName(fullPath);
             watcher.Changed += (sender, args) =>
             {
-                try
-                {
-                    var contents = File.ReadAllText(fullPath);
-                    if (contents != textContent)
-                    {
-                        textContent = contents;
-                        Push(contents);
-                    }
-                }
-                catch (IOException)
-                {
-                }
+                ReadFile();
             };
         }
 
@@ -64,9 +56,21 @@ namespace DomainAbstractions
             File.WriteAllText(fullPath, contents);
         }
 
-        private void Push(string output)
+        private void ReadFile()
         {
-            if (textContentOutput != null) textContentOutput.Data = output;
+            try
+            {
+                var contents = File.ReadAllText(fullPath);
+                if (contents != textContent)
+                {
+                    textContent = contents;
+                    if (output != null) output.Data = contents;
+                    if (inputOutput != null) inputOutput.APushToB(contents);
+                }
+            }
+            catch (IOException)
+            {
+            }
         }
 
         // IDataFlow<string> implementation
@@ -82,7 +86,23 @@ namespace DomainAbstractions
         // IEvent implementation
         void IEvent.Execute()
         {
-            WriteFileContents("");
+            // WriteFileContents("");
+            ReadFile();
         }
+
+
+        private void inputOutputPostWiringInitialize()
+        {
+            inputOutput.BPushToA += inputOutputChanged;
+
+        }
+
+        private void inputOutputChanged(object sender, string data)
+        {
+            WriteFileContents(data);
+        }
+
+
+
     }
 }

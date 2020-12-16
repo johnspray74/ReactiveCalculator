@@ -87,6 +87,9 @@
     <Reference Include="Microsoft.CodeAnalysis.Scripting, Version=3.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.CodeAnalysis.Scripting.Common.3.7.0\lib\netstandard2.0\Microsoft.CodeAnalysis.Scripting.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="NRTE">
       <HintPath>extensions\NRTE.dll</HintPath>
     </Reference>
@@ -150,6 +153,7 @@
     <Compile Include="DomainAbstractions\Horizontal.cs" />
     <Compile Include="DomainAbstractions\IfElse.cs" />
     <Compile Include="DomainAbstractions\Formula.cs" />
+    <Compile Include="DomainAbstractions\JsonCombine.cs" />
     <Compile Include="DomainAbstractions\MainWindow.cs" />
     <Compile Include="DomainAbstractions\NumberFormatting.cs" />
     <Compile Include="DomainAbstractions\NumberToString.cs" />
@@ -171,6 +175,7 @@
     <Compile Include="ProgrammingParadigms\DataFlow.cs" />
     <Compile Include="ProgrammingParadigms\Event.cs" />
     <Compile Include="ProgrammingParadigms\IFactoryMethod.cs" />
+    <Compile Include="ProgrammingParadigms\IBidirectionalDataFlow.cs" />
     <Compile Include="ProgrammingParadigms\IUI.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
